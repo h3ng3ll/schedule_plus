@@ -1,0 +1,37 @@
+using FirebaseAdmin.Messaging;
+
+namespace schedule_plus.Services.Firebase.FirebaseMessaging;
+
+public interface IFirebaseMessagingService
+{
+    public Task<string?> SendMessage();
+}
+
+
+public class FirebaseMessagingService : IFirebaseMessagingService
+{
+    private readonly FirebaseAdmin.Messaging.FirebaseMessaging _firebaseMessagingInstance =
+        FirebaseAdmin.Messaging.FirebaseMessaging.DefaultInstance;
+
+    public async Task<string?> SendMessage()
+    {
+        // Particular device
+        var token =
+            "d0mCRb5GQxuuhRNiw1UEjo:APA91bH51eDBjI-e5fLC3mA2s8J0WuEwz6ABS-RFP6eHPr3KJUy0X7LxdoDkKlKUXW4r4-fi2X09IY4Pe3ZGJ-luWqRoqIf8sr7D8TsWzi1H051arAytwPA";
+
+        var message = new Message()
+        {
+            Data = new Dictionary<string, string>()
+            {
+                { "score", "850" },
+                { "time", "2:45" }
+            },
+            Token = token,
+        };
+        var response = await _firebaseMessagingInstance.SendAsync(message);
+        
+        // Response is a message ID string.
+        Console.WriteLine("Successfully sent message: " + response);
+        return response;
+    }
+}

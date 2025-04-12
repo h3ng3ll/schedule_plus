@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedule_plus", "schedule_plus\schedule_plus.csproj", "{F9CA6DBC-E674-4E48-A1BC-B601730C97A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server_api", "server_api\server_api.csproj", "{E1D38234-72DA-453A-A7A7-C1F5113E346B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9CA6DBC-E674-4E48-A1BC-B601730C97A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9CA6DBC-E674-4E48-A1BC-B601730C97A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9CA6DBC-E674-4E48-A1BC-B601730C97A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9CA6DBC-E674-4E48-A1BC-B601730C97A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
