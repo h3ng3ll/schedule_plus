@@ -1,0 +1,54 @@
+@page "/upload_form"
+@using schedule_plus.Service
+
+<h3>UploadForm</h3>
+
+<i class="bi btn-info"></i>
+
+<button class="btn btn-primary" @onclick="Increment"> tap</button>
+
+
+<span> value @_counter </span>
+<div style="height: 20px"></div>
+
+<p> value is @_body </p>
+
+<br/>
+<input type="text" @bind-value="_title" @bind-value:event="oninput" placeholder="Enter Title"/>
+<br/>
+<input type="text" @bind-value="_body" @bind-value:event="oninput"  placeholder="Enter Body">
+@* <br/> *@
+<div style="height: 20px"></div>
+
+<button class="btn btn-primary" @onclick="SendMessage"> Send</button>
+@* <button class="btn btn-outline-info" @onclick="SendNotification"> sendNotification </button> *@
+
+@inject INotificationSenderService NotificationSenderService
+
+@code {
+    private int _counter = 0;
+    private string _title = "primaryTitle";
+    private string _body = "primaryBody";
+    
+    // [Inject] private NotificationSenderService NotificationSenderService { get; set; } = default!;
+
+    // [Inject] private IFirebaseMessagingService FirebaseMessagingService { get; set; } = default!;
+    void Increment()
+    {
+        _counter++;
+    }
+
+
+    async Task SendMessage()
+    {
+        await NotificationSenderService.SendNotification(
+            _title,
+            _body
+        );
+    }
+
+    // async Task  SendNotification()
+    // {
+    //     await FirebaseMessagingService.SendMessage();
+    // }
+}

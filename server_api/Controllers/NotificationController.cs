@@ -1,6 +1,7 @@
 using System.Net;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
+using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api.Configs;
@@ -34,10 +35,18 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
     }
 
     [HttpPost("send")]
-    public async Task<IActionResult> Send()
+    public async Task<IActionResult> Send([FromBody] Notification notification)
     {
+        // var body = Request.Form["body"];
+        // var title = Request.Form["title"];
+
+        // var r = Request;
         // var res = await _firebaseMessagingService.SendMessage();
         //
+        await _firebaseMessagingService.SendMessage(
+            notification
+        );
+        // return Ok(new { bodyData = notification.Body, titleData = notification.Title });
         return Ok();
     }
 
@@ -46,7 +55,9 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
     {
         // content.Response.Headers.Add("Content-Type", "application/json");
         return Ok(
-            JsonSerializer.Serialize(NotificationChannelConfig.GetNotificationChannelsConfig())
+            JsonSerializer.Serialize(
+                NotificationChannelConfig.GetNotificationChannelsConfig()
+            )
         );
     }
 }

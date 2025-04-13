@@ -1,12 +1,30 @@
 using System.Net;
+using System.Text.Json;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IFirebaseMessagingService , FirebaseMessagingService>();
-builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(
+            "AllowLocalNetwork",
+            policy => policy
+                .AllowAnyOrigin() // Todo: NEVER USE on production . Convenience Development. 
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+        );
+    }
+);
+builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        // Not touch . Use for send api to mobile client
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    }
+);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,6 +33,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors("AllowLocalNetwork");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -23,6 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// connect Firebase AdminSDK  
 FirebaseApp.Create(new AppOptions()
     {
         Credential = GoogleCredential.FromFile(
@@ -53,7 +73,7 @@ app.MapGet("/weatherforecast", () =>
     .WithOpenApi();
 
 
-/// controller without it do not working
+// controller without it do not working
 app.MapControllers();
 app.Run();
 
