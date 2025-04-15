@@ -60,4 +60,11 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
             )
         );
     }
+
+    [HttpPost("saveToken")]
+    public async Task<IActionResult> SaveToken([FromBody] string token)
+    {
+         await _firebaseMessagingService.SaveFcmToken(token);
+         return Ok();
+    }
 }

@@ -5,6 +5,8 @@ namespace schedule_plus.Services.Firebase.FirebaseMessaging;
 public interface IFirebaseMessagingService
 {
     public Task<string?> SendMessage(Notification notification);
+    public Task SaveFcmToken(string token);
+
 }
 
 public class FirebaseMessagingService : IFirebaseMessagingService
@@ -36,5 +38,10 @@ public class FirebaseMessagingService : IFirebaseMessagingService
         // Response is a message ID string.
         Console.WriteLine("Successfully sent message: " + response);
         return response;
+    }
+
+    public async Task SaveFcmToken(string token)
+    {
+        
     }
 }

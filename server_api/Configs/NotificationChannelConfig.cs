@@ -1,5 +1,5 @@
 using System.Data;
-using server_api.Models.Notifications;
+using Shared.Models;
 
 namespace server_api.Configs;
 

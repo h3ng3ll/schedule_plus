@@ -4,14 +4,14 @@
     "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj": {}
   },
   "projects": {
-    "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj": {
+    "/home/alex/RiderProjects/schedule_plus/Shared/Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj",
-        "projectName": "server_api",
-        "projectPath": "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj",
+        "projectUniqueName": "/home/alex/RiderProjects/schedule_plus/Shared/Shared.csproj",
+        "projectName": "Shared",
+        "projectPath": "/home/alex/RiderProjects/schedule_plus/Shared/Shared.csproj",
         "packagesPath": "/home/alex/.nuget/packages/",
-        "outputPath": "/home/alex/RiderProjects/schedule_plus/server_api/obj/",
+        "outputPath": "/home/alex/RiderProjects/schedule_plus/Shared/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/alex/.nuget/NuGet/NuGet.Config"
@@ -38,9 +38,76 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Components.Web": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj",
+        "projectName": "server_api",
+        "projectPath": "/home/alex/RiderProjects/schedule_plus/server_api/server_api.csproj",
+        "packagesPath": "/home/alex/.nuget/packages/",
+        "outputPath": "/home/alex/RiderProjects/schedule_plus/server_api/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/alex/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/alex/RiderProjects/schedule_plus/Shared/Shared.csproj": {
+                "projectPath": "/home/alex/RiderProjects/schedule_plus/Shared/Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
             "FirebaseAdmin": {
               "target": "Package",
               "version": "[3.1.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",

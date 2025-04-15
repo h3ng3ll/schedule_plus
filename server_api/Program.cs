@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
@@ -17,6 +16,9 @@ builder.Services.AddCors(options =>
         );
     }
 );
+
+builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer" );
+
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -72,6 +74,9 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // controller without it do not working
 app.MapControllers();
