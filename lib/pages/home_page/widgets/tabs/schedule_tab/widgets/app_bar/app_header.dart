@@ -1,9 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 
 import '../../../../../../../resources/colors/app_colors.dart';
+import '../../../../../../../routes/app_routes_paths.dart';
 import '../../../../../../../widgets/padding/horizontal_padding.dart';
 
 class AppHeader extends StatefulWidget implements PreferredSizeWidget {
@@ -18,10 +19,13 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
 
 class _AppHeaderState extends State<AppHeader>
     with SingleTickerProviderStateMixin {
-
-  void onTapNotifications () async {
+  void onTapNotifications(BuildContext context) {
+    context.pushNamed(
+      AppRoutesPaths.notificationRoute,
+    );
     // await NotificationService.instance.showNotifications();
   }
+
   // bool initializedShaders = false;
   //
   // late final AnimationController animationController;
@@ -86,8 +90,12 @@ class _AppHeaderState extends State<AppHeader>
               Stack(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.notifications_outlined),
-                    onPressed: () => onTapNotifications(),
+                    icon: const Icon(
+                      Icons.notifications_outlined,
+                    ),
+                    onPressed: () => onTapNotifications(
+                      context,
+                    ),
                   ),
                   // if (initializedShaders)
                   //   Positioned(

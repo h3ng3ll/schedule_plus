@@ -1,0 +1,18 @@
+part of 'notification_page_bloc.dart';
+
+enum NotificationPageStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+}
+
+@freezed
+class NotificationPageState with _$NotificationPageState {
+  const factory NotificationPageState({
+    @Default(NotificationPageStatus.initial) NotificationPageStatus status,
+    @Default(8) int limit,
+    @Default([]) List<Notification> notifications,
+    @Default('') errorMessage,
+  }) = _NotificationPageState;
+}

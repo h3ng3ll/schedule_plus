@@ -78,18 +78,21 @@ class _AppBackgroundState extends State<AppBackground>
     //         );
     //       },
     //     );
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                AppColors.magnolia.value,
-                AppColors.ghostWhite.value,
-              ],
+        return Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.magnolia.value,
+                  AppColors.ghostWhite.value,
+                ],
+              ),
             ),
+            child: widget.child,
           ),
-          child: widget.child,
         );
   //     },
   //   );

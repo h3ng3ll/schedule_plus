@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../data/repositories/notification_repository.dart';
 import '../../firebase_options.dart';
 import '../notification_service/notification_service.dart';
 
@@ -13,10 +14,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  if(kDebugMode) {
+  if (kDebugMode) {
     debugPrint("Handling a background message: ${message.messageId}");
   }
-
 }
 
 Future<void> backgroundHandler(RemoteMessage message) async {}
@@ -24,6 +24,8 @@ Future<void> backgroundHandler(RemoteMessage message) async {}
 class FirebaseMessagingService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final NotificationService _notificationService = NotificationService.instance;
+  final NotificationRepository _notificationRepository =
+      NotificationRepository.instance;
 
   static final instance = FirebaseMessagingService._();
 
@@ -32,10 +34,17 @@ class FirebaseMessagingService {
   Future<void> init() async {
     await _firebaseMessaging.requestPermission();
     final String? token = await _firebaseMessaging.getToken();
+
     if (kDebugMode) {
       print(token);
     }
-    _firebaseMessaging.requestPermission();
+    if (token != null) {
+      await _notificationRepository.registerUserToken(
+        token,
+      );
+    }
+    await _firebaseMessaging.requestPermission();
+
     FirebaseMessaging.onMessage.listen(
       onMessage,
     );

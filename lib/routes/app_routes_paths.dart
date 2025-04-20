@@ -24,6 +24,7 @@ abstract class AppRoutesPaths {
   static const scheduleRoute = '/';
 
   static const profileRoute = '/profile';
+  static const notificationRoute = '/notification';
 
 
 
