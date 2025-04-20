@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedule_plus", "schedule_p
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server_api", "server_api\server_api.csproj", "{E1D38234-72DA-453A-A7A7-C1F5113E346B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{78D1F842-B6E5-43F9-9E85-FF9977301D34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1D38234-72DA-453A-A7A7-C1F5113E346B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78D1F842-B6E5-43F9-9E85-FF9977301D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78D1F842-B6E5-43F9-9E85-FF9977301D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78D1F842-B6E5-43F9-9E85-FF9977301D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78D1F842-B6E5-43F9-9E85-FF9977301D34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

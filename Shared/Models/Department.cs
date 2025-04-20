@@ -1,4 +1,5 @@
-namespace EducationalInsitution.Models.Core;
+
+namespace Shared.Models;
 
 public class Department
 {

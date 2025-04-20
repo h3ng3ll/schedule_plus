@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EducationalInsitution.Models.Core;
+namespace Shared.Models;
 
 public enum Role
 {

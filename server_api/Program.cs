@@ -1,32 +1,21 @@
+using System.Text;
 using System.Text.Json;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
+using server_api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-    {
-        options.AddPolicy(
-            "AllowLocalNetwork",
-            policy => policy
-                .AllowAnyOrigin() // Todo: NEVER USE on production . Convenience Development. 
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-        );
-    }
-);
-
-builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer" );
+// Specific config
+Startup.InitCors(builder);
+Startup.InitBearerToken(builder);
+Startup.InitFirebase();
 
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-    {
-        // Not touch . Use for send api to mobile client
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    }
-);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -44,14 +33,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// connect Firebase AdminSDK  
-FirebaseApp.Create(new AppOptions()
-    {
-        Credential = GoogleCredential.FromFile(
-            "/home/alex/RiderProjects/schedule_plus/schedule-plus-285fd-firebase-adminsdk-fbsvc-a597c28470.json"
-        ),
-    }
-);
+
 app.UseHttpsRedirection();
 
 var summaries = new[]
@@ -67,7 +49,8 @@ app.MapGet("/weatherforecast", () =>
                     DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                     Random.Shared.Next(-20, 55),
                     summaries[Random.Shared.Next(summaries.Length)]
-                ))
+                )
+            )
             .ToArray();
         return forecast;
     })

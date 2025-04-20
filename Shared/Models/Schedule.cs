@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using server_api.Models.Notifications;
 
-namespace EducationalInsitution.Models.Core;
+namespace Shared.Models;
 
 public enum Weekday
 {

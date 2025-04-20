@@ -2,6 +2,7 @@ using System.Net;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using FirebaseAdmin.Messaging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api.Configs;
@@ -17,6 +18,7 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
 
     // [HttpGet("api/NotificationController/test")]
     [HttpGet("test")]
+    [Authorize]
     public async Task<IActionResult> Test()
     {
         // await HttpContext.Response.WriteAsync("Test from server");
@@ -35,6 +37,7 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
     }
 
     [HttpPost("send")]
+    [Authorize]
     public async Task<IActionResult> Send([FromBody] Notification notification)
     {
         // var body = Request.Form["body"];
@@ -51,6 +54,7 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
     }
 
     [HttpGet("config")]
+    [Authorize]
     public async Task<IActionResult> GetConfig()
     {
         // content.Response.Headers.Add("Content-Type", "application/json");
@@ -62,6 +66,7 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
     }
 
     [HttpPost("saveToken")]
+    [Authorize]
     public async Task<IActionResult> SaveToken([FromBody] string token)
     {
          await _firebaseMessagingService.SaveFcmToken(token);

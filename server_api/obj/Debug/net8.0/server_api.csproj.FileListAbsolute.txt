@@ -56,3 +56,11 @@
 /home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.JSInterop.dll
 /home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Shared.dll
 /home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Shared.pdb
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/alex/RiderProjects/schedule_plus/server_api/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

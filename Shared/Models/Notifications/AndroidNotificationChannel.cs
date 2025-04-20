@@ -1,4 +1,4 @@
-namespace server_api.Models.Notifications;
+namespace Shared.Models;
 
 public class AndroidNotificationChannel(string id, string name)
 {

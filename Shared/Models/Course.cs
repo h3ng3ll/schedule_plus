@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EducationalInsitution.Models.Core;
 
-namespace server_api.Models.Notifications;
+
+namespace Shared.Models;
 
 public class Course
 {
