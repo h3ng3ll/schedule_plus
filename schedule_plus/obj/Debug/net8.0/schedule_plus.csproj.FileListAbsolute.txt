@@ -1059,3 +1059,4 @@
 /home/alex/RiderProjects/schedule_plus/schedule_plus/bin/Debug/net8.0/Newtonsoft.Json.dll
 /home/alex/RiderProjects/schedule_plus/schedule_plus/obj/Debug/net8.0/webcil/Newtonsoft.Json.wasm
 /home/alex/RiderProjects/schedule_plus/schedule_plus/obj/Debug/net8.0/compressed/eu7uek7tsn.gz
+/home/alex/RiderProjects/schedule_plus/schedule_plus/obj/Debug/net8.0/schedule_plus.sourcelink.json

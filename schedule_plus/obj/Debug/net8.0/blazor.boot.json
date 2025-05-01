@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "schedule_plus",
   "resources": {
-    "hash": "sha256-ajkkXWyTMLhX3ywYJ35duSR7ddqn55iM7IvvC9VXcLc=",
+    "hash": "sha256-sgFcsceIr8bO1mDt3KcbhL4NfnacbFdsTckwO0xECtI=",
     "jsModuleNative": {
       "dotnet.native.8.0.13.ouumlpqw6i.js": "sha256-xNQsYHtL1vcbrVTHDZAwJM4WovpoyjsrM2C6FQ8cW1w="
     },
@@ -214,10 +214,10 @@
       "netstandard.wasm": "sha256-KCAE8RQwTurP5pGnGF819qf9sK++2O0rXzt6tOjlfi8=",
       "System.Private.CoreLib.wasm": "sha256-LQqLbHgeEX4HONx7GwIxGgmzIXP6n2OPxqnq+/4Tyqk=",
       "FirebaseAdmin.wasm": "sha256-RUjxJWkilxx5USNcp7nxb2/pzyJIzJiXn5Bm1NF7aPc=",
-      "schedule_plus.wasm": "sha256-x7vyEQFEEuypaCKQKceeC85qmy20F2rsn5F7vBkY8+A="
+      "schedule_plus.wasm": "sha256-6xW8Kax6A1pUchCKsm+njmSdJZ/oCYTNWuF8LHN/GEA="
     },
     "pdb": {
-      "schedule_plus.pdb": "sha256-3q7PFmXo7cZvT1IEG/nlev25XF+KxCOtYXAW5Bt7zzk="
+      "schedule_plus.pdb": "sha256-abYiBASbVTmzbPSXGWAlWcg7zaW/6BdwjybOZzIz1oY="
     }
   },
   "cacheBootResources": true,

@@ -3,11 +3,18 @@ using System.Text.Json;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api;
+using Shared.Utils.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(
+        webBuilder => webBuilder.UseStartup<Startup>());
 
 // Specific config
 Startup.InitCors(builder);

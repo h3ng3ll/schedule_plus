@@ -21,3 +21,7 @@
 /home/alex/RiderProjects/schedule_plus/Shared/obj/Debug/net8.0/refint/Shared.dll
 /home/alex/RiderProjects/schedule_plus/Shared/obj/Debug/net8.0/Shared.pdb
 /home/alex/RiderProjects/schedule_plus/Shared/obj/Debug/net8.0/ref/Shared.dll
+/home/alex/RiderProjects/schedule_plus/Shared/obj/Debug/net8.0/Shared.sourcelink.json
+/home/alex/RiderProjects/schedule_plus/Shared/bin/Debug/net8.0/Shared.runtimeconfig.json
+/home/alex/RiderProjects/schedule_plus/Shared/obj/Debug/net8.0/Shared.genruntimeconfig.cache
+/home/alex/RiderProjects/schedule_plus/Shared/bin/Debug/net8.0/appsettings.json

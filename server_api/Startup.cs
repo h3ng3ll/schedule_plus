@@ -3,8 +3,10 @@ using System.Text.Json;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using server_api.Configuration;
+using Shared.Utils.DB;
 
 namespace server_api;
 
@@ -36,6 +38,7 @@ public sealed class Startup
             }
         );
     }
+
     public static void InitBearerToken(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers().AddJsonOptions(options =>
