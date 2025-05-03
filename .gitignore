@@ -11,5 +11,9 @@
  server_api/obj
  Shared/bin
  Shared/obj
+ **/bin/
+ **/obj/
+
+ 
  
  

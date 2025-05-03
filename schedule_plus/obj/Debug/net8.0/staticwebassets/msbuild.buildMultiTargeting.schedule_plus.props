@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/schedule_plus.props" />
-</Project>
