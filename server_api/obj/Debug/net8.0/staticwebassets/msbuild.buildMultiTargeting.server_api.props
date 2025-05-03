@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/server_api.props" />
-</Project>
