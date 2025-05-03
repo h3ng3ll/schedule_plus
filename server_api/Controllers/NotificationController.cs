@@ -16,25 +16,26 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
     private readonly IFirebaseMessagingService _firebaseMessagingService = firebaseMessagingService;
 
 
+    // Example
     // [HttpGet("api/NotificationController/test")]
-    [HttpGet("test")]
-    [Authorize]
-    public async Task<IActionResult> Test()
-    {
-        // await HttpContext.Response.WriteAsync("Test from server");
-
-        // return "test";
-        Console.WriteLine("Hello from server console");
-        HttpContext.Response.StatusCode = 409;
-        // return WebRequestMethods.Http.("Hello from server");
-        return Ok(new { message = "Hello from server" });
-    }
-
-    [HttpPost("myTest")]
-    public async Task<IActionResult> MyTest()
-    {
-        return Ok(new { message = "Hello from server" });
-    }
+    // [HttpGet("test")]
+    // [Authorize]
+    // public async Task<IActionResult> Test()
+    // {
+    //     // await HttpContext.Response.WriteAsync("Test from server");
+    //
+    //     // return "test";
+    //     Console.WriteLine("Hello from server console");
+    //     HttpContext.Response.StatusCode = 409;
+    //     // return WebRequestMethods.Http.("Hello from server");
+    //     return Ok(new { message = "Hello from server" });
+    // }
+    //
+    // [HttpPost("myTest")]
+    // public async Task<IActionResult> MyTest()
+    // {
+    //     return Ok(new { message = "Hello from server" });
+    // }
 
     [HttpPost("send")]
     [Authorize]
@@ -53,6 +54,7 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
         return Ok();
     }
 
+    // Just For Android Send Notification Channel
     [HttpGet("config")]
     [Authorize]
     public async Task<IActionResult> GetConfig()
@@ -65,6 +67,7 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
         );
     }
 
+   
     [HttpPost("saveToken")]
     [Authorize]
     public async Task<IActionResult> SaveToken([FromBody] string token)

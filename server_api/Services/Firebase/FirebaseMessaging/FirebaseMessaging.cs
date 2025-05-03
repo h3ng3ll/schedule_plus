@@ -39,7 +39,9 @@ public class FirebaseMessagingService : IFirebaseMessagingService
         Console.WriteLine("Successfully sent message: " + response);
         return response;
     }
-
+    
+    // Every mobile device has identifier save it . It allows to 
+    // send push it device directly . 
     public async Task SaveFcmToken(string token)
     {
         

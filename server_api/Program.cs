@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api;
+using server_api.Utils;
 using Shared.Utils.DB;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,16 @@ Startup.InitFirebase();
 
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
 
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseMySql(
+        // builder.Configuration.GetConnectionString("DefaultConnection")
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        serverVersion: new MySqlServerVersion(new Version(major: 10, minor: 5, build: 25))
+    );
+});
+
+builder.Services.AddSingleton<AppEncryption>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
