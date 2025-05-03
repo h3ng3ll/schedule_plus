@@ -11,7 +11,7 @@ namespace server_api.Utils;
 public class AppEncryption(IOptions<JwtSettings> jwtSettings)
 {
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;
-
+    
     public string GenerateJWwToken(User user)
     {
         var claims = new List<Claim>
