@@ -1,16 +1,12 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Google;
-using Microsoft.AspNetCore.Authorization;
+
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using server_api.Configuration;
+
 using server_api.DTOs;
+using server_api.DTOs.Student;
+using server_api.DTOs.Teacher;
 using server_api.Utils;
 using Shared.Models;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
@@ -24,10 +20,15 @@ namespace server_api.Controllers;
 public class AuthorizationController(
     // IOptions<JwtSettings> jwtSettings,
     AppEncryption appEncryption,
-    ApplicationContext context
+    ApplicationContext context,
+    IMapper mapper
 ) : Controller
 {
+    /// <summary>
     /// Gives JWT token to get the system 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns> user roleData jwt token </returns>
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
@@ -56,28 +57,31 @@ public class AuthorizationController(
                     error = "Invalid password"
                 }
             );
-
+        
         var token = appEncryption.GenerateJWwToken(
             user
         );
-        var response = new UserResponse
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email,
-            ImgUrl = user.ImgUrl,
-            Role = user.Role.ToString()
-        };
+        var roleCredentials = await RoleCredentials(
+            user: user
+        );
         return Ok(new
             {
+                user = mapper.Map<UserResponse>(
+                    user
+                ),
+                roleData = roleCredentials,
                 jwt = token,
-                user = response
+                
             }
         );
     }
 
-    // Register allows to register only student . For others do it manually .
-    // Check if same email exists 
+    /// <summary>
+    ///  Register allows to register only student . For others do it manually .
+    /// Check if same email exists 
+    /// </summary>
+    /// <param name="registerRequest"></param>
+    /// <returns></returns>
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
@@ -125,25 +129,86 @@ public class AuthorizationController(
 
         await context.SaveChangesAsync();
 
+        context.Students.Add(
+            new Student
+            {
+                UserId = user.Id
+            }
+        );
+      
         var token = appEncryption.GenerateJWwToken(
             user
         );
-
-        var response = new UserResponse
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email,
-            ImgUrl = user.ImgUrl,
-            Role = user.Role.ToString()
-        };
-
+        await context.SaveChangesAsync();
+        
         return Ok(
             new
             {
-                user = response,
+                user = mapper.Map<UserResponse>(
+                    user
+                ),
                 jwt = token
             }
         );
+    }
+
+    /// <summary>
+    ///  Return Data of Role
+    /// if This is Student return student's data e.g. table Student
+    /// if This is Professor return professor's data e.g. table Professor
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    /// <exception cref="KeyNotFoundException"></exception>
+    /// <exception cref="Exception"></exception>
+    private async Task<Dictionary<string, dynamic>> RoleCredentials(User user)
+    {
+        var resRole = new Dictionary<string, dynamic>();
+
+        switch (user.Role)
+        {
+            case Role.Student:
+                var student = await context.Students.FirstOrDefaultAsync(
+                    (e) => e.UserId == user.Id
+                );
+                if (student is null)
+                    throw new KeyNotFoundException();
+
+                var res = mapper.Map<StudentResponse>(
+                    student
+                );
+                resRole.Add(
+                    "student", res
+                );
+                break;
+            case Role.Professor:
+                var professor = await context.Professors.FirstOrDefaultAsync(
+                    (e) => e.UserId == user.Id
+                );
+                if (professor is null)
+                    throw new KeyNotFoundException();
+
+                var resProf = mapper.Map<ProfessorResponse>(
+                    professor
+                );
+                resRole.Add(
+                    "professor", resProf
+                );
+                break;
+            case Role.Admin:
+                throw new Exception(
+                    message: new(
+                        "Do not support admin role yet."
+                    )
+                );
+            default:
+                throw new Exception(
+                    message: new(
+                        "Unsupported role type."
+                    )
+                );
+        }
+
+        return resRole;
     }
 }

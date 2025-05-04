@@ -1,3 +1,4 @@
+using EducationalInsitution.Models.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Shared.Models;
@@ -10,6 +11,8 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<Course> Courses { get; set; }
+    public DbSet<Student> Students  { get; set; }
+    public DbSet<Professor> Professors { get; set; }
     
     
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
