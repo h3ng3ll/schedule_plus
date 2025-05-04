@@ -15,6 +15,7 @@ using server_api.Utils;
 using Shared.Models;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 using LoginRequest = server_api.DTOs.LoginRequest;
+using RegisterRequest = server_api.DTOs.RegisterRequest;
 
 namespace server_api.Controllers;
 
@@ -31,7 +32,7 @@ public class AuthorizationController(
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var user = await context.Users.FirstOrDefaultAsync(
-            (e) => e.Email == request.Identiefier
+            (e) => e.Email == request.Identifier
         );
         if (user == null)
             return Unauthorized(
@@ -111,6 +112,7 @@ public class AuthorizationController(
             Role = Role.Student,
             ImgUrl = null,
             Email = registerRequest.Email,
+            Name = registerRequest.Name,
         };
         var hash = hasher.HashPassword(
             user, registerRequest.Password
@@ -139,7 +141,7 @@ public class AuthorizationController(
         return Ok(
             new
             {
-                response,
+                user = response,
                 jwt = token
             }
         );

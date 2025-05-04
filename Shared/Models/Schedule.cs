@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EducationalInsitution.Models.Core;
 
 namespace Shared.Models;
 
@@ -20,7 +21,7 @@ public class Schedule
 	[ForeignKey(nameof(Course))]
     public int CourseId { get; set; }
     
-    [ForeignKey(nameof(User))]
+    [ForeignKey(nameof(Professor))]
     public int ProfessorId { get; set; }
     
     /// Room № ? or remote 
@@ -30,6 +31,7 @@ public class Schedule
     
     public Course Course { get; set; } = null!;
     public User User { get; set; } = null!;
+    public User Professor { get; set; } = null!;
     
     // Represent in Unix TimeStamp
     public long  StartTime { get; set; }

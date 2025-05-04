@@ -11,8 +11,13 @@
  server_api/obj
  Shared/bin
  Shared/obj
- **/bin/
- **/obj/
+**/bin/
+**/obj/
+**schedule_plus/bin/
+**schedule_plus/obj/
+**server_api/bin/
+**server_api/obj/
+
 
  
  
