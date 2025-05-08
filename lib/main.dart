@@ -1,11 +1,11 @@
-
 import 'dart:ui' as ui;
-import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'bloc/auth_cubit/auth_cubit.dart';
 import 'bloc/core/app_observer.dart';
 import 'firebase_options.dart';
 
@@ -70,10 +70,13 @@ class _MyHomePageState extends State<MyHomePage> {
     //     ),
     //   );
     // }
-    return MaterialApp.router(
-      theme: AppThemeData.light,
-      routerConfig: initRouter,
-      builder: EasyLoading.init(),
+    return BlocProvider(
+      create: (_) => AuthCubit(),
+      child: MaterialApp.router(
+        theme: AppThemeData.light,
+        routerConfig: initRouter,
+        builder: EasyLoading.init(),
+      ),
     );
   }
 }
@@ -88,7 +91,8 @@ class AnimatedShaderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     shader.setFloat(0, animation.value);
-    canvas.drawRect(Offset.zero & size, Paint()..shader = shader);
+    canvas.drawRect(Offset.zero & size, Paint()
+      ..shader = shader);
   }
 
   @override
@@ -120,9 +124,8 @@ class AnimatedShaderState extends State<AnimatedShader>
   void initState() {
     super.initState();
     _shader = widget.program.fragmentShader()
-      ..setFloat(0, 0.0)
-      ..setFloat(1, widget.size.width.toDouble())
-      ..setFloat(2, widget.size.height.toDouble());
+      ..setFloat(0, 0.0)..setFloat(1, widget.size.width.toDouble())..setFloat(
+          2, widget.size.height.toDouble());
     _controller = AnimationController(
       vsync: this,
       duration: widget.duration,

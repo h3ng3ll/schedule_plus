@@ -10,10 +10,11 @@ enum ProfileTabStatus{
 class ProfileTabState with _$ProfileTabState {
   const factory ProfileTabState({
     @Default(ProfileTabStatus.initial) ProfileTabStatus status,
-    String? avatarUrl,
-    String? name,
-    String? surname,
-    String? department,
-    int? year,
+    required User user,
+    // String? avatarUrl,
+    // String? name,
+    // String? surname,
+    // String? department,
+    // int? year,
 }) = _ProfileTabState;
 }

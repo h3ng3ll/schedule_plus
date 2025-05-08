@@ -16,12 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthState {
-  AuthStatus get status => throw _privateConstructorUsedError; // User? user,
-  String? get errorMessage => throw _privateConstructorUsedError;
-
-  /// verificationPart
-  String? get verificationId => throw _privateConstructorUsedError;
-  int? get resendToken => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
+  AuthStatus get status => throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,11 +32,9 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call(
-      {AuthStatus status,
-      String? errorMessage,
-      String? verificationId,
-      int? resendToken});
+  $Res call({User? user, AuthStatus status, String errorMessage});
+
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -57,29 +52,38 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? user = freezed,
     Object? status = null,
-    Object? errorMessage = freezed,
-    Object? verificationId = freezed,
-    Object? resendToken = freezed,
+    Object? errorMessage = null,
   }) {
     return _then(_value.copyWith(
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as AuthStatus,
-      errorMessage: freezed == errorMessage
+      errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      verificationId: freezed == verificationId
-          ? _value.verificationId
-          : verificationId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      resendToken: freezed == resendToken
-          ? _value.resendToken
-          : resendToken // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String,
     ) as $Val);
+  }
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 }
 
@@ -91,11 +95,10 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {AuthStatus status,
-      String? errorMessage,
-      String? verificationId,
-      int? resendToken});
+  $Res call({User? user, AuthStatus status, String errorMessage});
+
+  @override
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -111,68 +114,45 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? user = freezed,
     Object? status = null,
-    Object? errorMessage = freezed,
-    Object? verificationId = freezed,
-    Object? resendToken = freezed,
+    Object? errorMessage = null,
   }) {
     return _then(_$AuthStateImpl(
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as AuthStatus,
-      errorMessage: freezed == errorMessage
+      errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      verificationId: freezed == verificationId
-          ? _value.verificationId
-          : verificationId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      resendToken: freezed == resendToken
-          ? _value.resendToken
-          : resendToken // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class _$AuthStateImpl with DiagnosticableTreeMixin implements _AuthState {
+class _$AuthStateImpl implements _AuthState {
   const _$AuthStateImpl(
-      {this.status = AuthStatus.initial,
-      this.errorMessage,
-      this.verificationId,
-      this.resendToken});
+      {this.user, this.status = AuthStatus.initial, this.errorMessage = ''});
 
+  @override
+  final User? user;
   @override
   @JsonKey()
   final AuthStatus status;
-// User? user,
   @override
-  final String? errorMessage;
-
-  /// verificationPart
-  @override
-  final String? verificationId;
-  @override
-  final int? resendToken;
+  @JsonKey()
+  final String errorMessage;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState(status: $status, errorMessage: $errorMessage, verificationId: $verificationId, resendToken: $resendToken)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthState'))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('errorMessage', errorMessage))
-      ..add(DiagnosticsProperty('verificationId', verificationId))
-      ..add(DiagnosticsProperty('resendToken', resendToken));
+  String toString() {
+    return 'AuthState(user: $user, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -180,18 +160,14 @@ class _$AuthStateImpl with DiagnosticableTreeMixin implements _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage) &&
-            (identical(other.verificationId, verificationId) ||
-                other.verificationId == verificationId) &&
-            (identical(other.resendToken, resendToken) ||
-                other.resendToken == resendToken));
+                other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, errorMessage, verificationId, resendToken);
+  int get hashCode => Object.hash(runtimeType, user, status, errorMessage);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -204,21 +180,16 @@ class _$AuthStateImpl with DiagnosticableTreeMixin implements _AuthState {
 
 abstract class _AuthState implements AuthState {
   const factory _AuthState(
-      {final AuthStatus status,
-      final String? errorMessage,
-      final String? verificationId,
-      final int? resendToken}) = _$AuthStateImpl;
+      {final User? user,
+      final AuthStatus status,
+      final String errorMessage}) = _$AuthStateImpl;
 
   @override
-  AuthStatus get status; // User? user,
+  User? get user;
   @override
-  String? get errorMessage;
-
-  /// verificationPart
+  AuthStatus get status;
   @override
-  String? get verificationId;
-  @override
-  int? get resendToken;
+  String get errorMessage;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

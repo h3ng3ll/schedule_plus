@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../../model/user/user.dart';
+import '../../../../bloc/settings_bloc/settings_bloc.dart';
+
 part 'profile_tab_event.dart';
 
 part 'profile_tab_state.dart';
@@ -10,16 +13,25 @@ part 'profile_tab_state.dart';
 part 'profile_tab_bloc.freezed.dart';
 
 class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTabState> {
-  ProfileTabBloc() : super(const ProfileTabState()) {
-    on<ProfileTabEvent>(
-      (event, emit) {
-        return event.map<FutureOr<void>>(
-          load: (_) => load(event, emit),
-        );
+  final SettingsBloc _settingsBloc;
+
+  late final StreamSubscription<SettingsState> _settingsBlocSubscription;
+
+  ProfileTabBloc(
+    this._settingsBloc,
+  ) : super(
+          ProfileTabState(
+            user: _settingsBloc.state.user,
+          ),
+        ) {
+    on<_Load>(load);
+    // add(
+    //   ProfileTabEvent.load(),
+    // );
+    _settingsBlocSubscription = _settingsBloc.stream.listen(
+      (state) {
+        state.user;
       },
-    );
-    add(
-      ProfileTabEvent.load(),
     );
   }
 
@@ -31,17 +43,18 @@ class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTabState> {
         ),
       );
 
-      emit(
-        state.copyWith(
-          name: "Alex",
-          surname:  "Jognson",
-          department:  "Computer Science",
-          year: 3,
-          avatarUrl:
-              "https://i.pinimg.com/736x/3c/82/00/3c8200d43cca618675f4f776e3865680.jpg",
-          status: ProfileTabStatus.loaded,
-        ),
-      );
+      // emit(
+      //   state.copyWith(
+      //     // user: ,
+      //     // name: "Alex",
+      //     // surname: "Jognson",
+      //     // department: "Computer Science",
+      //     // year: 3,
+      //     // avatarUrl:
+      //     //     "https://i.pinimg.com/736x/3c/82/00/3c8200d43cca618675f4f776e3865680.jpg",
+      //     status: ProfileTabStatus.loaded,
+      //   ),
+      // );
     } catch (e) {
       emit(
         state.copyWith(
@@ -49,5 +62,11 @@ class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTabState> {
         ),
       );
     }
+  }
+
+  @override
+  Future<void> close() async {
+    await _settingsBlocSubscription.cancel();
+    return super.close();
   }
 }

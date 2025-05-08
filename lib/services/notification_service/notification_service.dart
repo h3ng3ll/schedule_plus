@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../data/repositories/notification_repository.dart';
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
-  print('catch notification on background $notificationResponse');
+  debugPrint('catch notification on background $notificationResponse');
 }
 
 class NotificationService {
@@ -36,19 +37,19 @@ class NotificationService {
     await plugin?.requestNotificationsPermission();
 
     /// Fetch from BackEnd available channels and register it .
-    final androidChannels =
-        await notificationRepository.fetchNotificationChannelConfig();
+    // final androidChannels =
+    //     await notificationRepository.fetchNotificationChannelConfig();
 
-    for (var channel in androidChannels) {
-      final androidChannel = AndroidNotificationChannel(
-        channel.id,
-        channel.name,
-        importance: Importance.max,
-      );
-      await plugin?.createNotificationChannel(
-        androidChannel,
-      );
-    }
+    // for (var channel in androidChannels) {
+    //   final androidChannel = AndroidNotificationChannel(
+    //     channel.id,
+    //     channel.name,
+    //     importance: Importance.max,
+    //   );
+    //   await plugin?.createNotificationChannel(
+    //     androidChannel,
+    //   );
+    // }
 
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,

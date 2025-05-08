@@ -1,31 +1,40 @@
 import 'package:dio/dio.dart';
 
-import '../../utils/client/dio_client.dart';
+
+import '../repositories/base_repository.dart';
 
 class AuthApi {
-  final Dio _dio = DioClient.instance.dio;
+  final BaseRepository _baseRepository = BaseRepository.instance;
 
   static final instance = AuthApi._();
 
   AuthApi._();
 
-  Future<String> login(
+  Future<Response> login(
     String email,
     String password,
   ) async {
-    final res = await _dio.get(
+    return await _baseRepository.api.post(
       '/Authorization/login',
+      data: {
+        'identifier': email,
+        'password': password,
+      },
     );
-    return res.data;
   }
 
-  Future<String> register(
-      String email,
-      String password,
-      ) async {
-    final res = await _dio.get(
+  Future<Response> register(
+    String email,
+    String password,
+    String? name,
+  ) async {
+    return await _baseRepository.api.post(
       '/Authorization/register',
+      data: {
+        'email': email,
+        'password': password,
+        'name': name,
+      },
     );
-    return res.data;
   }
 }

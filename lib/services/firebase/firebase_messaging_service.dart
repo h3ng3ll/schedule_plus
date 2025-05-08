@@ -15,7 +15,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   if (kDebugMode) {
-    debugPrint("Handling a background message: ${message.messageId}");
+    debugPrint('Handling a background message: ${message.messageId}');
   }
 }
 
@@ -24,6 +24,8 @@ Future<void> backgroundHandler(RemoteMessage message) async {}
 class FirebaseMessagingService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final NotificationService _notificationService = NotificationService.instance;
+  // final SecureStorageDatabase _secureStorageDatabase = SecureStorageDatabase.instance;
+
   final NotificationRepository _notificationRepository =
       NotificationRepository.instance;
 
@@ -57,12 +59,16 @@ class FirebaseMessagingService {
   }
 
   void onMessage(RemoteMessage message) {
-    print("Message data: ${message.data}");
+    if (kDebugMode) {
+      print('Message data: ${message.data}');
+    }
     if (message.notification != null) {
-      print("Message also contain  a notification ${message.notification}");
+      if (kDebugMode) {
+        print('Message also contain  a notification ${message.notification}');
+      }
       _notificationService.showNotifications(
-        message.notification?.android?.channelId ?? "id",
-        message.notification?.android?.imageUrl ?? "name",
+        message.notification?.android?.channelId ?? 'id',
+        message.notification?.android?.imageUrl ?? 'name',
         message.notification?.title ?? 'title',
         message.notification?.body ?? 'body',
       );
@@ -70,6 +76,8 @@ class FirebaseMessagingService {
   }
 
   void onMessageOpenedApp(RemoteMessage message) {
-    print('message clicked! ${message.messageId}');
+    if (kDebugMode) {
+      print('message clicked! ${message.messageId}');
+    }
   }
 }

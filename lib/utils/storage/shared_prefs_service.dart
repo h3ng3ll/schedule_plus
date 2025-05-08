@@ -26,7 +26,7 @@ class SharedPrefsService {
     } else if (value is List<String>) {
       return _prefs.setStringList(key, value);
     } else {
-      throw Exception("Unsupported value type");
+      throw Exception('Unsupported value type');
     }
   }
 

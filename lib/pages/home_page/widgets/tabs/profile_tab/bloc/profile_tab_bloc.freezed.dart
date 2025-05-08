@@ -172,11 +172,7 @@ abstract class _Load implements ProfileTabEvent {
 /// @nodoc
 mixin _$ProfileTabState {
   ProfileTabStatus get status => throw _privateConstructorUsedError;
-  String? get avatarUrl => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get surname => throw _privateConstructorUsedError;
-  String? get department => throw _privateConstructorUsedError;
-  int? get year => throw _privateConstructorUsedError;
+  User get user => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileTabState
   /// with the given fields replaced by the non-null parameter values.
@@ -191,13 +187,9 @@ abstract class $ProfileTabStateCopyWith<$Res> {
           ProfileTabState value, $Res Function(ProfileTabState) then) =
       _$ProfileTabStateCopyWithImpl<$Res, ProfileTabState>;
   @useResult
-  $Res call(
-      {ProfileTabStatus status,
-      String? avatarUrl,
-      String? name,
-      String? surname,
-      String? department,
-      int? year});
+  $Res call({ProfileTabStatus status, User user});
+
+  $UserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -216,38 +208,28 @@ class _$ProfileTabStateCopyWithImpl<$Res, $Val extends ProfileTabState>
   @override
   $Res call({
     Object? status = null,
-    Object? avatarUrl = freezed,
-    Object? name = freezed,
-    Object? surname = freezed,
-    Object? department = freezed,
-    Object? year = freezed,
+    Object? user = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ProfileTabStatus,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      surname: freezed == surname
-          ? _value.surname
-          : surname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      department: freezed == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as String?,
-      year: freezed == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int?,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User,
     ) as $Val);
+  }
+
+  /// Create a copy of ProfileTabState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get user {
+    return $UserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 }
 
@@ -259,13 +241,10 @@ abstract class _$$ProfileTabStateImplCopyWith<$Res>
       __$$ProfileTabStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {ProfileTabStatus status,
-      String? avatarUrl,
-      String? name,
-      String? surname,
-      String? department,
-      int? year});
+  $Res call({ProfileTabStatus status, User user});
+
+  @override
+  $UserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -282,37 +261,17 @@ class __$$ProfileTabStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? avatarUrl = freezed,
-    Object? name = freezed,
-    Object? surname = freezed,
-    Object? department = freezed,
-    Object? year = freezed,
+    Object? user = null,
   }) {
     return _then(_$ProfileTabStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ProfileTabStatus,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      surname: freezed == surname
-          ? _value.surname
-          : surname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      department: freezed == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as String?,
-      year: freezed == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int?,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User,
     ));
   }
 }
@@ -321,30 +280,17 @@ class __$$ProfileTabStateImplCopyWithImpl<$Res>
 
 class _$ProfileTabStateImpl implements _ProfileTabState {
   const _$ProfileTabStateImpl(
-      {this.status = ProfileTabStatus.initial,
-      this.avatarUrl,
-      this.name,
-      this.surname,
-      this.department,
-      this.year});
+      {this.status = ProfileTabStatus.initial, required this.user});
 
   @override
   @JsonKey()
   final ProfileTabStatus status;
   @override
-  final String? avatarUrl;
-  @override
-  final String? name;
-  @override
-  final String? surname;
-  @override
-  final String? department;
-  @override
-  final int? year;
+  final User user;
 
   @override
   String toString() {
-    return 'ProfileTabState(status: $status, avatarUrl: $avatarUrl, name: $name, surname: $surname, department: $department, year: $year)';
+    return 'ProfileTabState(status: $status, user: $user)';
   }
 
   @override
@@ -353,18 +299,11 @@ class _$ProfileTabStateImpl implements _ProfileTabState {
         (other.runtimeType == runtimeType &&
             other is _$ProfileTabStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.avatarUrl, avatarUrl) ||
-                other.avatarUrl == avatarUrl) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.surname, surname) || other.surname == surname) &&
-            (identical(other.department, department) ||
-                other.department == department) &&
-            (identical(other.year, year) || other.year == year));
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, avatarUrl, name, surname, department, year);
+  int get hashCode => Object.hash(runtimeType, status, user);
 
   /// Create a copy of ProfileTabState
   /// with the given fields replaced by the non-null parameter values.
@@ -379,24 +318,12 @@ class _$ProfileTabStateImpl implements _ProfileTabState {
 abstract class _ProfileTabState implements ProfileTabState {
   const factory _ProfileTabState(
       {final ProfileTabStatus status,
-      final String? avatarUrl,
-      final String? name,
-      final String? surname,
-      final String? department,
-      final int? year}) = _$ProfileTabStateImpl;
+      required final User user}) = _$ProfileTabStateImpl;
 
   @override
   ProfileTabStatus get status;
   @override
-  String? get avatarUrl;
-  @override
-  String? get name;
-  @override
-  String? get surname;
-  @override
-  String? get department;
-  @override
-  int? get year;
+  User get user;
 
   /// Create a copy of ProfileTabState
   /// with the given fields replaced by the non-null parameter values.

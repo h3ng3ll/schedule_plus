@@ -39,13 +39,13 @@ class NotificationPageBloc
           notifications: [
             Notification(
               title: 'Відмінено пару на 14:40',
-              body: "Для груп АА ИИ СС були змінені пари, викладач А.Петренко",
+              body: 'Для груп АА ИИ СС були змінені пари, викладач А.Петренко',
               time: DateTime.now(),
               isRead: false,
             ),
             Notification(
               title: 'Оновлено розклад',
-              body: "Для груп АА ИИ СС були змінені пари,",
+              body: 'Для груп АА ИИ СС були змінені пари,',
               time: DateTime.now(),
               isRead: false,
             ),
