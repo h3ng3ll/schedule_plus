@@ -1,17 +1,27 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Runtime.InteropServices.JavaScript;
+using System.Security.Claims;
 using System.Text.Json;
 using FirebaseAdmin.Messaging;
+using Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api.Configs;
+using server_api.DTOs.Notification;
+using Shared.Models.Notifications;
+using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 
 namespace server_api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class NotificationController(IFirebaseMessagingService firebaseMessagingService) : ControllerBase
+public class NotificationController(
+    IFirebaseMessagingService firebaseMessagingService,
+    ApplicationContext context
+) : ControllerBase
 {
     private readonly IFirebaseMessagingService _firebaseMessagingService = firebaseMessagingService;
 
@@ -67,12 +77,40 @@ public class NotificationController(IFirebaseMessagingService firebaseMessagingS
         );
     }
 
-   
+
     [HttpPost("saveToken")]
     [Authorize]
-    public async Task<IActionResult> SaveToken([FromBody] string token)
+    public async Task<IActionResult> SaveToken(SaveTokenRequest tokenReq)
     {
-         await _firebaseMessagingService.SaveFcmToken(token);
-         return Ok();
+        // await _firebaseMessagingService.SaveFcmToken(token);
+
+        // Look for token
+        var res = await context.UserDevices.AnyAsync(
+            (e) => e.DeviceToken == tokenReq.token
+        );
+
+        // User's token already has been registered . Do nothing
+        if (res) return Ok();
+
+        var userClaims = User.FindFirst(
+            ClaimTypes.NameIdentifier
+        );
+        if (userClaims == null)
+            return Unauthorized(
+                new { message = "User is not logged in." }
+            );
+
+        var device = new UserDevice
+        {
+            UserId = Int32.Parse(userClaims.Value),
+            DeviceToken = tokenReq.token,
+        };
+
+        context.UserDevices.Add(
+            device
+        );
+        await context.SaveChangesAsync();
+
+        return Ok();
     }
 }

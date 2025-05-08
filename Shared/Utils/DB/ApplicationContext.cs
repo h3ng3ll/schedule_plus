@@ -2,6 +2,8 @@ using EducationalInsitution.Models.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Shared.Models;
+using Shared.Models.Notifications;
+using Shared.Models.Users;
 
 namespace Shared.Utils.DB;
 
@@ -13,6 +15,11 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
     public DbSet<Course> Courses { get; set; }
     public DbSet<Student> Students  { get; set; }
     public DbSet<Professor> Professors { get; set; }
+    public DbSet<Admin> Admins { get; set; }
+    
+    public DbSet<UserDevice> UserDevices { get; set; }
+    
+    public DbSet<Notification> Notifications { get; set; }
     
     
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

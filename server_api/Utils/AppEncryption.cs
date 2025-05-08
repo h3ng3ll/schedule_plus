@@ -17,7 +17,7 @@ public class AppEncryption(IOptions<JwtSettings> jwtSettings)
         var claims = new List<Claim>
         {
             new Claim(
-                JwtRegisteredClaimNames.Sub,
+                ClaimTypes.NameIdentifier,
                 user.Id.ToString()
             ),
             new Claim(

@@ -5,8 +5,7 @@ namespace schedule_plus.Services.Firebase.FirebaseMessaging;
 public interface IFirebaseMessagingService
 {
     public Task<string?> SendMessage(Notification notification);
-    public Task SaveFcmToken(string token);
-
+    
 }
 
 public class FirebaseMessagingService : IFirebaseMessagingService
@@ -42,8 +41,8 @@ public class FirebaseMessagingService : IFirebaseMessagingService
     
     // Every mobile device has identifier save it . It allows to 
     // send push it device directly . 
-    public async Task SaveFcmToken(string token)
-    {
-        
-    }
+    // public async Task SaveFcmToken(string token)
+    // {
+    //     
+    // }
 }
