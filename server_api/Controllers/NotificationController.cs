@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api.Configs;
 using server_api.DTOs.Notification;
+using server_api.DTOs.Notification.MarkAsReadMessages;
 using server_api.Models.IRecipient;
 using Shared.Models;
 using Shared.Models.Notifications;
@@ -44,16 +46,16 @@ public class NotificationController(
 
         // Параметры пагинации
         var page = fetchNotificationsRequest?.Page ?? 1; // например, 1
-        var pageSize = fetchNotificationsRequest?.Limit ?? 5; // например, 20
+        var limit = fetchNotificationsRequest?.Limit ?? 5; // например, 20
 
         if (page < 1) page = 1;
-        if (pageSize < 1 || pageSize > 100) pageSize = 20;
+        if (limit < 1 || limit > 100) limit = 20;
 
         var notifications = await context.Notifications
             .Where(n => n.UserId == user.Id)
             .OrderByDescending(n => n.CreatedAt)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
+            .Skip((page - 1) * limit)
+            .Take(limit)
             .Select(n => new NotificationResponse()
             {
                 Id = n.Id,
@@ -65,8 +67,66 @@ public class NotificationController(
             })
             .ToListAsync();
 
+        var length = context.Notifications.Count(
+            n => n.UserId == user.Id
+        );
+
         return Ok(
-            notifications
+            new FetchNotificationsResponse()
+            {
+                Notifications = notifications,
+                Limit = limit,
+                Page = page,
+                Total = length / limit
+            }
+        );
+    }
+
+    [HttpPost("markReadMessages")]
+    [Authorize]
+    public async Task<IActionResult> MarkAsReadMessages(MarkAsReadMessagesRequest markAsReadMessagesRequest)
+    {
+        var userClaim = User.FindFirst(
+            ClaimTypes.NameIdentifier
+        );
+        if (userClaim == null) return Unauthorized();
+        var messagesIds = markAsReadMessagesRequest.NotificationIds;
+
+
+        var notifications = context.Notifications.Where(
+            n => messagesIds.Contains(
+                n.Id
+            )
+        );
+        foreach (var notification in notifications)
+        {
+            notification.IsRead = true;
+        }
+
+        await context.SaveChangesAsync();
+        return Ok();
+    }
+
+    [HttpGet("unReadMessagesCounts")]
+    [Authorize]
+    public Task<IActionResult> UnReadMessagesCounts()
+    {
+        var userClaim = User.FindFirst(
+            ClaimTypes.NameIdentifier
+        );
+        if (userClaim == null)
+            return Task.FromResult<IActionResult>(
+                Unauthorized()
+            );
+        var counts = context.Notifications.Count(
+            (e) =>
+                e.UserId == int.Parse(userClaim.Value) &&
+                e.IsRead == false
+        );
+        return Task.FromResult<IActionResult>(
+            Ok(
+                counts
+            )
         );
     }
 
@@ -78,12 +138,12 @@ public class NotificationController(
     {
         // Users who will get notification
         List<User> users;
-        
+
         // Here go through every device
         if (notification.NotificationQueryParameters == null)
         {
             var devices = context.UserDevices;
-            
+
             foreach (var device in devices)
             {
                 var deviceToken = device.DeviceToken;
@@ -96,19 +156,16 @@ public class NotificationController(
                     },
                     deviceToken
                 );
-
             }
-             
+
             users = context.Users.ToList();
-             
         }
         else
         {
-            
             var isIncludeStudent = notification.NotificationQueryParameters.IncludeStudents;
             var isIncludedProfessors = notification.NotificationQueryParameters.IncludeProfessors;
 
-             users = new List<User>();
+            users = new List<User>();
             if (isIncludeStudent)
             {
                 var students = await new StudentsRecipient()
@@ -131,8 +188,6 @@ public class NotificationController(
                     );
                 users.AddRange(professors);
             }
-
-            
         }
 
         foreach (var user in users)
