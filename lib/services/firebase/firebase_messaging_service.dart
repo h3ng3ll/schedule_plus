@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -24,27 +26,23 @@ Future<void> backgroundHandler(RemoteMessage message) async {}
 class FirebaseMessagingService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final NotificationService _notificationService = NotificationService.instance;
-  // final SecureStorageDatabase _secureStorageDatabase = SecureStorageDatabase.instance;
 
-  final NotificationRepository _notificationRepository =
-      NotificationRepository.instance;
+  late final StreamController<RemoteMessage> _remoteMessageController =
+      StreamController();
+  late final Stream<RemoteMessage> remoteMessageStream =
+      _remoteMessageController.stream;
 
   static final instance = FirebaseMessagingService._();
+
+  late final String? deviceToken;
 
   FirebaseMessagingService._();
 
   Future<void> init() async {
     await _firebaseMessaging.requestPermission();
-    final String? token = await _firebaseMessaging.getToken();
 
-    if (kDebugMode) {
-      print(token);
-    }
-    if (token != null) {
-      await _notificationRepository.registerUserToken(
-        token,
-      );
-    }
+    deviceToken = await _firebaseMessaging.getToken();
+
     await _firebaseMessaging.requestPermission();
 
     FirebaseMessaging.onMessage.listen(
@@ -62,6 +60,9 @@ class FirebaseMessagingService {
     if (kDebugMode) {
       print('Message data: ${message.data}');
     }
+    _remoteMessageController.sink.add(
+      message,
+    );
     if (message.notification != null) {
       if (kDebugMode) {
         print('Message also contain  a notification ${message.notification}');

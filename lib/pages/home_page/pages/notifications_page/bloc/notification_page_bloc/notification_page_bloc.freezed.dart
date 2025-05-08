@@ -19,32 +19,38 @@ mixin _$NotificationPageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadNotifications,
+    required TResult Function(List<int> notificationIds) markAsReadMessages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadNotifications,
+    TResult? Function(List<int> notificationIds)? markAsReadMessages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadNotifications,
+    TResult Function(List<int> notificationIds)? markAsReadMessages,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,6 +120,7 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadNotifications,
+    required TResult Function(List<int> notificationIds) markAsReadMessages,
   }) {
     return loadNotifications();
   }
@@ -122,6 +129,7 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadNotifications,
+    TResult? Function(List<int> notificationIds)? markAsReadMessages,
   }) {
     return loadNotifications?.call();
   }
@@ -130,6 +138,7 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadNotifications,
+    TResult Function(List<int> notificationIds)? markAsReadMessages,
     required TResult orElse(),
   }) {
     if (loadNotifications != null) {
@@ -142,6 +151,7 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
   }) {
     return loadNotifications(this);
   }
@@ -150,6 +160,7 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
   }) {
     return loadNotifications?.call(this);
   }
@@ -158,6 +169,7 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
     required TResult orElse(),
   }) {
     if (loadNotifications != null) {
@@ -172,10 +184,160 @@ abstract class _LoadNotifications implements NotificationPageEvent {
 }
 
 /// @nodoc
+abstract class _$$MarkAsReadMessagesImplCopyWith<$Res> {
+  factory _$$MarkAsReadMessagesImplCopyWith(_$MarkAsReadMessagesImpl value,
+          $Res Function(_$MarkAsReadMessagesImpl) then) =
+      __$$MarkAsReadMessagesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<int> notificationIds});
+}
+
+/// @nodoc
+class __$$MarkAsReadMessagesImplCopyWithImpl<$Res>
+    extends _$NotificationPageEventCopyWithImpl<$Res, _$MarkAsReadMessagesImpl>
+    implements _$$MarkAsReadMessagesImplCopyWith<$Res> {
+  __$$MarkAsReadMessagesImplCopyWithImpl(_$MarkAsReadMessagesImpl _value,
+      $Res Function(_$MarkAsReadMessagesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? notificationIds = null,
+  }) {
+    return _then(_$MarkAsReadMessagesImpl(
+      notificationIds: null == notificationIds
+          ? _value._notificationIds
+          : notificationIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MarkAsReadMessagesImpl implements _MarkAsReadMessages {
+  const _$MarkAsReadMessagesImpl({required final List<int> notificationIds})
+      : _notificationIds = notificationIds;
+
+  final List<int> _notificationIds;
+  @override
+  List<int> get notificationIds {
+    if (_notificationIds is EqualUnmodifiableListView) return _notificationIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_notificationIds);
+  }
+
+  @override
+  String toString() {
+    return 'NotificationPageEvent.markAsReadMessages(notificationIds: $notificationIds)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MarkAsReadMessagesImpl &&
+            const DeepCollectionEquality()
+                .equals(other._notificationIds, _notificationIds));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_notificationIds));
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MarkAsReadMessagesImplCopyWith<_$MarkAsReadMessagesImpl> get copyWith =>
+      __$$MarkAsReadMessagesImplCopyWithImpl<_$MarkAsReadMessagesImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadNotifications,
+    required TResult Function(List<int> notificationIds) markAsReadMessages,
+  }) {
+    return markAsReadMessages(notificationIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadNotifications,
+    TResult? Function(List<int> notificationIds)? markAsReadMessages,
+  }) {
+    return markAsReadMessages?.call(notificationIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadNotifications,
+    TResult Function(List<int> notificationIds)? markAsReadMessages,
+    required TResult orElse(),
+  }) {
+    if (markAsReadMessages != null) {
+      return markAsReadMessages(notificationIds);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+  }) {
+    return markAsReadMessages(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+  }) {
+    return markAsReadMessages?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    required TResult orElse(),
+  }) {
+    if (markAsReadMessages != null) {
+      return markAsReadMessages(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _MarkAsReadMessages implements NotificationPageEvent {
+  const factory _MarkAsReadMessages(
+      {required final List<int> notificationIds}) = _$MarkAsReadMessagesImpl;
+
+  List<int> get notificationIds;
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MarkAsReadMessagesImplCopyWith<_$MarkAsReadMessagesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$NotificationPageState {
   NotificationPageStatus get status => throw _privateConstructorUsedError;
-  int get limit => throw _privateConstructorUsedError;
-  List<Notification> get notifications => throw _privateConstructorUsedError;
+  NotificationPaginationState get paginationState =>
+      throw _privateConstructorUsedError;
   dynamic get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of NotificationPageState
@@ -193,9 +355,10 @@ abstract class $NotificationPageStateCopyWith<$Res> {
   @useResult
   $Res call(
       {NotificationPageStatus status,
-      int limit,
-      List<Notification> notifications,
+      NotificationPaginationState paginationState,
       dynamic errorMessage});
+
+  $NotificationPaginationStateCopyWith<$Res> get paginationState;
 }
 
 /// @nodoc
@@ -215,8 +378,7 @@ class _$NotificationPageStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? status = null,
-    Object? limit = null,
-    Object? notifications = null,
+    Object? paginationState = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -224,19 +386,26 @@ class _$NotificationPageStateCopyWithImpl<$Res,
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as NotificationPageStatus,
-      limit: null == limit
-          ? _value.limit
-          : limit // ignore: cast_nullable_to_non_nullable
-              as int,
-      notifications: null == notifications
-          ? _value.notifications
-          : notifications // ignore: cast_nullable_to_non_nullable
-              as List<Notification>,
+      paginationState: null == paginationState
+          ? _value.paginationState
+          : paginationState // ignore: cast_nullable_to_non_nullable
+              as NotificationPaginationState,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as dynamic,
     ) as $Val);
+  }
+
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NotificationPaginationStateCopyWith<$Res> get paginationState {
+    return $NotificationPaginationStateCopyWith<$Res>(_value.paginationState,
+        (value) {
+      return _then(_value.copyWith(paginationState: value) as $Val);
+    });
   }
 }
 
@@ -251,9 +420,11 @@ abstract class _$$NotificationPageStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {NotificationPageStatus status,
-      int limit,
-      List<Notification> notifications,
+      NotificationPaginationState paginationState,
       dynamic errorMessage});
+
+  @override
+  $NotificationPaginationStateCopyWith<$Res> get paginationState;
 }
 
 /// @nodoc
@@ -271,8 +442,7 @@ class __$$NotificationPageStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? limit = null,
-    Object? notifications = null,
+    Object? paginationState = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$NotificationPageStateImpl(
@@ -280,14 +450,10 @@ class __$$NotificationPageStateImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as NotificationPageStatus,
-      limit: null == limit
-          ? _value.limit
-          : limit // ignore: cast_nullable_to_non_nullable
-              as int,
-      notifications: null == notifications
-          ? _value._notifications
-          : notifications // ignore: cast_nullable_to_non_nullable
-              as List<Notification>,
+      paginationState: null == paginationState
+          ? _value.paginationState
+          : paginationState // ignore: cast_nullable_to_non_nullable
+              as NotificationPaginationState,
       errorMessage:
           freezed == errorMessage ? _value.errorMessage! : errorMessage,
     ));
@@ -299,33 +465,22 @@ class __$$NotificationPageStateImplCopyWithImpl<$Res>
 class _$NotificationPageStateImpl implements _NotificationPageState {
   const _$NotificationPageStateImpl(
       {this.status = NotificationPageStatus.initial,
-      this.limit = 8,
-      final List<Notification> notifications = const [],
-      this.errorMessage = ''})
-      : _notifications = notifications;
+      this.paginationState = const NotificationPaginationState(),
+      this.errorMessage = ''});
 
   @override
   @JsonKey()
   final NotificationPageStatus status;
   @override
   @JsonKey()
-  final int limit;
-  final List<Notification> _notifications;
-  @override
-  @JsonKey()
-  List<Notification> get notifications {
-    if (_notifications is EqualUnmodifiableListView) return _notifications;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_notifications);
-  }
-
+  final NotificationPaginationState paginationState;
   @override
   @JsonKey()
   final dynamic errorMessage;
 
   @override
   String toString() {
-    return 'NotificationPageState(status: $status, limit: $limit, notifications: $notifications, errorMessage: $errorMessage)';
+    return 'NotificationPageState(status: $status, paginationState: $paginationState, errorMessage: $errorMessage)';
   }
 
   @override
@@ -334,19 +489,14 @@ class _$NotificationPageStateImpl implements _NotificationPageState {
         (other.runtimeType == runtimeType &&
             other is _$NotificationPageStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.limit, limit) || other.limit == limit) &&
-            const DeepCollectionEquality()
-                .equals(other._notifications, _notifications) &&
+            (identical(other.paginationState, paginationState) ||
+                other.paginationState == paginationState) &&
             const DeepCollectionEquality()
                 .equals(other.errorMessage, errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      status,
-      limit,
-      const DeepCollectionEquality().hash(_notifications),
+  int get hashCode => Object.hash(runtimeType, status, paginationState,
       const DeepCollectionEquality().hash(errorMessage));
 
   /// Create a copy of NotificationPageState
@@ -362,16 +512,13 @@ class _$NotificationPageStateImpl implements _NotificationPageState {
 abstract class _NotificationPageState implements NotificationPageState {
   const factory _NotificationPageState(
       {final NotificationPageStatus status,
-      final int limit,
-      final List<Notification> notifications,
+      final NotificationPaginationState paginationState,
       final dynamic errorMessage}) = _$NotificationPageStateImpl;
 
   @override
   NotificationPageStatus get status;
   @override
-  int get limit;
-  @override
-  List<Notification> get notifications;
+  NotificationPaginationState get paginationState;
   @override
   dynamic get errorMessage;
 

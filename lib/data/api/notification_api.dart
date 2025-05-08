@@ -12,28 +12,58 @@ class NotificationApi {
   NotificationApi._();
 
   Future<Map<String, dynamic>> fetchNotificationChannelConfig() async {
-   try {
-     final res = await _baseRepository.api.get(
-       '/Notification/config',
-     );
-     return jsonDecode(
-       res.data,
-     );
-   } on DioException {
-     rethrow;
-   }
+    try {
+      final res = await _baseRepository.api.get(
+        '/Notification/config',
+      );
+      return jsonDecode(
+        res.data,
+      );
+    } on DioException {
+      rethrow;
+    }
   }
 
   Future<void> registerUserToken(String fcmToken) async {
     try {
       await _baseRepository.api.post(
         '/Notification/saveToken',
-        data: jsonEncode(
-          fcmToken,
-        ),
+        data: {
+          'token': fcmToken,
+        },
       );
     } on DioException {
       rethrow;
     }
+  }
+
+  Future<Response> fetchNotifications([
+    int? limit,
+    int? page,
+  ]) async {
+    return await _baseRepository.api.get(
+      '/Notification/',
+      data: {
+        'limit': limit,
+        'page': page,
+      },
+    );
+  }
+
+  Future<Response> markAsReadMessages(
+    List<int> notificationIds,
+  ) async {
+    return await _baseRepository.api.post(
+      '/Notification/markReadMessages',
+      data: {
+        'notificationIds': notificationIds,
+      },
+    );
+  }
+
+  Future<Response> unReadMessagesCount() async {
+    return await _baseRepository.api.get(
+      '/Notification/unReadMessagesCounts',
+    );
   }
 }

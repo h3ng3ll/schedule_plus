@@ -20,9 +20,11 @@ Notification _$NotificationFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Notification {
+  int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get body => throw _privateConstructorUsedError;
-  DateTime get time => throw _privateConstructorUsedError;
+  @DateTimeSerializable()
+  DateTime get createdAt => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
   String? get assignedLocation => throw _privateConstructorUsedError;
 
@@ -43,9 +45,10 @@ abstract class $NotificationCopyWith<$Res> {
       _$NotificationCopyWithImpl<$Res, Notification>;
   @useResult
   $Res call(
-      {String title,
+      {int id,
+      String title,
       String body,
-      DateTime time,
+      @DateTimeSerializable() DateTime createdAt,
       bool isRead,
       String? assignedLocation});
 }
@@ -65,13 +68,18 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? body = null,
-    Object? time = null,
+    Object? createdAt = null,
     Object? isRead = null,
     Object? assignedLocation = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -80,9 +88,9 @@ class _$NotificationCopyWithImpl<$Res, $Val extends Notification>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String,
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       isRead: null == isRead
           ? _value.isRead
@@ -105,9 +113,10 @@ abstract class _$$NotificationImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title,
+      {int id,
+      String title,
       String body,
-      DateTime time,
+      @DateTimeSerializable() DateTime createdAt,
       bool isRead,
       String? assignedLocation});
 }
@@ -125,13 +134,18 @@ class __$$NotificationImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? body = null,
-    Object? time = null,
+    Object? createdAt = null,
     Object? isRead = null,
     Object? assignedLocation = freezed,
   }) {
     return _then(_$NotificationImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -140,9 +154,9 @@ class __$$NotificationImplCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String,
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       isRead: null == isRead
           ? _value.isRead
@@ -160,9 +174,10 @@ class __$$NotificationImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NotificationImpl implements _Notification {
   const _$NotificationImpl(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.body,
-      required this.time,
+      @DateTimeSerializable() required this.createdAt,
       required this.isRead,
       this.assignedLocation});
 
@@ -170,11 +185,14 @@ class _$NotificationImpl implements _Notification {
       _$$NotificationImplFromJson(json);
 
   @override
+  final int id;
+  @override
   final String title;
   @override
   final String body;
   @override
-  final DateTime time;
+  @DateTimeSerializable()
+  final DateTime createdAt;
   @override
   final bool isRead;
   @override
@@ -182,7 +200,7 @@ class _$NotificationImpl implements _Notification {
 
   @override
   String toString() {
-    return 'Notification(title: $title, body: $body, time: $time, isRead: $isRead, assignedLocation: $assignedLocation)';
+    return 'Notification(id: $id, title: $title, body: $body, createdAt: $createdAt, isRead: $isRead, assignedLocation: $assignedLocation)';
   }
 
   @override
@@ -190,9 +208,11 @@ class _$NotificationImpl implements _Notification {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NotificationImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.body, body) || other.body == body) &&
-            (identical(other.time, time) || other.time == time) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
             (identical(other.assignedLocation, assignedLocation) ||
                 other.assignedLocation == assignedLocation));
@@ -200,8 +220,8 @@ class _$NotificationImpl implements _Notification {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, title, body, time, isRead, assignedLocation);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, body, createdAt, isRead, assignedLocation);
 
   /// Create a copy of Notification
   /// with the given fields replaced by the non-null parameter values.
@@ -221,9 +241,10 @@ class _$NotificationImpl implements _Notification {
 
 abstract class _Notification implements Notification {
   const factory _Notification(
-      {required final String title,
+      {required final int id,
+      required final String title,
       required final String body,
-      required final DateTime time,
+      @DateTimeSerializable() required final DateTime createdAt,
       required final bool isRead,
       final String? assignedLocation}) = _$NotificationImpl;
 
@@ -231,11 +252,14 @@ abstract class _Notification implements Notification {
       _$NotificationImpl.fromJson;
 
   @override
+  int get id;
+  @override
   String get title;
   @override
   String get body;
   @override
-  DateTime get time;
+  @DateTimeSerializable()
+  DateTime get createdAt;
   @override
   bool get isRead;
   @override

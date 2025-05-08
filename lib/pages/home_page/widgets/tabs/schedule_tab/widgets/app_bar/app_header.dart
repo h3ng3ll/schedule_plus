@@ -1,11 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../../../resources/colors/app_color_scheme.dart';
 import '../../../../../../../resources/colors/app_colors.dart';
+import '../../../../../../../resources/text/app_text_theme.dart';
 import '../../../../../../../routes/app_routes_paths.dart';
 import '../../../../../../../widgets/padding/horizontal_padding.dart';
+import '../../../../../bloc/settings_bloc/settings_bloc.dart';
 
 class AppHeader extends StatefulWidget implements PreferredSizeWidget {
   const AppHeader({super.key});
@@ -73,55 +77,81 @@ class _AppHeaderState extends State<AppHeader>
 
   @override
   Widget build(BuildContext context) {
-    return HorizontalPadding(
-      child: AppBar(
-        actions: [
-          Text(
-            'Розклад+',
-            style: TextStyle(
-              color: AppColors.majorelleBlue.value,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Spacer(),
-          Row(
-            children: [
-              Stack(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.notifications_outlined,
-                    ),
-                    onPressed: () => onTapNotifications(
-                      context,
-                    ),
-                  ),
-                  // if (initializedShaders)
-                  //   Positioned(
-                  //     right: 12,
-                  //     top: 12,
-                  //     child: CustomPaint(
-                  //       painter: MyPainter(
-                  //         color: Colors.red,
-                  //         shader: FragmentProgramManager.lookup(
-                  //           AppShaders.notificationPulse,
-                  //         ).fragmentShader(),
-                  //         animation: animationController,
-                  //         radius: 7.5,
-                  //       ),
-                  //     ),
-                  //   ),
-                ],
+    final colorScheme = AppColorScheme.of(context);
+    final textTheme = AppTextTheme.of(context);
+
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        final unReadNotifications = state.unReadNotifications;
+
+        return HorizontalPadding(
+          child: AppBar(
+            actions: [
+              Text(
+                'Розклад+',
+                style: TextStyle(
+                  color: AppColors.majorelleBlue.value,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const CircleAvatar(
-                radius: 16,
-                // backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+              Spacer(),
+              Row(
+                children: [
+                  Stack(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications_outlined,
+                        ),
+                        onPressed: () => onTapNotifications(
+                          context,
+                        ),
+                      ),
+                      // if (initializedShaders)
+                      if (unReadNotifications > 0)
+                        Positioned(
+                          right: 10,
+                          top: 10,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                            ),
+                            width: 15.0,
+                            height: 15.0,
+                            child: Center(
+                              child: Text(
+                                unReadNotifications.toString(),
+                                style: textTheme.regular10.copyWith(
+                                  color: colorScheme.inactiveSecondary,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // child: CustomPaint(
+                          //   painter: MyPainter(
+                          //     color: Colors.red,
+                          //     // shader: FragmentProgramManager.lookup(
+                          //     //   AppShaders.notificationPulse,
+                          //     // ).fragmentShader(),
+                          //     animation: animationController,
+                          //     radius: 7.5,
+                          //   ),
+                          // ),
+                        ),
+                    ],
+                  ),
+                  const CircleAvatar(
+                    radius: 16,
+                    // backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

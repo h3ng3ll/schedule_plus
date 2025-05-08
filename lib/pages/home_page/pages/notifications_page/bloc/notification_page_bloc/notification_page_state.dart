@@ -11,8 +11,8 @@ enum NotificationPageStatus {
 class NotificationPageState with _$NotificationPageState {
   const factory NotificationPageState({
     @Default(NotificationPageStatus.initial) NotificationPageStatus status,
-    @Default(8) int limit,
-    @Default([]) List<Notification> notifications,
+    @Default(NotificationPaginationState()) NotificationPaginationState paginationState,
+
     @Default('') errorMessage,
   }) = _NotificationPageState;
 }

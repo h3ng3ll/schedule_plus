@@ -9,6 +9,7 @@ enum SettingsStatus {
 class SettingsState with _$SettingsState {
   const factory SettingsState({
     required User user,
+    @Default(0) int unReadNotifications,
     @Default(SettingsStatus.initial) SettingsStatus status,
     @Default('') String message,
   }) = _SettingsState;

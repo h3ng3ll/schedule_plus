@@ -4,6 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../data/repositories/base_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../model/user/user.dart';
+import '../../data/repositories/notification_repository.dart';
+import '../notification_bloc/notification_bloc.dart';
 
 part 'auth_state.dart';
 
@@ -13,7 +15,11 @@ class AuthCubit extends Cubit<AuthState> {
   final BaseRepository _baseRepository = BaseRepository.instance;
   final UserRepository _userRepo = UserRepository.instance;
 
-  AuthCubit() : super(const AuthState());
+  final NotificationBloc _notificationBloc;
+
+  AuthCubit(
+    this._notificationBloc,
+  ) : super(const AuthState());
 
   Future<User?> getUser() async {
     try {
@@ -41,8 +47,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-
+  /// When authorization complete let know about it the  server
+  /// and then register token if it didn't register yet.
   void updateUser(User user) {
+    _notificationBloc.add(
+      NotificationEvent.saveToken(),
+    );
     emit(
       state.copyWith(
         user: user,
