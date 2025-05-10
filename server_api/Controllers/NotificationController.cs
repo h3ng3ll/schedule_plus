@@ -23,7 +23,6 @@ public class NotificationController(
     ApplicationContext context
 ) : ControllerBase
 {
-    private readonly IFirebaseMessagingService _firebaseMessagingService = firebaseMessagingService;
 
 
     [HttpGet("")]
@@ -148,7 +147,7 @@ public class NotificationController(
             {
                 var deviceToken = device.DeviceToken;
 
-                await _firebaseMessagingService.SendMessage(
+                await firebaseMessagingService.SendMessage(
                     new FirebaseAdmin.Messaging.Notification()
                     {
                         Title = notification.Title,

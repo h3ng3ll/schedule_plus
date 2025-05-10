@@ -12,6 +12,7 @@ using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api;
 using server_api.Configs;
 using server_api.DTOs;
+using server_api.DTOs.Schedule;
 using server_api.DTOs.Student;
 using server_api.DTOs.Teacher;
 using server_api.Utils;
@@ -47,6 +48,7 @@ builder.Services.AddAutoMapper(
         config.CreateMap<Student, StudentResponse>();
         config.CreateMap<Professor, ProfessorResponse>();
         config.CreateMap<User, UserResponse>();
+        config.CreateMap<Schedule, FetchScheduleResponse>();
     }
 );
 // Add services to the container.
