@@ -9,4 +9,6 @@ public class Professor
 {
     [Key] public int Id { get; set; }
     [ForeignKey(nameof(User))] public required int UserId { get; set; }
+    
+    public User  User { get; set; } = null!;
 }

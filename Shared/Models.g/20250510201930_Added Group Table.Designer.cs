@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shared.Utils.DB;
 
@@ -10,9 +11,11 @@ using Shared.Utils.DB;
 namespace Shared.Models.g
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250510201930_Added Group Table")]
+    partial class AddedGroupTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +33,6 @@ namespace Shared.Models.g
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Professors");
                 });
 
@@ -46,7 +47,12 @@ namespace Shared.Models.g
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProfessorId");
 
                     b.ToTable("Courses");
                 });
@@ -152,9 +158,6 @@ namespace Shared.Models.g
                     b.Property<string>("Location")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("ProfessorId")
-                        .HasColumnType("int");
-
                     b.Property<long>("StartTime")
                         .HasColumnType("bigint");
 
@@ -163,8 +166,6 @@ namespace Shared.Models.g
                     b.HasIndex("CourseId");
 
                     b.HasIndex("GroupId");
-
-                    b.HasIndex("ProfessorId");
 
                     b.ToTable("Schedules");
                 });
@@ -230,116 +231,15 @@ namespace Shared.Models.g
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("Shared.Models.g.Course", b =>
+            modelBuilder.Entity("Shared.Models.Course", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ProfessorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("ProfessorId");
-
-                    b.ToTable("Course");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Department");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
-
-                    b.Property<long>("EndTime")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ProfessorId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("StartTime")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("ProfessorId");
-
-                    b.ToTable("Schedule");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ImgUrl")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("EducationalInsitution.Models.Core.Professor", b =>
-                {
-                    b.HasOne("Shared.Models.g.User", "User")
+                    b.HasOne("EducationalInsitution.Models.Core.Professor", "Professor")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Professor");
                 });
 
             modelBuilder.Entity("Shared.Models.Notification", b =>
@@ -378,72 +278,9 @@ namespace Shared.Models.g
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EducationalInsitution.Models.Core.Professor", "Professor")
-                        .WithMany()
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Course");
 
                     b.Navigation("Group");
-
-                    b.Navigation("Professor");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.Course", b =>
-                {
-                    b.HasOne("Shared.Models.g.Department", "Department")
-                        .WithMany("Courses")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shared.Models.g.User", "Professor")
-                        .WithMany("Courses")
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Professor");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.Schedule", b =>
-                {
-                    b.HasOne("Shared.Models.g.Course", "Course")
-                        .WithMany("Schedules")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Shared.Models.g.User", "Professor")
-                        .WithMany("Schedules")
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Professor");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.Course", b =>
-                {
-                    b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.Department", b =>
-                {
-                    b.Navigation("Courses");
-                });
-
-            modelBuilder.Entity("Shared.Models.g.User", b =>
-                {
-                    b.Navigation("Courses");
-
-                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }

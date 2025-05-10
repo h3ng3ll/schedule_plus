@@ -45,9 +45,11 @@ builder.Services.AddSingleton<AppEncryption>();
 builder.Services.AddAutoMapper(
     config =>
     {
-        config.CreateMap<Student, StudentResponse>();
         config.CreateMap<Professor, ProfessorResponse>();
+        config.CreateMap<Student, StudentResponse>();
         config.CreateMap<User, UserResponse>();
+     
+     
         config.CreateMap<Schedule, FetchScheduleResponse>();
     }
 );

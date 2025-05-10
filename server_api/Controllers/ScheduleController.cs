@@ -2,21 +2,13 @@ using System.Security.Claims;
 using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using schedule_plus.Services.Firebase.FirebaseMessaging;
-using server_api.Configs;
-using server_api.DTOs.Notification;
-using server_api.DTOs.Notification.MarkAsReadMessages;
 using server_api.DTOs.Schedule;
-using server_api.Models.IRecipient;
+using server_api.DTOs.Schedule.CreateSchedule;
 using server_api.Utils.Extensions;
 using Shared.Models;
-using Shared.Models.Notifications;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
-using Notification = Shared.Models.Notification;
 
 namespace server_api.Controllers;
 
@@ -48,11 +40,14 @@ public class ScheduleController(
                     e.StartTime >= startDate &&
                     e.EndTime <= endDate
             )
-            .Include((
-                    e) => e.Course
+            .Include(
+                e => e.Course
             )
             .Include(
-                e => e.Course.Professor
+                e => e.Professor.User
+            )
+            .Include(
+                e => e.Group
             )
             .Take(500) // limit from incorrect request 
             .ToListAsync();
@@ -60,9 +55,50 @@ public class ScheduleController(
         var mapped = mapper.Map<List<FetchScheduleResponse>>(
             schedules
         );
-        
+
         return Ok(
             mapped
         );
+    }
+
+
+    [Authorize]
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleRequest createScheduleRequest)
+    {
+        // Todo: validate role .
+        
+        if (createScheduleRequest.GroupIds.Count == 0)
+            return BadRequest(new
+                { message = "There are no groups!" }
+            );
+
+        foreach (var groupId in createScheduleRequest.GroupIds)
+        {
+            var schedule = new Schedule()
+            {
+                CourseId = createScheduleRequest.CourseId,
+                GroupId = groupId,
+                ProfessorId = createScheduleRequest.ProfessorId,
+                
+                Location = createScheduleRequest.Location,
+                Day = createScheduleRequest.Day,
+
+                StartTime = new DateTimeOffset(
+                    createScheduleRequest.StartTime
+                ).ToUnixTimeSeconds(),
+                EndTime = new DateTimeOffset(
+                    createScheduleRequest.EndTime
+                ).ToUnixTimeSeconds(),
+            };
+            context.Schedules.Add(
+                schedule
+            );
+        }
+        await context.SaveChangesAsync();
+        
+        // Todo: notification handle later .  
+        
+        return Ok();
     }
 }

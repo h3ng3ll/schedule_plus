@@ -21,6 +21,7 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
     
     public DbSet<Notification> Notifications { get; set; }
     
+    public DbSet<Group> Groups { get; set; }
     
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     // {

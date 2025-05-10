@@ -24,14 +24,18 @@ public class Schedule
     [ForeignKey(nameof(Professor))]
     public int ProfessorId { get; set; }
     
+    [ForeignKey(nameof(Group))]
+    public int GroupId { get; set; }
+    
     /// Room № ? or remote 
     public string? Location { get; set; }
     public required Weekday Day { get; set; }
-
+    
     
     public Course Course { get; set; } = null!;
-    public User User { get; set; } = null!;
-    public User Professor { get; set; } = null!;
+    public Group Group { get; set; } = null!;
+    public Professor Professor { get; set; } = null!;
+    
     
     // Represent in Unix TimeStamp
     public long  StartTime { get; set; }
