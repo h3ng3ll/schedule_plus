@@ -4,14 +4,6 @@ using EducationalInsitution.Models.Core;
 
 namespace Shared.Models;
 
-public enum Weekday
-{
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-}
 
 public class Schedule
 {
@@ -29,7 +21,6 @@ public class Schedule
     
     /// Room № ? or remote 
     public string? Location { get; set; }
-    public required Weekday Day { get; set; }
     
     
     public Course Course { get; set; } = null!;

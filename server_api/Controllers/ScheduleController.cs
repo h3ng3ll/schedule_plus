@@ -37,8 +37,8 @@ public class ScheduleController(
 
         var schedules = await context.Schedules.Where(
                 (e) =>
-                    e.StartTime >= startDate &&
-                    e.EndTime <= endDate
+                    e.StartTime <= endDate &&
+                    e.EndTime >= startDate
             )
             .Include(
                 e => e.Course
@@ -67,10 +67,10 @@ public class ScheduleController(
     public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleRequest createScheduleRequest)
     {
         // Todo: validate role .
-        
+
         if (createScheduleRequest.GroupIds.Count == 0)
             return BadRequest(new
-                { message = "There are no groups!" }
+                { error = "There are no groups!" }
             );
 
         foreach (var groupId in createScheduleRequest.GroupIds)
@@ -80,9 +80,8 @@ public class ScheduleController(
                 CourseId = createScheduleRequest.CourseId,
                 GroupId = groupId,
                 ProfessorId = createScheduleRequest.ProfessorId,
-                
+
                 Location = createScheduleRequest.Location,
-                Day = createScheduleRequest.Day,
 
                 StartTime = new DateTimeOffset(
                     createScheduleRequest.StartTime
@@ -95,10 +94,11 @@ public class ScheduleController(
                 schedule
             );
         }
+
         await context.SaveChangesAsync();
-        
+
         // Todo: notification handle later .  
-        
+
         return Ok();
     }
 }

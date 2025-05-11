@@ -1,16 +1,8 @@
-using System.Text;
-using System.Text.Json;
-using AutoMapper;
 using EducationalInsitution.Models.Core;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api;
-using server_api.Configs;
 using server_api.DTOs;
 using server_api.DTOs.Schedule;
 using server_api.DTOs.Student;
@@ -34,7 +26,8 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
                 "DefaultConnection"
             ),
             serverVersion: new MySqlServerVersion(
-                new Version(major: 10, minor: 5, build: 25)
+                new Version(major: 10, minor: 5, build: 25
+                )
             )
         );
     }
@@ -48,8 +41,8 @@ builder.Services.AddAutoMapper(
         config.CreateMap<Professor, ProfessorResponse>();
         config.CreateMap<Student, StudentResponse>();
         config.CreateMap<User, UserResponse>();
-     
-     
+
+
         config.CreateMap<Schedule, FetchScheduleResponse>();
     }
 );

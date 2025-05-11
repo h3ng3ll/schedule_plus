@@ -12,8 +12,6 @@ public class CreateScheduleRequest
     
     /// Room № ? or remote 
     public string? Location { get; set; }
-    public required Weekday Day { get; set; }
-    
     
     public DateTime  StartTime { get; set; }
     public DateTime  EndTime { get; set; }

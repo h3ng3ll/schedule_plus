@@ -12,7 +12,6 @@ public class FetchScheduleResponse
     
     /// Room № ? or remote 
     public string? Location { get; set; }
-    public required Weekday Day { get; set; }
     
     public Shared.Models.Course Course { get; set; } = null!;
     public Group Group { get; set; } = null!;
