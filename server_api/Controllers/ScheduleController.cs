@@ -67,11 +67,24 @@ public class ScheduleController(
     public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleRequest createScheduleRequest)
     {
         // Todo: validate role .
+        await _CreateSchedule(createScheduleRequest);
 
+        // Todo: notification handle later .  
+
+        return Ok();
+    }
+
+
+    private async Task _CreateSchedule(CreateScheduleRequest createScheduleRequest)
+    {
+        
         if (createScheduleRequest.GroupIds.Count == 0)
-            return BadRequest(new
+        {
+             BadRequest(new
                 { error = "There are no groups!" }
             );
+             return;
+        }
 
         foreach (var groupId in createScheduleRequest.GroupIds)
         {
@@ -96,7 +109,22 @@ public class ScheduleController(
         }
 
         await context.SaveChangesAsync();
+    }
+    /// <summary>
+    /// Same as create but create List of Schedules
+    /// </summary>
+    /// <param name="createScheduleGroupRequest"></param>
+    /// <returns></returns>
+    [Authorize]
+    [HttpPost("createGroup")]
+    public async Task<IActionResult> CreateScheduleGroup([FromBody] CreateScheduleGroupRequest createScheduleGroupRequest)
+    {
+        // Todo: validate role .
 
+        foreach (var schedule in createScheduleGroupRequest.schedules)
+        {
+            await _CreateSchedule(schedule);
+        }
         // Todo: notification handle later .  
 
         return Ok();
