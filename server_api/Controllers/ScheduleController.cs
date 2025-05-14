@@ -6,6 +6,7 @@ using server_api.DTOs.Schedule;
 using server_api.DTOs.Schedule.CreateSchedule;
 using server_api.Utils.Extensions;
 using Shared.Models;
+using Shared.Models.Schedule;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 
 namespace server_api.Controllers;

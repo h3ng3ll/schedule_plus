@@ -1,4 +1,3 @@
-using EducationalInsitution.Models.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
@@ -7,11 +6,11 @@ using server_api.DTOs;
 using server_api.DTOs.Course;
 using server_api.DTOs.Group;
 using server_api.DTOs.Schedule;
-using server_api.DTOs.Schedule.CreateSchedule;
 using server_api.DTOs.Student;
 using server_api.DTOs.Teacher;
 using server_api.Utils;
 using Shared.Models;
+using Shared.Models.Schedule;
 using Shared.Utils.DB;
 using Course = Shared.Models.Course;
 
@@ -25,13 +24,14 @@ builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingServic
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
     {
-        options.UseMySql(
+        options.UseNpgsql(
             builder.Configuration.GetConnectionString(
                 "DefaultConnection"
-            ),
-            serverVersion: new MySqlServerVersion(
-                new Version(major: 10, minor: 5, build: 25
-                )
+                // ),
+                // serverVersion: new MySqlServerVersion(
+                //     new Version(major: 10, minor: 5, build: 25
+                //     )
+                // )
             )
         );
     }
@@ -45,12 +45,12 @@ builder.Services.AddAutoMapper(
         config.CreateMap<Professor, ProfessorResponse>();
         config.CreateMap<Student, StudentResponse>();
         config.CreateMap<User, UserResponse>();
-        
+
 
         config.CreateMap<Schedule, FetchScheduleResponse>();
 
-        config.CreateMap<CreateGroupRequest , Group>();
-        config.CreateMap<CreateCourseRequest , Course>();
+        config.CreateMap<CreateGroupRequest, Group>();
+        config.CreateMap<CreateCourseRequest, Course>();
     }
 );
 // Add services to the container.
@@ -98,8 +98,8 @@ app.UseCors("AllowLocalNetwork");
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 // }
 
 

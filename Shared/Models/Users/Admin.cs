@@ -6,5 +6,5 @@ namespace Shared.Models.Users;
 public class Admin
 {
     [Key] public int Id { get; set; }
-    [ForeignKey(nameof(g.User))] public required int UserId { get; set; }
+    [ForeignKey(nameof(User))] public required int UserId { get; set; }
 }

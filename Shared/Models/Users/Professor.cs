@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-using Shared.Models.g;
+using Shared.Models;
 
-namespace EducationalInsitution.Models.Core;
+
 
 public class Professor
 {

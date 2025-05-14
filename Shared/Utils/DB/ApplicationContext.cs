@@ -1,8 +1,7 @@
-using EducationalInsitution.Models.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Shared.Models;
 using Shared.Models.Notifications;
+using Shared.Models.Schedule;
 using Shared.Models.Users;
 
 namespace Shared.Utils.DB;
@@ -23,30 +22,4 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
     
     public DbSet<Group> Groups { get; set; }
     
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     // var optionsBuilder = new DbContextOptionsBuilder<AppContext>();
-    //
-    //     IConfigurationRoot configuration = new ConfigurationBuilder()
-    //         .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../server_api"))
-    //         .AddJsonFile("appsettings.json")
-    //         .Build();
-    //
-    //
-    //     var connectionString = configuration.GetConnectionString(
-    //         "DefaultConnection"
-    //     );
-    //
-    //     optionsBuilder.UseMySql(
-    //         // "Server=localhost;Database=schedule_plus;User=dotnet;Password=dotnet",
-    //         connectionString,
-    //         ServerVersion.AutoDetect(
-    //             connectionString
-    //         )
-    //     );
-    //     // return new AppContext(optionsBuilder.Options);
-    //     // base.OnConfiguring(optionsBuilder);
-    //     // optionsBuilder.use
-    //     // return new BloggingContext(optionsBuilder.Options);
-    // }
 }
