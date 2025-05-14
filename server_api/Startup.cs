@@ -54,7 +54,7 @@ public sealed class Startup
         });
     }
 
-    public static void InitBearerToken(WebApplicationBuilder builder , WebApplication app)
+    public static void InitBearerToken(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers().AddJsonOptions(options =>
             {
@@ -66,7 +66,6 @@ public sealed class Startup
         
         IConfigurationSection  settings = builder.Configuration.GetSection("JwtSettings");
 
-        // Проверяем, если переменные окружения заданы, то подставляем их
         var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? settings["Issuer"];
         var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? settings["Audience"];
         var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? settings["SecretKey"];

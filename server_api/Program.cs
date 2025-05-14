@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 Startup.InitCors(builder);
 
-
+Startup.InitBearerToken(builder );
 
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
 
@@ -101,7 +101,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 Startup.InitFirebase(app);
-Startup.InitBearerToken(builder , app);
+
 
 app.UseCors("AllowLocalNetwork");
 
