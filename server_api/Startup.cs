@@ -54,7 +54,7 @@ public sealed class Startup
         });
     }
 
-    public static void InitBearerToken(WebApplicationBuilder builder)
+    public static void InitBearerToken(WebApplicationBuilder builder , WebApplication app)
     {
         builder.Services.AddControllers().AddJsonOptions(options =>
             {
@@ -63,7 +63,15 @@ public sealed class Startup
             }
         );
 
-        var settings = builder.Configuration.GetSection("JwtSettings");
+        
+        IConfigurationSection  settings = builder.Configuration.GetSection("JwtSettings");
+
+        // Проверяем, если переменные окружения заданы, то подставляем их
+        var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? settings["Issuer"];
+        var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? settings["Audience"];
+        var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? settings["SecretKey"];
+
+        
         builder.Services.Configure<JwtSettings>(settings);
         builder.Services.AddAuthentication(options =>
             {
@@ -78,11 +86,11 @@ public sealed class Startup
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = settings["Issuer"],
-                    ValidAudience = settings["Audience"],
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(
-                            settings["SecretKey"]!
+                            secretKey!
                         )
                     )
                 };
