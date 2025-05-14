@@ -14,7 +14,7 @@ public class FetchScheduleResponse
     public string? Location { get; set; }
     
     public Shared.Models.Course Course { get; set; } = null!;
-    public Group Group { get; set; } = null!;
+    public ICollection<Shared.Models.Group> Groups { get; set; } = null!;
     public Professor Professor { get; set; } = null!;
 
     public DateTime  StartTime { get; set; }

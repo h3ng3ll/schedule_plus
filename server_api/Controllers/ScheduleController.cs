@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +45,7 @@ public class ScheduleController(
                 e => e.Professor.User
             )
             .Include(
-                e => e.Group
+                e => e.Groups
             )
             .Take(500) // limit from incorrect request 
             .ToListAsync();
@@ -71,45 +69,48 @@ public class ScheduleController(
 
         // Todo: notification handle later .  
 
-        return Ok();
+        return Created();
     }
 
 
     private async Task _CreateSchedule(CreateScheduleRequest createScheduleRequest)
     {
-        
         if (createScheduleRequest.GroupIds.Count == 0)
         {
-             BadRequest(new
+            BadRequest(new
                 { error = "There are no groups!" }
             );
-             return;
+            return;
         }
 
-        foreach (var groupId in createScheduleRequest.GroupIds)
+        var groups = await context.Groups.Where(
+            (e) => createScheduleRequest.GroupIds.Contains(
+                e.Id
+            )
+        ).ToListAsync();
+
+        var schedule = new Schedule()
         {
-            var schedule = new Schedule()
-            {
-                CourseId = createScheduleRequest.CourseId,
-                GroupId = groupId,
-                ProfessorId = createScheduleRequest.ProfessorId,
+            CourseId = createScheduleRequest.CourseId,
+            Groups = groups,
+            ProfessorId = createScheduleRequest.ProfessorId,
 
-                Location = createScheduleRequest.Location,
+            Location = createScheduleRequest.Location,
 
-                StartTime = new DateTimeOffset(
-                    createScheduleRequest.StartTime
-                ).ToUnixTimeSeconds(),
-                EndTime = new DateTimeOffset(
-                    createScheduleRequest.EndTime
-                ).ToUnixTimeSeconds(),
-            };
-            context.Schedules.Add(
-                schedule
-            );
-        }
+            StartTime = new DateTimeOffset(
+                createScheduleRequest.StartTime
+            ).ToUnixTimeSeconds(),
+            EndTime = new DateTimeOffset(
+                createScheduleRequest.EndTime
+            ).ToUnixTimeSeconds(),
+        };
+        context.Schedules.Add(
+            schedule
+        );
 
         await context.SaveChangesAsync();
     }
+
     /// <summary>
     /// Same as create but create List of Schedules
     /// </summary>
@@ -117,7 +118,8 @@ public class ScheduleController(
     /// <returns></returns>
     [Authorize]
     [HttpPost("createGroup")]
-    public async Task<IActionResult> CreateScheduleGroup([FromBody] CreateScheduleGroupRequest createScheduleGroupRequest)
+    public async Task<IActionResult> CreateScheduleGroup(
+        [FromBody] CreateScheduleGroupRequest createScheduleGroupRequest)
     {
         // Todo: validate role .
 
@@ -127,6 +129,58 @@ public class ScheduleController(
         }
         // Todo: notification handle later .  
 
-        return Ok();
+        return Created();
     }
+
+    //
+    // /// <summary>
+    // /// Update Given Schedule Id in DB . 
+    // /// </summary>
+    // /// <param name="id"></param>
+    // /// <param name="updateScheduleRequest"></param>
+    // /// <returns></returns>
+    // [Authorize]
+    // [HttpPut("{id}")]
+    // public async Task<IActionResult> UpdateSchedule(int id, [FromBody] UpdateScheduleRequest updateScheduleRequest)
+    // {
+    //     var schedule = await context.Schedules
+    //         .Include(
+    //             s => s.Groups
+    //         )
+    //         .FirstOrDefaultAsync(
+    //             s => s.Id == id
+    //         );
+    //
+    //     if (schedule == null) return NotFound();
+    //
+    //     schedule.CourseId = updateScheduleRequest.CourseId;
+    //     schedule.Location = updateScheduleRequest.Location;
+    //     schedule.StartTime = new DateTimeOffset(
+    //         updateScheduleRequest.StartTime
+    //     ).ToUnixTimeSeconds();
+    //     schedule.EndTime = new DateTimeOffset(
+    //         updateScheduleRequest.EndTime
+    //     ).ToUnixTimeSeconds();
+    //
+    //     // if (updateScheduleRequest.GroupIds == schedule.g)
+    //     var scheduleGroups = await context.Groups
+    //         .Where(
+    //             g => updateScheduleRequest.GroupIds.Contains(
+    //                 g.Id
+    //             )
+    //         ).ToListAsync();
+    //
+    //     // Remove old group
+    //     foreach (var group in scheduleGroups)
+    //     {
+    //         context.Groups.Remove(group);
+    //     }
+    //
+    //
+    //     await context.SaveChangesAsync();
+    //
+    //     return Ok(
+    //         schedule
+    //     );
+    // }
 }

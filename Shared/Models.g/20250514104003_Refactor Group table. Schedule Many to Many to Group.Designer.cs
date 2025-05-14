@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shared.Utils.DB;
 
@@ -10,9 +11,11 @@ using Shared.Utils.DB;
 namespace Shared.Models.g
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250514104003_Refactor Group table. Schedule Many to Many to Group")]
+    partial class RefactorGrouptableScheduleManytoManytoGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,21 @@ namespace Shared.Models.g
                     b.HasIndex("UserId");
 
                     b.ToTable("Professors");
+                });
+
+            modelBuilder.Entity("GroupSchedule", b =>
+                {
+                    b.Property<int>("GroupsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SchedulesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupsId", "SchedulesId");
+
+                    b.HasIndex("SchedulesId");
+
+                    b.ToTable("GroupSchedule");
                 });
 
             modelBuilder.Entity("Shared.Models.Course", b =>
@@ -76,12 +94,7 @@ namespace Shared.Models.g
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ScheduleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ScheduleId");
 
                     b.ToTable("Groups");
                 });
@@ -339,11 +352,19 @@ namespace Shared.Models.g
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Shared.Models.Group", b =>
+            modelBuilder.Entity("GroupSchedule", b =>
                 {
+                    b.HasOne("Shared.Models.Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Shared.Models.Schedule", null)
-                        .WithMany("Groups")
-                        .HasForeignKey("ScheduleId");
+                        .WithMany()
+                        .HasForeignKey("SchedulesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Shared.Models.Notification", b =>
@@ -423,11 +444,6 @@ namespace Shared.Models.g
                     b.Navigation("Course");
 
                     b.Navigation("Professor");
-                });
-
-            modelBuilder.Entity("Shared.Models.Schedule", b =>
-                {
-                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("Shared.Models.g.Course", b =>
