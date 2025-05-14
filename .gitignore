@@ -18,6 +18,10 @@
 **server_api/bin/
 **server_api/obj/
 
+# Keep secret api key
+server_api/appsettings.Development.json
+server_api/appsettings.json
+
 
  
  
