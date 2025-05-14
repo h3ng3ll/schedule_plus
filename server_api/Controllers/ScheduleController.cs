@@ -89,6 +89,19 @@ public class ScheduleController(
             )
         ).ToListAsync();
 
+        // Check if all groups found
+        if (createScheduleRequest.GroupIds.Count != groups.Count)
+        {
+            BadRequest(
+                new
+                {
+                    error = "Some document references are absent" 
+                    
+                }
+            );
+            return;
+        }
+
         var schedule = new Schedule()
         {
             CourseId = createScheduleRequest.CourseId,
