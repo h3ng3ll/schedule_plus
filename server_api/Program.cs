@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api;
 using server_api.DTOs;
+using server_api.DTOs.Course;
 using server_api.DTOs.Group;
 using server_api.DTOs.Schedule;
 using server_api.DTOs.Schedule.CreateSchedule;
@@ -12,6 +13,7 @@ using server_api.DTOs.Teacher;
 using server_api.Utils;
 using Shared.Models;
 using Shared.Utils.DB;
+using Course = Shared.Models.Course;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +50,7 @@ builder.Services.AddAutoMapper(
         config.CreateMap<Schedule, FetchScheduleResponse>();
 
         config.CreateMap<CreateGroupRequest , Group>();
+        config.CreateMap<CreateCourseRequest , Course>();
     }
 );
 // Add services to the container.
