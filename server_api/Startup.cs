@@ -25,29 +25,33 @@ public sealed class Startup
         );
     }
 
-    public static void InitFirebase(WebApplication app )
+    public static void InitFirebase(WebApplication app)
     {
-         string? credentialPath; 
+        GoogleCredential credential;
+
         if (!app.Environment.IsDevelopment())
         {
-             credentialPath = "/etc/secrets/GOOGLE_APPLICATION_CREDENTIALS";
-            if (string.IsNullOrEmpty(credentialPath))
-                throw new InvalidOperationException("GOOGLE_APPLICATION_CREDENTIALS is not set");
+            var jsonContent = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS_JSON");
+            if (string.IsNullOrEmpty(jsonContent))
+                throw new InvalidOperationException("FIREBASE_CREDENTIALS_JSON is not set");
 
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent
+                )
+            );
+            credential = GoogleCredential.FromStream(stream
+            );
         }
         else
         {
-            credentialPath =
-                "/home/alex/RiderProjects/schedule_plus/schedule-plus-285fd-firebase-adminsdk-fbsvc-a597c28470.json";
+            credential = GoogleCredential.FromFile(
+                "/home/alex/RiderProjects/schedule_plus/schedule-plus-285fd-firebase-adminsdk-fbsvc-a597c28470.json"
+            );
         }
-        // connect Firebase AdminSDK  
-        FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile(
-                    credentialPath
-                ),
-            }
-        );
+
+        FirebaseApp.Create(new AppOptions
+        {
+            Credential = credential
+        });
     }
 
     public static void InitBearerToken(WebApplicationBuilder builder)
