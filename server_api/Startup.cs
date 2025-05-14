@@ -3,6 +3,7 @@ using System.Text.Json;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using server_api.Configuration;
 
@@ -66,12 +67,17 @@ public sealed class Startup
         
         IConfigurationSection  settings = builder.Configuration.GetSection("JwtSettings");
 
-        var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? settings["Issuer"];
-        var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? settings["Audience"];
-        var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? settings["SecretKey"];
+        builder.Services.Configure<JwtSettings>(options => {
+            // First load from configuration
+            settings.Bind(options);
+        
+            // Then override with environment variables if they exist
+            options.Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? options.Issuer;
+            options.Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? options.Audience;
+            options.SecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? options.SecretKey;
+        });
 
         
-        builder.Services.Configure<JwtSettings>(settings);
         builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -79,17 +85,20 @@ public sealed class Startup
             }
         ).AddJwtBearer(options =>
             {
+                var serviceProvider = builder.Services.BuildServiceProvider();
+                var jwtSettings = serviceProvider.GetRequiredService<IOptions<JwtSettings>>().Value;
+                
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(
-                            secretKey!
+                            jwtSettings.SecretKey
                         )
                     )
                 };

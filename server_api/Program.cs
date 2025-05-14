@@ -18,7 +18,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 Startup.InitCors(builder);
 
-Startup.InitBearerToken(builder );
+
+Startup.InitBearerToken(
+builder
+);
 
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
 
@@ -27,20 +30,19 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
         var connectionString = builder.Configuration.GetConnectionString(
             "DefaultConnection"
         );
-        
+
         var envValue = Environment.GetEnvironmentVariable(
             "DB_CONNECTION"
         );
-        
-        if (!string.IsNullOrEmpty(envValue) )
+
+        if (!string.IsNullOrEmpty(envValue))
         {
             connectionString = envValue;
         }
-        
+
         options.UseNpgsql(
             connectionString
         );
-        
     }
 );
 
