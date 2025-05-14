@@ -32,16 +32,11 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
             "DB_CONNECTION"
         );
         
-        if (!string.IsNullOrEmpty(envValue) && File.Exists(envValue))
-        {
-            connectionString = File.ReadAllText(envValue).Trim();
-        }
-        else if (!string.IsNullOrEmpty(envValue))
+        if (!string.IsNullOrEmpty(envValue) )
         {
             connectionString = envValue;
         }
-
-
+        
         options.UseNpgsql(
             connectionString
         );

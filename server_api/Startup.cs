@@ -30,7 +30,7 @@ public sealed class Startup
          string? credentialPath; 
         if (!app.Environment.IsDevelopment())
         {
-             credentialPath = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
+             credentialPath = "/etc/secrets/GOOGLE_APPLICATION_CREDENTIALS";
             if (string.IsNullOrEmpty(credentialPath))
                 throw new InvalidOperationException("GOOGLE_APPLICATION_CREDENTIALS is not set");
 
