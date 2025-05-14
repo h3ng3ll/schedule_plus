@@ -25,6 +25,8 @@ public class AppContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
             configuration.GetConnectionString(
                 "DefaultConnection"
             );
+
+
         Console.WriteLine("PWD: {0}", Directory.GetCurrentDirectory());
         Console.WriteLine("Connection string: {0}", connectionString);
 
@@ -35,9 +37,28 @@ public class AppContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
         //         connectionString
         //     )
         // );
+
+        var envValue = Environment.GetEnvironmentVariable(
+            "DB_CONNECTION"
+            );
+        
+        if (!string.IsNullOrEmpty(envValue) && File.Exists(envValue))
+        {
+            connectionString = File.ReadAllText(envValue).Trim();
+        }
+        else if (!string.IsNullOrEmpty(envValue))
+        {
+            connectionString = envValue;
+        }
+
+
         optionsBuilder.UseNpgsql(
             connectionString
         );
-        return new ApplicationContext(optionsBuilder.Options);
+
+
+        return new ApplicationContext(
+            optionsBuilder.Options
+        );
     }
 }

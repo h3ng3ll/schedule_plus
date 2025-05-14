@@ -18,22 +18,34 @@ var builder = WebApplication.CreateBuilder(args);
 
 Startup.InitCors(builder);
 Startup.InitBearerToken(builder);
-Startup.InitFirebase();
+
 
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
     {
-        options.UseNpgsql(
-            builder.Configuration.GetConnectionString(
-                "DefaultConnection"
-                // ),
-                // serverVersion: new MySqlServerVersion(
-                //     new Version(major: 10, minor: 5, build: 25
-                //     )
-                // )
-            )
+        var connectionString = builder.Configuration.GetConnectionString(
+            "DefaultConnection"
         );
+        
+        var envValue = Environment.GetEnvironmentVariable(
+            "DB_CONNECTION"
+        );
+        
+        if (!string.IsNullOrEmpty(envValue) && File.Exists(envValue))
+        {
+            connectionString = File.ReadAllText(envValue).Trim();
+        }
+        else if (!string.IsNullOrEmpty(envValue))
+        {
+            connectionString = envValue;
+        }
+
+
+        options.UseNpgsql(
+            connectionString
+        );
+        
     }
 );
 
@@ -92,6 +104,9 @@ builder.Services.AddSwaggerGen(c =>
     }
 );
 var app = builder.Build();
+
+Startup.InitFirebase(app);
+
 
 app.UseCors("AllowLocalNetwork");
 
