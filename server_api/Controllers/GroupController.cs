@@ -17,7 +17,6 @@ public class GroupController(
     IMapper mapper
 ) : ControllerBase
 {
-    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetGroupById(int id)
     {
@@ -31,7 +30,6 @@ public class GroupController(
     }
 
 
-    [Authorize]
     [HttpGet("")]
     public async Task<IActionResult> GetGroups()
     {

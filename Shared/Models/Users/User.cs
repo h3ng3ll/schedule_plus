@@ -19,7 +19,8 @@ public class User
     [MaxLength(255)] public  string Email { get; set; }
     public required string? ImgUrl { get; set; }
     [Required] public required Role Role { get; set; }
-   
+
+    public Department? Department { get; set; } 
      
 
     public string PasswordHash { get; set; }

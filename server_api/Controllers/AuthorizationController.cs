@@ -1,17 +1,15 @@
-
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using server_api.DTOs;
 using server_api.DTOs.Student;
 using server_api.DTOs.Teacher;
+using server_api.Services.Core;
 using server_api.Utils;
 using Shared.Models;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 using LoginRequest = server_api.DTOs.LoginRequest;
-using RegisterRequest = server_api.DTOs.RegisterRequest;
 
 namespace server_api.Controllers;
 
@@ -21,7 +19,10 @@ public class AuthorizationController(
     // IOptions<JwtSettings> jwtSettings,
     AppEncryption appEncryption,
     ApplicationContext context,
-    IMapper mapper
+    IMapper mapper,
+    IUserService userService,
+    IDepartmentService departmentService,
+    IStudentService studentService
 ) : Controller
 {
     /// <summary>
@@ -57,7 +58,7 @@ public class AuthorizationController(
                     error = "Invalid password"
                 }
             );
-        
+
         var token = appEncryption.GenerateJWwToken(
             user
         );
@@ -71,7 +72,6 @@ public class AuthorizationController(
                 ),
                 roleData = roleCredentials,
                 jwt = token,
-                
             }
         );
     }
@@ -80,12 +80,12 @@ public class AuthorizationController(
     ///  Register allows to register only student . For others do it manually .
     /// Check if same email exists 
     /// </summary>
-    /// <param name="registerRequest"></param>
+    /// <param name="studentRequest"></param>
     /// <returns></returns>
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest registerRequest)
+    public async Task<IActionResult> RegisterStudent(RegisterStudentRequest studentRequest)
     {
-        if (!registerRequest.Email.Contains('@'))
+        if (!studentRequest.Email.Contains('@'))
         {
             return BadRequest(
                 error: new
@@ -95,11 +95,7 @@ public class AuthorizationController(
             );
         }
 
-        var isExists = await context.Users.AnyAsync(
-            e => e.Email == registerRequest.Email
-        );
-
-        if (isExists)
+        if (await userService.IsUserExistByEmail(studentRequest.Email))
         {
             return Conflict(
                 error: new
@@ -110,43 +106,32 @@ public class AuthorizationController(
             );
         }
 
-        var hasher = new PasswordHasher<User>();
-        var user = new User
+        var isExistDepartment = await departmentService.DepartmentExistsByIdAsync(
+            studentRequest.DepartmentId
+        );
+
+        if (!isExistDepartment)
         {
-            Role = Role.Student,
-            ImgUrl = null,
-            Email = registerRequest.Email,
-            Name = registerRequest.Name,
-        };
-        var hash = hasher.HashPassword(
-            user, registerRequest.Password
+            return BadRequest(
+                error: new
+                {
+                    error = "Department not found"
+                }
+            );
+        }
+
+        var student = await studentService.CreateStudent(
+            studentRequest
         );
 
-        context.Users.Add(
-            user
-        );
-        user.PasswordHash = hash;
-
-        await context.SaveChangesAsync();
-
-        context.Students.Add(
-            new Student
-            {
-                UserId = user.Id
-            }
-        );
-      
         var token = appEncryption.GenerateJWwToken(
-            user
+            student.User
         );
-        await context.SaveChangesAsync();
-        
+
         return Ok(
             new
             {
-                user = mapper.Map<UserResponse>(
-                    user
-                ),
+                student, 
                 jwt = token
             }
         );

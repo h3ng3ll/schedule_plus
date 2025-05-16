@@ -8,9 +8,11 @@ using server_api.DTOs.Group;
 using server_api.DTOs.Schedule;
 using server_api.DTOs.Student;
 using server_api.DTOs.Teacher;
+using server_api.Services.Core;
 using server_api.Utils;
 using Shared.Models;
 using Shared.Models.Schedule;
+using Shared.Models.Users;
 using Shared.Utils.DB;
 using Course = Shared.Models.Course;
 
@@ -60,11 +62,25 @@ builder.Services.AddAutoMapper(
 
         config.CreateMap<CreateGroupRequest, Group>();
         config.CreateMap<CreateCourseRequest, Course>();
+        
+        config.CreateMap<CreateDepartmentRequest, Department>();
+        config.CreateMap<UpdateDepartmentRequest, Department>();
+        
+        config.CreateMap<RegisterStudentRequest, RegisterUserRequest>();
+        
+        config.CreateMap<RegisterUserRequest, User>();
+        config.CreateMap<Student, StudentResponse>();
+        
     }
 );
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
 
 builder.Services.AddSwaggerGen(c =>
     {
