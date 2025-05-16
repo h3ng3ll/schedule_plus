@@ -16,13 +16,13 @@ namespace server_api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class AuthorizationController(
-    // IOptions<JwtSettings> jwtSettings,
     AppEncryption appEncryption,
     ApplicationContext context,
     IMapper mapper,
     IUserService userService,
     IDepartmentService departmentService,
-    IStudentService studentService
+    IStudentService studentService,
+    IProfessorService professorService
 ) : Controller
 {
     /// <summary>
@@ -33,25 +33,26 @@ public class AuthorizationController(
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var user = await context.Users.FirstOrDefaultAsync(
-            (e) => e.Email == request.Identifier
+        var isExistsUser = await userService.IsUserExistByEmail(
+            request.Identifier
         );
-        if (user == null)
+
+        if (!isExistsUser)
+        {
             return Unauthorized(
                 value: new
                 {
                     error = "User not found"
                 }
             );
+        }
 
-        var hasher = new PasswordHasher<User>();
-
-        var res = hasher.VerifyHashedPassword(
-            user: user,
-            user.PasswordHash,
+        var user = await userService.GetUserByEmailAndPassword(
+            request.Identifier,
             request.Password
         );
-        if (res != PasswordVerificationResult.Success)
+
+        if (user == null)
             return Unauthorized(
                 value: new
                 {
@@ -62,15 +63,16 @@ public class AuthorizationController(
         var token = appEncryption.GenerateJWwToken(
             user
         );
-        var roleCredentials = await RoleCredentials(
-            user: user
-        );
+        // var roleCredentials = await RoleCredentials(
+        //     user: user
+        // );
+
         return Ok(new
             {
                 user = mapper.Map<UserResponse>(
                     user
                 ),
-                roleData = roleCredentials,
+                // roleData = roleCredentials,
                 jwt = token,
             }
         );
@@ -83,45 +85,21 @@ public class AuthorizationController(
     /// <param name="studentRequest"></param>
     /// <returns></returns>
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterStudent(RegisterStudentRequest studentRequest)
+    public async Task<IActionResult> RegisterStudent(RegisterStudentRequest request)
     {
-        if (!studentRequest.Email.Contains('@'))
-        {
-            return BadRequest(
-                error: new
-                {
-                    error = "invalid email format"
-                }
-            );
-        }
+        var emailValidation = await ValidateEmailAndUserExistence(
+            request.Email
+        );
+        if (emailValidation != null) return emailValidation;
 
-        if (await userService.IsUserExistByEmail(studentRequest.Email))
-        {
-            return Conflict(
-                error: new
-                {
-                    error =
-                        "User with this email already exists."
-                }
-            );
-        }
-
-        var isExistDepartment = await departmentService.DepartmentExistsByIdAsync(
-            studentRequest.DepartmentId
+        var deptCheck = await ValidateDepartment(
+            request.DepartmentId
         );
 
-        if (!isExistDepartment)
-        {
-            return BadRequest(
-                error: new
-                {
-                    error = "Department not found"
-                }
-            );
-        }
+        if (deptCheck != null) return deptCheck;
 
         var student = await studentService.CreateStudent(
-            studentRequest
+            request
         );
 
         var token = appEncryption.GenerateJWwToken(
@@ -131,7 +109,44 @@ public class AuthorizationController(
         return Ok(
             new
             {
-                student, 
+                student = mapper.Map<StudentResponse>(
+                    student
+                ),
+                jwt = token
+            }
+        );
+    }
+
+
+    [HttpPost("registerProfessor")]
+    public async Task<IActionResult> RegisterProfessor(RegisterProfessorRequest request)
+    {
+        var emailValidation = await ValidateEmailAndUserExistence(
+            request.Email
+        );
+        if (emailValidation != null) return emailValidation;
+
+        var deptCheck = await ValidateDepartment(
+            request.DepartmentId
+        );
+
+        if (deptCheck != null) return deptCheck;
+
+        var professor = await professorService.CreateProfessor(
+            request
+        );
+
+        var token = appEncryption.GenerateJWwToken(
+            professor.User
+        );
+
+        return Ok(
+            new
+            {
+                professor = mapper.Map<ProfessorResponse>(
+                    professor
+                ),
+
                 jwt = token
             }
         );
@@ -195,5 +210,46 @@ public class AuthorizationController(
         }
 
         return resRole;
+    }
+
+    private async Task<IActionResult?> ValidateEmailAndUserExistence(string email)
+    {
+        if (!email.Contains('@'))
+        {
+            return BadRequest(
+                error: new
+                {
+                    error = "invalid email format"
+                }
+            );
+        }
+
+        if (await userService.IsUserExistByEmail(email))
+        {
+            return Conflict(
+                error: new
+                {
+                    error =
+                        "User with this email already exists."
+                }
+            );
+        }
+
+        return null;
+    }
+
+    private async Task<IActionResult?> ValidateDepartment(int departmentId)
+    {
+        if (!await departmentService.DepartmentExistsByIdAsync(departmentId))
+        {
+            return BadRequest(
+                error: new
+                {
+                    error = "Department not found"
+                }
+            );
+        }
+
+        return null;
     }
 }

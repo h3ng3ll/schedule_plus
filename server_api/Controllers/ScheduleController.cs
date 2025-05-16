@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server_api.DTOs.Schedule;
 using server_api.DTOs.Schedule.CreateSchedule;
+using server_api.Services.Core;
 using server_api.Utils.Extensions;
 using Shared.Models;
 using Shared.Models.Schedule;
@@ -15,7 +16,8 @@ namespace server_api.Controllers;
 [Route("api/[controller]")]
 public class ScheduleController(
     ApplicationContext context,
-    IMapper mapper
+    IMapper mapper,
+    IGroupService groupService
 ) : ControllerBase
 {
     /// <summary>
@@ -84,11 +86,10 @@ public class ScheduleController(
             return;
         }
 
-        var groups = await context.Groups.Where(
-            (e) => createScheduleRequest.GroupIds.Contains(
-                e.Id
-            )
-        ).ToListAsync();
+        var groups = await groupService.GetGroupByIdsAsync(
+            createScheduleRequest.GroupIds
+        );
+
 
         // Check if all groups found
         if (createScheduleRequest.GroupIds.Count != groups.Count)
@@ -96,28 +97,31 @@ public class ScheduleController(
             BadRequest(
                 new
                 {
-                    error = "Some document references are absent" 
-                    
+                    error = "Some document references are absent"
                 }
             );
             return;
         }
 
-        var schedule = new Schedule()
-        {
-            CourseId = createScheduleRequest.CourseId,
-            Groups = groups,
-            ProfessorId = createScheduleRequest.ProfessorId,
-
-            Location = createScheduleRequest.Location,
-
-            StartTime = new DateTimeOffset(
-                createScheduleRequest.StartTime
-            ).ToUnixTimeSeconds(),
-            EndTime = new DateTimeOffset(
-                createScheduleRequest.EndTime
-            ).ToUnixTimeSeconds(),
-        };
+        var schedule =  mapper.Map<Schedule>(
+            createScheduleRequest
+        );
+        
+        // var schedule = new Schedule()
+        // {
+        //     CourseId = createScheduleRequest.CourseId,
+        //     Groups = groups,
+        //     ProfessorId = createScheduleRequest.ProfessorId,
+        //
+        //     Location = createScheduleRequest.Location,
+        //
+        //     StartTime = new DateTimeOffset(
+        //         createScheduleRequest.StartTime
+        //     ).ToUnixTimeSeconds(),
+        //     EndTime = new DateTimeOffset(
+        //         createScheduleRequest.EndTime
+        //     ).ToUnixTimeSeconds(),
+        // };
         context.Schedules.Add(
             schedule
         );

@@ -14,6 +14,8 @@ public interface IUserService
     public Task<bool> IsUserExistByEmail(string email);
 
     public Task<User> CreateUser(RegisterUserRequest registerUserRequest);
+    public Task<User?> GetUserByEmailAndPassword(string email, string password);
+    public Task<User?> GetUserById(int id);
 }
 
 public class UserService(
@@ -41,12 +43,36 @@ public class UserService(
             registerUserRequest.Password
         );
         user.PasswordHash = hash;
-        
+
         context.Users.Add(
             user
         );
         await context.SaveChangesAsync();
 
+        return user;
+    }
+
+    public async Task<User?> GetUserByEmailAndPassword(string email, string password)
+    {
+        var user = await context.Users.FirstAsync(
+            u => u.Email == email
+        );
+        var hasher = new PasswordHasher<User>();
+
+        var res = hasher.VerifyHashedPassword(
+            user: user,
+            user.PasswordHash,
+            password
+        );
+        return res == PasswordVerificationResult.Success ? user : null;
+    }
+
+    public async Task<User?> GetUserById(int id)
+    {
+        var user = await context.Users.FindAsync(
+                id
+        );
+        
         return user;
     }
 }

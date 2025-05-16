@@ -10,6 +10,7 @@ namespace server_api.Services.Core;
 public interface IGroupService
 {
     public Task<Group?> GetGroupByIdAsync(int id);
+    public Task<List<Group>> GetGroupByIdsAsync(List<int> ids);
     public Task<List<Group>> GetGroupsAsync();
     public Task<Group> CreateGroupAsync(CreateGroupRequest request);
     public Task<bool> IsExistsGroupByNameAsync(string name);
@@ -30,6 +31,16 @@ public class GroupService(
             id
         );
         return res;
+    }
+
+    public async  Task<List<Group>> GetGroupByIdsAsync(List<int> ids)
+    {
+        var groups = await context.Groups.Where(
+            (e) => ids.Contains(
+                e.Id
+            )
+        ).ToListAsync();
+        return groups;
     }
 
     public async Task<List<Group>> GetGroupsAsync()

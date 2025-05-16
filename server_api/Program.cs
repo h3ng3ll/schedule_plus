@@ -6,6 +6,7 @@ using server_api.DTOs;
 using server_api.DTOs.Course;
 using server_api.DTOs.Group;
 using server_api.DTOs.Schedule;
+using server_api.DTOs.Schedule.CreateSchedule;
 using server_api.DTOs.Student;
 using server_api.DTOs.Teacher;
 using server_api.Services.Core;
@@ -22,7 +23,7 @@ Startup.InitCors(builder);
 
 
 Startup.InitBearerToken(
-builder
+    builder
 );
 
 builder.Services.AddTransient<IFirebaseMessagingService, FirebaseMessagingService>();
@@ -54,23 +55,46 @@ builder.Services.AddAutoMapper(
     config =>
     {
         config.CreateMap<Professor, ProfessorResponse>();
-        config.CreateMap<Student, StudentResponse>();
+        config.CreateMap<Student, StudentResponse>().ForMember(
+            dest => dest.User ,
+            opt => opt.MapFrom(
+                src => src.User
+            )
+        );
+        
         config.CreateMap<User, UserResponse>();
 
 
-        config.CreateMap<Schedule, FetchScheduleResponse>();
 
+        config.CreateMap<Schedule, FetchScheduleResponse>();
         config.CreateMap<CreateGroupRequest, Group>();
         config.CreateMap<CreateCourseRequest, Course>();
-        
+
         config.CreateMap<CreateDepartmentRequest, Department>();
         config.CreateMap<UpdateDepartmentRequest, Department>();
-        
+
         config.CreateMap<RegisterStudentRequest, RegisterUserRequest>();
-        
+
         config.CreateMap<RegisterUserRequest, User>();
         config.CreateMap<Student, StudentResponse>();
-        
+
+        config.CreateMap<CreateScheduleRequest, Schedule>()
+            .ForMember(
+                dest => dest.StartTime,
+                opt => opt.MapFrom(
+                    src => new DateTimeOffset(
+                        src.StartTime
+                    ).ToUniversalTime()
+                )
+            )
+            .ForMember(
+                dest => dest.EndTime,
+                opt => opt.MapFrom(
+                    src => new DateTimeOffset(
+                        src.EndTime
+                    )
+                )
+            );
     }
 );
 // Add services to the container.
@@ -81,6 +105,8 @@ builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<IProfessorService, ProfessorService>();
 
 builder.Services.AddSwaggerGen(c =>
     {

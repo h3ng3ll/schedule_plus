@@ -5,14 +5,11 @@ namespace server_api.DTOs;
 public class UserResponse
 {
     public int Id { get; set; }
-    
-    public  string? Name { get; set; }
-    
-    public Shared.Models.Group? Group { get; set; }
-    public Department? Department { get; set; }
+    public int? DepartmentId { get; set; }
 
-    public string Email { get; set; } = null!;
-    public string Role { get; set; } = null!;
-
+    public string? Name { get; set; }
+    public string Email { get; set; }
+    public string User { get; set; }
     public required string? ImgUrl { get; set; }
+    public required Role Role { get; set; }
 }
