@@ -12,7 +12,7 @@ using Shared.Utils.DB;
 namespace Shared.Models.g
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20250516122436_Initial")]
+    [Migration("20250518131732_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -236,6 +236,8 @@ namespace Shared.Models.g
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Admins");
                 });
 
@@ -328,6 +330,17 @@ namespace Shared.Models.g
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Shared.Models.Users.Admin", b =>
+                {
+                    b.HasOne("Shared.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Shared.Models.Users.Student", b =>

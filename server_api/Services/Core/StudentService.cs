@@ -14,7 +14,6 @@ public interface IStudentService
 
 public class StudentService(
     ApplicationContext context,
-    IDepartmentService departmentService,
     IUserService userService,
     IGroupService groupService,
     IMapper mapper
@@ -23,14 +22,6 @@ public class StudentService(
     public async Task<Student> CreateStudent(RegisterStudentRequest studentRequest)
     {
         
-        // var user = new User
-        // {
-        //     Role = Role.Student,
-        //     ImgUrl = null,
-        //     Email = studentRequest.Email,
-        //     Name = studentRequest.Name,
-        //     Department = department,
-        // };
         var userRequest = mapper.Map<RegisterUserRequest>(
             studentRequest
         );

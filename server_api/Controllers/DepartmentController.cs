@@ -1,19 +1,13 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using server_api.DTOs.Group;
 using server_api.Services.Core;
-using Shared.Models;
-using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 
 namespace server_api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class DepartmentController(
-    ApplicationContext context,
-    IMapper mapper,
     IDepartmentService departmentService
 ) : ControllerBase
 {

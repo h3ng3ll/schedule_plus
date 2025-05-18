@@ -40,13 +40,5 @@ public class UserController(
                 user = mapper.Map<UserResponse>(user)
             }
         );
-        // return Ok(new
-        //     {
-        //         user.Id,
-        //         user.Name,
-        //         user.Email,
-        //         user.ImgUrl,
-        //     }
-        // );
     }
 }

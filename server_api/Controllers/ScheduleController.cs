@@ -6,7 +6,6 @@ using server_api.DTOs.Schedule;
 using server_api.DTOs.Schedule.CreateSchedule;
 using server_api.Services.Core;
 using server_api.Utils.Extensions;
-using Shared.Models;
 using Shared.Models.Schedule;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 
@@ -17,7 +16,8 @@ namespace server_api.Controllers;
 public class ScheduleController(
     ApplicationContext context,
     IMapper mapper,
-    IGroupService groupService
+    IGroupService groupService,
+    IScheduleService scheduleService
 ) : ControllerBase
 {
     /// <summary>
@@ -25,33 +25,15 @@ public class ScheduleController(
     /// </summary>
     [HttpGet("")]
     [Authorize]
-    public async Task<IActionResult> FetchSchedules([FromBody] FetchScheduleRequest fetchScheduleRequest)
+    public async Task<IActionResult> FetchSchedules([FromBody] FetchScheduleRequest request)
     {
         //  If not specify particular Date period by default take current week . 
-        var startDate = new DateTimeOffset(
-            fetchScheduleRequest.StartDate ?? DateTime.Now.StartOfWeek()
-        ).ToUnixTimeSeconds();
+        var startDate = request.StartDate ?? DateTime.Now.StartOfWeek();
+        var endDate = request.EndTime ?? DateTime.Now.EndOfWeek();
 
-        var endDate = new DateTimeOffset(
-            fetchScheduleRequest.EndTime ?? DateTime.Now.EndOfWeek()
-        ).ToUnixTimeSeconds();
-
-        var schedules = await context.Schedules.Where(
-                (e) =>
-                    e.StartTime <= endDate &&
-                    e.EndTime >= startDate
-            )
-            .Include(
-                e => e.Course
-            )
-            .Include(
-                e => e.Professor.User
-            )
-            .Include(
-                e => e.Groups
-            )
-            .Take(500) // limit from incorrect request 
-            .ToListAsync();
+        var schedules = await scheduleService.GetSchedulesForRange(
+            startDate, endDate
+        );
 
         var mapped = mapper.Map<List<FetchScheduleResponse>>(
             schedules
@@ -64,69 +46,87 @@ public class ScheduleController(
 
 
     [Authorize]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetScheduleById(int id)
+    {
+        if (!await scheduleService.IsExistsScheduleById(id))
+        {
+            return NotFound(value: new
+                {
+                    error = "Schedule not found."
+                }
+            );
+        }
+
+        var schedule = await scheduleService.GetScheduleById(
+            id
+        );
+
+        var scheduleRes = mapper.Map<FetchScheduleResponse>(
+            schedule
+        );
+        return Ok(
+            scheduleRes
+        );
+    }
+
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleRequest createScheduleRequest)
     {
-        // Todo: validate role .
-        await _CreateSchedule(createScheduleRequest);
+        var res = await GetSchedulesValidation(
+            createScheduleRequest
+        );
+        if (res != null) return res;
 
-        // Todo: notification handle later .  
+        // Todo: notification handle later .
 
-        return Created();
+        var schedule = mapper.Map<Schedule>(
+            createScheduleRequest
+        );
+
+        schedule = await scheduleService.CreateSchedule(
+            schedule,
+            createScheduleRequest.GroupIds
+        );
+
+        return CreatedAtAction(
+            nameof(GetScheduleById)
+            , new
+            {
+                id = schedule.Id
+            },
+            schedule
+        );
     }
 
-
-    private async Task _CreateSchedule(CreateScheduleRequest createScheduleRequest)
+    private async Task<IActionResult?> GetSchedulesValidation(CreateScheduleRequest createScheduleRequest)
     {
         if (createScheduleRequest.GroupIds.Count == 0)
         {
-            BadRequest(new
-                { error = "There are no groups!" }
+            return BadRequest(new
+                {
+                    error = "There are no groups!"
+                }
             );
-            return;
         }
 
         var groups = await groupService.GetGroupByIdsAsync(
             createScheduleRequest.GroupIds
         );
 
-
         // Check if all groups found
         if (createScheduleRequest.GroupIds.Count != groups.Count)
         {
-            BadRequest(
+            return BadRequest(
                 new
                 {
-                    error = "Some document references are absent"
+                    error = "Some Group document references are absent"
                 }
             );
-            return;
         }
 
-        var schedule =  mapper.Map<Schedule>(
-            createScheduleRequest
-        );
-        
-        // var schedule = new Schedule()
-        // {
-        //     CourseId = createScheduleRequest.CourseId,
-        //     Groups = groups,
-        //     ProfessorId = createScheduleRequest.ProfessorId,
-        //
-        //     Location = createScheduleRequest.Location,
-        //
-        //     StartTime = new DateTimeOffset(
-        //         createScheduleRequest.StartTime
-        //     ).ToUnixTimeSeconds(),
-        //     EndTime = new DateTimeOffset(
-        //         createScheduleRequest.EndTime
-        //     ).ToUnixTimeSeconds(),
-        // };
-        context.Schedules.Add(
-            schedule
-        );
-
-        await context.SaveChangesAsync();
+        return null;
     }
 
     /// <summary>
@@ -141,64 +141,76 @@ public class ScheduleController(
     {
         // Todo: validate role .
 
-        foreach (var schedule in createScheduleGroupRequest.schedules)
+        // check at least 1 
+        var res = await GetSchedulesValidation(
+            createScheduleGroupRequest.schedules.First()
+        );
+        if (res != null) return res;
+
+        foreach (var createScheduleRequest in createScheduleGroupRequest.schedules)
         {
-            await _CreateSchedule(schedule);
+            var schedule = mapper.Map<Schedule>(
+                createScheduleRequest
+            );
+
+            await scheduleService.CreateSchedule(
+                schedule,
+                createScheduleRequest.GroupIds
+            );
         }
         // Todo: notification handle later .  
 
         return Created();
     }
 
-    //
-    // /// <summary>
-    // /// Update Given Schedule Id in DB . 
-    // /// </summary>
-    // /// <param name="id"></param>
-    // /// <param name="updateScheduleRequest"></param>
-    // /// <returns></returns>
-    // [Authorize]
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> UpdateSchedule(int id, [FromBody] UpdateScheduleRequest updateScheduleRequest)
-    // {
-    //     var schedule = await context.Schedules
-    //         .Include(
-    //             s => s.Groups
-    //         )
-    //         .FirstOrDefaultAsync(
-    //             s => s.Id == id
-    //         );
-    //
-    //     if (schedule == null) return NotFound();
-    //
-    //     schedule.CourseId = updateScheduleRequest.CourseId;
-    //     schedule.Location = updateScheduleRequest.Location;
-    //     schedule.StartTime = new DateTimeOffset(
-    //         updateScheduleRequest.StartTime
-    //     ).ToUnixTimeSeconds();
-    //     schedule.EndTime = new DateTimeOffset(
-    //         updateScheduleRequest.EndTime
-    //     ).ToUnixTimeSeconds();
-    //
-    //     // if (updateScheduleRequest.GroupIds == schedule.g)
-    //     var scheduleGroups = await context.Groups
-    //         .Where(
-    //             g => updateScheduleRequest.GroupIds.Contains(
-    //                 g.Id
-    //             )
-    //         ).ToListAsync();
-    //
-    //     // Remove old group
-    //     foreach (var group in scheduleGroups)
-    //     {
-    //         context.Groups.Remove(group);
-    //     }
-    //
-    //
-    //     await context.SaveChangesAsync();
-    //
-    //     return Ok(
-    //         schedule
-    //     );
-    // }
+
+    /// <summary>
+    /// Update Given Schedule Id in DB . 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateSchedule(int id, [FromBody] UpdateScheduleRequest request)
+    {
+        var isExists = await scheduleService.IsExistsScheduleById(
+            id
+        );
+        if (!isExists) return NotFound();
+
+        Schedule schedule = mapper.Map<Schedule>(
+            request
+        );
+        schedule.Id = id;
+
+        await scheduleService.UpdateSchedule(
+            schedule,
+            request.GroupIds
+        );
+
+        var updatedSchedule = await scheduleService.GetScheduleById(
+            id
+        );
+
+        return Ok(
+            updatedSchedule
+        );
+    }
+
+    [Authorize]
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteSchedule(int id)
+    {
+        var isExists = await scheduleService.IsExistsScheduleById(
+            id
+        );
+        if (!isExists) return NotFound();
+
+        await scheduleService.DeleteScheduleById(
+            id
+        );
+
+        return NoContent();
+    }
 }

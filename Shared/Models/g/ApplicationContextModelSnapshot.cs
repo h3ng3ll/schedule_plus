@@ -233,6 +233,8 @@ namespace Shared.Models.g
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Admins");
                 });
 
@@ -325,6 +327,17 @@ namespace Shared.Models.g
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Shared.Models.Users.Admin", b =>
+                {
+                    b.HasOne("Shared.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Shared.Models.Users.Student", b =>

@@ -1,9 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using server_api.DTOs;
-using server_api.DTOs.Student;
-using server_api.Utils;
 using Shared.Models;
 using Shared.Utils.DB;
 
@@ -70,9 +67,9 @@ public class UserService(
     public async Task<User?> GetUserById(int id)
     {
         var user = await context.Users.FindAsync(
-                id
+            id
         );
-        
+
         return user;
     }
 }

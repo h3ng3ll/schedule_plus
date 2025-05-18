@@ -56,17 +56,16 @@ builder.Services.AddAutoMapper(
     {
         config.CreateMap<Professor, ProfessorResponse>();
         config.CreateMap<Student, StudentResponse>().ForMember(
-            dest => dest.User ,
+            dest => dest.User,
             opt => opt.MapFrom(
                 src => src.User
             )
         );
-        
+
         config.CreateMap<User, UserResponse>();
 
 
-
-        config.CreateMap<Schedule, FetchScheduleResponse>();
+     
         config.CreateMap<CreateGroupRequest, Group>();
         config.CreateMap<CreateCourseRequest, Course>();
 
@@ -78,13 +77,14 @@ builder.Services.AddAutoMapper(
         config.CreateMap<RegisterUserRequest, User>();
         config.CreateMap<Student, StudentResponse>();
 
+        config.CreateMap<Schedule, FetchScheduleResponse>();
         config.CreateMap<CreateScheduleRequest, Schedule>()
             .ForMember(
                 dest => dest.StartTime,
                 opt => opt.MapFrom(
                     src => new DateTimeOffset(
                         src.StartTime
-                    ).ToUniversalTime()
+                    ).ToUnixTimeSeconds()
                 )
             )
             .ForMember(
@@ -92,7 +92,24 @@ builder.Services.AddAutoMapper(
                 opt => opt.MapFrom(
                     src => new DateTimeOffset(
                         src.EndTime
-                    )
+                    ).ToUnixTimeSeconds()
+                )
+            );
+        config.CreateMap<UpdateScheduleRequest, Schedule>()
+            .ForMember(
+                dest => dest.StartTime,
+                opt => opt.MapFrom(
+                    src => new DateTimeOffset(
+                        src.StartTime
+                    ).ToUnixTimeSeconds()
+                )
+            )
+            .ForMember(
+                dest => dest.EndTime,
+                opt => opt.MapFrom(
+                    src => new DateTimeOffset(
+                        src.EndTime
+                    ).ToUnixTimeSeconds()
                 )
             );
     }
