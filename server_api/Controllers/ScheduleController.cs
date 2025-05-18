@@ -90,13 +90,11 @@ public class ScheduleController(
             createScheduleRequest.GroupIds
         );
 
-        return CreatedAtAction(
-            nameof(GetScheduleById)
-            , new
-            {
-                id = schedule.Id
-            },
+        var scheduleRes = mapper.Map<FetchScheduleResponse>(
             schedule
+        );
+        return Ok(
+            scheduleRes
         );
     }
 
@@ -125,7 +123,15 @@ public class ScheduleController(
                 }
             );
         }
-
+        if (createScheduleRequest.StartTime == DateTime.MinValue)
+        {
+            return BadRequest(
+                new
+                {
+                    error = "Invalid date format"
+                }
+            );
+        }
         return null;
     }
 

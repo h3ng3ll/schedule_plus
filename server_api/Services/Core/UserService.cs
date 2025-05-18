@@ -66,8 +66,10 @@ public class UserService(
 
     public async Task<User?> GetUserById(int id)
     {
-        var user = await context.Users.FindAsync(
-            id
+        var user = await context.Users.Include(
+            e => e.Department
+        ).FirstAsync(
+            e => e.Id == id
         );
 
         return user;

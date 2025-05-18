@@ -39,7 +39,7 @@ public class ScheduleService(
                 e => e.Course
             )
             .Include(
-                e => e.Professor.User
+                e => e.Professor.User.Department
             )
             .Include(
                 e => e.Groups
@@ -59,8 +59,10 @@ public class ScheduleService(
             .Include(
                 e => e.Groups
             ).Include(
-                e => e.Professor
-            ).Where(e => e.Id == id)
+                e => e.Professor.User.Department
+            ).Where(
+                e => e.Id == id
+            )
             .Take(1)
             .FirstOrDefaultAsync();
 
@@ -160,7 +162,7 @@ public class ScheduleService(
             );
 
         schedule.Groups.Clear();
-        
+
         context.Schedules.Remove(
             schedule
         );

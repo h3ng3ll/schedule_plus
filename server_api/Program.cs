@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
@@ -62,22 +63,43 @@ builder.Services.AddAutoMapper(
             )
         );
 
-        config.CreateMap<User, UserResponse>();
+        config.CreateMap<User, UserResponse>().ForMember(
+            dest => dest.Department,
+            origin => origin.MapFrom(
+                src => src.Department
+            )
+        );
 
 
-     
         config.CreateMap<CreateGroupRequest, Group>();
         config.CreateMap<CreateCourseRequest, Course>();
 
         config.CreateMap<CreateDepartmentRequest, Department>();
         config.CreateMap<UpdateDepartmentRequest, Department>();
+        config.CreateMap<Department, GetDepartmentResponse>();
 
         config.CreateMap<RegisterStudentRequest, RegisterUserRequest>();
 
         config.CreateMap<RegisterUserRequest, User>();
         config.CreateMap<Student, StudentResponse>();
 
-        config.CreateMap<Schedule, FetchScheduleResponse>();
+        config.CreateMap<Schedule, FetchScheduleResponse>()
+            .ForMember(
+                dest => dest.StartTime,
+                opt => opt.MapFrom(
+                    src => DateTimeOffset.FromUnixTimeSeconds(
+                        src.StartTime
+                    ).ToUniversalTime().LocalDateTime
+                )
+            )
+            .ForMember(
+                dest => dest.EndTime,
+                opt => opt.MapFrom(
+                    src => DateTimeOffset.FromUnixTimeSeconds(
+                        src.EndTime
+                    ).ToUniversalTime().LocalDateTime
+                )
+            );
         config.CreateMap<CreateScheduleRequest, Schedule>()
             .ForMember(
                 dest => dest.StartTime,
