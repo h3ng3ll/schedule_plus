@@ -23,6 +23,7 @@ abstract class AppRoutesPaths {
   /// Home Tabs
   static const welcomeRouter = '/';
   static const registerRouter = 'register';
+  static const registerIntermediateRouter = 'registerIntermediate';
   static const loginRouter = 'login';
   static const scheduleRoute = '/schedule';
 

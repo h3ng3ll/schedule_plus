@@ -23,7 +23,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
       create: (context) => ScheduleBloc(
         dayTime: DateTime.now(),
       )..add(
-          ScheduleEvent.fetchCourses(
+          ScheduleEvent.fetchSchedules(
             time: DateTime.now(),
           ),
         ),
@@ -34,7 +34,7 @@ class _ScheduleTabState extends State<ScheduleTab> {
           }
           return ScheduleTabLoaded(
             selectedDay: state.time,
-            courses: state.courses,
+            schedules: state.schedules,
           );
         },
       ),

@@ -18,26 +18,27 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RegisterEvent {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  RegisterPageArgs get registerPageArgs =>
+      throw _privateConstructorUsedError; // String? name,
   VoidCallback get onCompleted => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String password, String? name,
-            VoidCallback onCompleted)
+    required TResult Function(String email, String password,
+            RegisterPageArgs registerPageArgs, VoidCallback onCompleted)
         register,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String password, String? name,
-            VoidCallback onCompleted)?
+    TResult? Function(String email, String password,
+            RegisterPageArgs registerPageArgs, VoidCallback onCompleted)?
         register,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String password, String? name,
-            VoidCallback onCompleted)?
+    TResult Function(String email, String password,
+            RegisterPageArgs registerPageArgs, VoidCallback onCompleted)?
         register,
     required TResult orElse(),
   }) =>
@@ -73,7 +74,10 @@ abstract class $RegisterEventCopyWith<$Res> {
       _$RegisterEventCopyWithImpl<$Res, RegisterEvent>;
   @useResult
   $Res call(
-      {String email, String password, String? name, VoidCallback onCompleted});
+      {String email,
+      String password,
+      RegisterPageArgs registerPageArgs,
+      VoidCallback onCompleted});
 }
 
 /// @nodoc
@@ -93,7 +97,7 @@ class _$RegisterEventCopyWithImpl<$Res, $Val extends RegisterEvent>
   $Res call({
     Object? email = null,
     Object? password = null,
-    Object? name = freezed,
+    Object? registerPageArgs = null,
     Object? onCompleted = null,
   }) {
     return _then(_value.copyWith(
@@ -105,10 +109,10 @@ class _$RegisterEventCopyWithImpl<$Res, $Val extends RegisterEvent>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+      registerPageArgs: null == registerPageArgs
+          ? _value.registerPageArgs
+          : registerPageArgs // ignore: cast_nullable_to_non_nullable
+              as RegisterPageArgs,
       onCompleted: null == onCompleted
           ? _value.onCompleted
           : onCompleted // ignore: cast_nullable_to_non_nullable
@@ -126,7 +130,10 @@ abstract class _$$RegisterImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String email, String password, String? name, VoidCallback onCompleted});
+      {String email,
+      String password,
+      RegisterPageArgs registerPageArgs,
+      VoidCallback onCompleted});
 }
 
 /// @nodoc
@@ -144,7 +151,7 @@ class __$$RegisterImplCopyWithImpl<$Res>
   $Res call({
     Object? email = null,
     Object? password = null,
-    Object? name = freezed,
+    Object? registerPageArgs = null,
     Object? onCompleted = null,
   }) {
     return _then(_$RegisterImpl(
@@ -156,10 +163,10 @@ class __$$RegisterImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+      registerPageArgs: null == registerPageArgs
+          ? _value.registerPageArgs
+          : registerPageArgs // ignore: cast_nullable_to_non_nullable
+              as RegisterPageArgs,
       onCompleted: null == onCompleted
           ? _value.onCompleted
           : onCompleted // ignore: cast_nullable_to_non_nullable
@@ -174,7 +181,7 @@ class _$RegisterImpl implements _Register {
   const _$RegisterImpl(
       {required this.email,
       required this.password,
-      this.name,
+      required this.registerPageArgs,
       required this.onCompleted});
 
   @override
@@ -182,13 +189,14 @@ class _$RegisterImpl implements _Register {
   @override
   final String password;
   @override
-  final String? name;
+  final RegisterPageArgs registerPageArgs;
+// String? name,
   @override
   final VoidCallback onCompleted;
 
   @override
   String toString() {
-    return 'RegisterEvent.register(email: $email, password: $password, name: $name, onCompleted: $onCompleted)';
+    return 'RegisterEvent.register(email: $email, password: $password, registerPageArgs: $registerPageArgs, onCompleted: $onCompleted)';
   }
 
   @override
@@ -199,14 +207,15 @@ class _$RegisterImpl implements _Register {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.registerPageArgs, registerPageArgs) ||
+                other.registerPageArgs == registerPageArgs) &&
             (identical(other.onCompleted, onCompleted) ||
                 other.onCompleted == onCompleted));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, email, password, name, onCompleted);
+      Object.hash(runtimeType, email, password, registerPageArgs, onCompleted);
 
   /// Create a copy of RegisterEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -219,33 +228,33 @@ class _$RegisterImpl implements _Register {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, String password, String? name,
-            VoidCallback onCompleted)
+    required TResult Function(String email, String password,
+            RegisterPageArgs registerPageArgs, VoidCallback onCompleted)
         register,
   }) {
-    return register(email, password, name, onCompleted);
+    return register(email, password, registerPageArgs, onCompleted);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, String password, String? name,
-            VoidCallback onCompleted)?
+    TResult? Function(String email, String password,
+            RegisterPageArgs registerPageArgs, VoidCallback onCompleted)?
         register,
   }) {
-    return register?.call(email, password, name, onCompleted);
+    return register?.call(email, password, registerPageArgs, onCompleted);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, String password, String? name,
-            VoidCallback onCompleted)?
+    TResult Function(String email, String password,
+            RegisterPageArgs registerPageArgs, VoidCallback onCompleted)?
         register,
     required TResult orElse(),
   }) {
     if (register != null) {
-      return register(email, password, name, onCompleted);
+      return register(email, password, registerPageArgs, onCompleted);
     }
     return orElse();
   }
@@ -283,7 +292,7 @@ abstract class _Register implements RegisterEvent {
   const factory _Register(
       {required final String email,
       required final String password,
-      final String? name,
+      required final RegisterPageArgs registerPageArgs,
       required final VoidCallback onCompleted}) = _$RegisterImpl;
 
   @override
@@ -291,7 +300,7 @@ abstract class _Register implements RegisterEvent {
   @override
   String get password;
   @override
-  String? get name;
+  RegisterPageArgs get registerPageArgs; // String? name,
   @override
   VoidCallback get onCompleted;
 

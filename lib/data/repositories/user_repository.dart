@@ -13,7 +13,7 @@ class UserRepository {
     try {
       final res = await _userApi.me();
       final user = User.fromJson(
-        res.data,
+        res.data['user'],
       );
       return user;
     } on DioException {

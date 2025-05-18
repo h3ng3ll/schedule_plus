@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../../model/course/course.dart';
+import '../../../../../../../data/repositories/schedule_repository.dart';
+import '../../../../../../../model/schedule/schedule.dart';
 
 part 'schedule_event.dart';
 
@@ -12,70 +13,46 @@ part 'schedule_state.dart';
 part 'schedule_bloc.freezed.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
+  final ScheduleRepository _scheduleRepository = ScheduleRepository.instance;
+
   ScheduleBloc({required DateTime dayTime})
       : super(
           ScheduleState(
             time: dayTime,
           ),
         ) {
-    on<ScheduleEvent>(
-      (event, emit) async {
-        return await event.map<FutureOr<void>>(
-          fetchCourses: (fetchCoursesArgs) => fetchCourses(
-            event,
-            emit,
-            fetchCoursesArgs.time,
-          ),
-        );
-      },
-    );
+    on<_FetchSchedules>(fetchSchedules);
   }
 
-  /// fetch courses for a day period
-  void fetchCourses(
-    event,
-    emit,
-    DateTime time,
-  ) {
+  /// fetch schedules for a day period
+  Future<void> fetchSchedules(event, emit) async {
     emit(
       state.copyWith(
         status: ScheduleStatus.loading,
       ),
     );
-    final List<Course> courses = [
-      Course(
-        name: 'Advanced Mathematics',
-        professor: 'Prof. Smith',
-        room: 'Room 301',
-        startTime: '9:00',
-        endTime: '10:30',
-        status: CourseStatus.inProgress,
-        // timeOfDay: TimePeriod.morning,
-      ),
-      Course(
-        name: 'Data Structures',
-        professor: 'Prof. Johnson',
-        room: 'Room 205',
-        startTime: '11:00',
-        endTime: '12:30',
-        status: CourseStatus.upcoming,
-        // timeOfDay: TimePeriod.morning,
-      ),
-      Course(
-        name: 'Computer Networks',
-        professor: 'Prof. Williams',
-        room: 'Room 405',
-        startTime: '2:00',
-        endTime: '3:30',
-        status: CourseStatus.upcoming,
-        // timeOfDay: TimePeriod.afternoon,
-      ),
-    ];
+    final DateTime time = event.time;
+
+    final startTime = time.copyWith(
+      hour: 0,
+      minute: 0,
+      second: 0,
+    );
+    final endTime =  time.copyWith(
+      hour: 23,
+      minute: 59,
+      second: 59,
+    );
+
+    final schedules = await _scheduleRepository.fetchSchedule(
+      startTime: startTime,
+      endTime: endTime
+    );
     emit(
       state.copyWith(
         status: ScheduleStatus.loaded,
         time: time,
-        courses: courses,
+        schedules: schedules,
       ),
     );
   }

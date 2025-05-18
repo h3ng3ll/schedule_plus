@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../model/course/course.dart';
+import '../../../../../../model/schedule/schedule.dart';
 import 'course_time_selector.dart';
 
 class CourseList extends StatelessWidget {
-  final Function(Course) onClassTapped;
-  final List<Course> courses;
+  final Function(Schedule) onClassTapped;
+  final List<Schedule> courses;
 
   const CourseList({
     super.key,

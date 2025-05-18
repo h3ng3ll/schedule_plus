@@ -2,9 +2,9 @@ part of 'schedule_bloc.dart';
 
 @freezed
 class ScheduleEvent with _$ScheduleEvent {
-  const factory ScheduleEvent.fetchCourses({
+  const factory ScheduleEvent.fetchSchedules({
     required DateTime time,
-  }) = _FetchCourses;
+  }) = _FetchSchedules;
 
 //   const factory ScheduleEvent.selectDay({
 //     required DateTime time,

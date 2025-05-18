@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../../data/repositories/student_repository.dart';
+import '../../../../../../model/group/group.dart';
 import '../../../../../../model/user/user.dart';
 import '../../../../bloc/settings_bloc/settings_bloc.dart';
 
@@ -14,6 +16,7 @@ part 'profile_tab_bloc.freezed.dart';
 
 class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTabState> {
   final SettingsBloc _settingsBloc;
+  final StudentRepository _studentRepository = StudentRepository.instance;
 
   late final StreamSubscription<SettingsState> _settingsBlocSubscription;
 
@@ -42,7 +45,7 @@ class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTabState> {
           status: ProfileTabStatus.loading,
         ),
       );
-
+      final group = await _studentRepository.fetchGroup();
       // emit(
       //   state.copyWith(
       //     // user: ,
@@ -55,6 +58,12 @@ class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTabState> {
       //     status: ProfileTabStatus.loaded,
       //   ),
       // );
+      emit(
+        state.copyWith(
+          group: group,
+          status: ProfileTabStatus.loaded,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

@@ -35,7 +35,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_UnReadLastMessages>(unReadLastMessages);
 
     /// if appear push increment messages count
-    _firebaseMessagingService.remoteMessageStream.listen(
+    remoteMessageSubscription =
+        _firebaseMessagingService.remoteMessageStream.listen(
       (e) {
         add(
           SettingsEvent.incrementUnReadMessagesCount(),

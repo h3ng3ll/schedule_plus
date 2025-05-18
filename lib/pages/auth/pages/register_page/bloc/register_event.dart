@@ -5,7 +5,12 @@ class RegisterEvent with _$RegisterEvent {
   const factory RegisterEvent.register({
     required String email,
     required String password,
-    String? name,
+    required RegisterPageArgs registerPageArgs,
+    // String? name,
     required VoidCallback onCompleted,
 }) = _Register;
+
+
+
+
 }

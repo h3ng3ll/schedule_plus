@@ -11,6 +11,8 @@ class ProfileTabState with _$ProfileTabState {
   const factory ProfileTabState({
     @Default(ProfileTabStatus.initial) ProfileTabStatus status,
     required User user,
+    Group? group,
+    // Student student ,
     // String? avatarUrl,
     // String? name,
     // String? surname,

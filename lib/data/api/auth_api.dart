@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-
 import '../repositories/base_repository.dart';
 
 class AuthApi {
@@ -27,6 +26,8 @@ class AuthApi {
     String email,
     String password,
     String? name,
+    int departmentId,
+    int groupId,
   ) async {
     return await _baseRepository.api.post(
       '/Authorization/register',
@@ -34,6 +35,8 @@ class AuthApi {
         'email': email,
         'password': password,
         'name': name,
+        'departmentId': departmentId,
+        'groupId': groupId,
       },
     );
   }

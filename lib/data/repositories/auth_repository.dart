@@ -48,12 +48,16 @@ class AuthRepository {
     String email,
     String password,
     String? name,
+    int departmentId,
+    int groupId,
   ) async {
     try {
       final res = await _authApi.register(
         email,
         password,
         name,
+        departmentId,
+        groupId,
       );
       if (!res.isSuccessCode) {
         throw DioException(
@@ -66,8 +70,9 @@ class AuthRepository {
       await _baseRepository.saveToken(
         token,
       );
+
       final user = User.fromJson(
-        res.data['user'],
+        (res.data['student'] ?? res.data['teacher'])['user'] ,
       );
       return user;
     } on DioException {

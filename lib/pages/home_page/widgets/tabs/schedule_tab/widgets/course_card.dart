@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../../../model/course/course.dart';
+import '../../../../../../model/schedule/schedule.dart';
 
 class CourseCard extends StatelessWidget {
-  final Course course;
+  final Schedule schedule;
   final VoidCallback onTap;
 
   const CourseCard({
     super.key,
-    required this.course,
+    required this.schedule,
     required this.onTap,
   });
 
-  Color _getStatusColor() {
-    switch (course.status) {
-      case CourseStatus.inProgress:
-        return Colors.green;
-      case CourseStatus.upcoming:
-        return Colors.grey;
-      case CourseStatus.completed:
-        return Colors.blue;
-    }
-  }
-
-  String _getStatusText() {
-    switch (course.status) {
-      case CourseStatus.inProgress:
-        return 'In Progress';
-      case CourseStatus.upcoming:
-        return 'Upcoming';
-      case CourseStatus.completed:
-        return 'Completed';
-    }
-  }
+  // Color _getStatusColor() {
+  //   switch (course.status) {
+  //     case CourseStatus.inProgress:
+  //       return Colors.green;
+  //     case CourseStatus.upcoming:
+  //       return Colors.grey;
+  //     case CourseStatus.completed:
+  //       return Colors.blue;
+  //   }
+  // }
+  //
+  // String _getStatusText() {
+  //   switch (course.status) {
+  //     case CourseStatus.inProgress:
+  //       return 'In Progress';
+  //     case CourseStatus.upcoming:
+  //       return 'Upcoming';
+  //     case CourseStatus.completed:
+  //       return 'Completed';
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,43 +61,43 @@ class CourseCard extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _getStatusColor(),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+                  // Container(
+                  //   width: 8,
+                  //   height: 8,
+                  //   decoration: BoxDecoration(
+                  //     color: _getStatusColor(),
+                  //     shape: BoxShape.circle,
+                  //   ),
+                  // ),
                   const SizedBox(width: 8),
                   Text(
-                    '${course.startTime} - ${course.endTime}',
+                    '${DateFormat("hh:mm").format(schedule.startTime)} - ${DateFormat("hh:mm").format(schedule.endTime)}',
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 14,
                     ),
                   ),
                   const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor().withValues(
-                        alpha: 0.1,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      _getStatusText(),
-                      style: TextStyle(
-                        color: _getStatusColor(),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 12,
+                  //     vertical: 4,
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     color: _getStatusColor().withValues(
+                  //       alpha: 0.1,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(12),
+                  //   ),
+                  //   child: Text(
+                  //     _getStatusText(),
+                  //     style: TextStyle(
+                  //       color: _getStatusColor(),
+                  //       fontSize: 12,
+                  //       fontWeight: FontWeight.w500,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -106,7 +107,7 @@ class CourseCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    course.name,
+                    schedule.course.name,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -125,7 +126,7 @@ class CourseCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            course.professor,
+                            schedule.professor.user.name ,
                             style: TextStyle(
                               color: Colors.grey[600],
                               fontSize: 14,
@@ -142,7 +143,7 @@ class CourseCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            course.room,
+                            schedule.location,
                             style: TextStyle(
                               color: Colors.grey[600],
                               fontSize: 14,

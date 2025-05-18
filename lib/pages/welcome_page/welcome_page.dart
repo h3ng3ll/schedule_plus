@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../bloc/auth_cubit/auth_cubit.dart';
 import '../../routes/app_routes_paths.dart';
+import '../auth/pages/register_intermediate_page/bloc/register_intermediate_page_bloc.dart';
+import '../auth/pages/register_intermediate_page/register_intermediate_page.dart';
 import 'widgets/auth_header.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -22,7 +24,11 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void onRegister(BuildContext context) {
     context.pushNamed(
-      AppRoutesPaths.registerRouter,
+      AppRoutesPaths.registerIntermediateRouter,
+      extra: RegisterIntermediatePageArgs(
+        registerIntermediatePageBloc:
+            context.read<RegisterIntermediatePageBloc>(),
+      ),
     );
   }
 
@@ -42,18 +48,35 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          AuthHeader(
-            onGoSignIn: () => onLogin(
-              context,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RegisterIntermediatePageBloc>(
+          create: (_) => RegisterIntermediatePageBloc()
+            ..add(
+              RegisterIntermediatePageEvent.fetchGroups(),
+            )
+            ..add(
+              RegisterIntermediatePageEvent.fetchDepartments(),
             ),
-            onGoSignUp: () => onRegister(
-              context,
-            ),
-          ),
-        ],
+        ),
+      ],
+      child: Scaffold(
+        body: Builder(
+          builder: (context) {
+            return Stack(
+              children: [
+                AuthHeader(
+                  onGoSignIn: () => onLogin(
+                    context,
+                  ),
+                  onGoSignUp: () => onRegister(
+                    context,
+                  ),
+                ),
+              ],
+            );
+          }
+        ),
       ),
     );
   }

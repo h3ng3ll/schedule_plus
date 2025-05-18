@@ -20,12 +20,11 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
-  String? get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String? get imgUrl => throw _privateConstructorUsedError;
   String? get surname => throw _privateConstructorUsedError;
-  String? get department => throw _privateConstructorUsedError;
-  int? get year => throw _privateConstructorUsedError;
+  Department get department => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,12 +41,13 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {String? name,
+      {String name,
       String email,
       String? imgUrl,
       String? surname,
-      String? department,
-      int? year});
+      Department department});
+
+  $DepartmentCopyWith<$Res> get department;
 }
 
 /// @nodoc
@@ -65,18 +65,17 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? email = null,
     Object? imgUrl = freezed,
     Object? surname = freezed,
-    Object? department = freezed,
-    Object? year = freezed,
+    Object? department = null,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -89,15 +88,21 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.surname
           : surname // ignore: cast_nullable_to_non_nullable
               as String?,
-      department: freezed == department
+      department: null == department
           ? _value.department
           : department // ignore: cast_nullable_to_non_nullable
-              as String?,
-      year: freezed == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Department,
     ) as $Val);
+  }
+
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DepartmentCopyWith<$Res> get department {
+    return $DepartmentCopyWith<$Res>(_value.department, (value) {
+      return _then(_value.copyWith(department: value) as $Val);
+    });
   }
 }
 
@@ -109,12 +114,14 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? name,
+      {String name,
       String email,
       String? imgUrl,
       String? surname,
-      String? department,
-      int? year});
+      Department department});
+
+  @override
+  $DepartmentCopyWith<$Res> get department;
 }
 
 /// @nodoc
@@ -129,18 +136,17 @@ class __$$UserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? email = null,
     Object? imgUrl = freezed,
     Object? surname = freezed,
-    Object? department = freezed,
-    Object? year = freezed,
+    Object? department = null,
   }) {
     return _then(_$UserImpl(
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -153,14 +159,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.surname
           : surname // ignore: cast_nullable_to_non_nullable
               as String?,
-      department: freezed == department
+      department: null == department
           ? _value.department
           : department // ignore: cast_nullable_to_non_nullable
-              as String?,
-      year: freezed == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Department,
     ));
   }
 }
@@ -173,14 +175,13 @@ class _$UserImpl implements _User {
       required this.email,
       this.imgUrl,
       this.surname,
-      this.department,
-      this.year});
+      required this.department});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
 
   @override
-  final String? name;
+  final String name;
   @override
   final String email;
   @override
@@ -188,13 +189,11 @@ class _$UserImpl implements _User {
   @override
   final String? surname;
   @override
-  final String? department;
-  @override
-  final int? year;
+  final Department department;
 
   @override
   String toString() {
-    return 'User(name: $name, email: $email, imgUrl: $imgUrl, surname: $surname, department: $department, year: $year)';
+    return 'User(name: $name, email: $email, imgUrl: $imgUrl, surname: $surname, department: $department)';
   }
 
   @override
@@ -207,14 +206,13 @@ class _$UserImpl implements _User {
             (identical(other.imgUrl, imgUrl) || other.imgUrl == imgUrl) &&
             (identical(other.surname, surname) || other.surname == surname) &&
             (identical(other.department, department) ||
-                other.department == department) &&
-            (identical(other.year, year) || other.year == year));
+                other.department == department));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, email, imgUrl, surname, department, year);
+      Object.hash(runtimeType, name, email, imgUrl, surname, department);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -234,17 +232,16 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String? name,
+      {required final String name,
       required final String email,
       final String? imgUrl,
       final String? surname,
-      final String? department,
-      final int? year}) = _$UserImpl;
+      required final Department department}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
-  String? get name;
+  String get name;
   @override
   String get email;
   @override
@@ -252,9 +249,7 @@ abstract class _User implements User {
   @override
   String? get surname;
   @override
-  String? get department;
-  @override
-  int? get year;
+  Department get department;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

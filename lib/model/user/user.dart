@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../department/department.dart';
+
 part 'user.freezed.dart';
 
 part 'user.g.dart';
@@ -8,12 +10,11 @@ part 'user.g.dart';
 @freezed
 class User with _$User {
   const factory User({
-    required String? name,
+    required String name,
     required String email,
     String? imgUrl,
     String? surname,
-    String? department,
-    int? year,
+    required Department department,
   }) = _User;
 
   factory User.fromJson(

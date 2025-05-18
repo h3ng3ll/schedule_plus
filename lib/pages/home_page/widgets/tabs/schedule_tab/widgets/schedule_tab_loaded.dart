@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../../model/course/course.dart';
+import '../../../../../../model/schedule/schedule.dart';
 import '../../../../../../utils/chronos_service.dart';
 import '../../../../../../widgets/app_background.dart';
 import '../bloc/schedule_bloc/schedule_bloc.dart';
@@ -13,12 +13,12 @@ import 'weekday_selector.dart';
 
 class ScheduleTabLoaded extends StatefulWidget {
   final DateTime selectedDay;
-  final List<Course> courses;
+  final List<Schedule> schedules;
 
   const ScheduleTabLoaded({
     super.key,
     required this.selectedDay,
-    required this.courses,
+    required this.schedules,
   });
 
   @override
@@ -30,20 +30,20 @@ class _ScheduleTabLoadedState extends State<ScheduleTabLoaded> {
 
   void _onDaySelected(BuildContext context, DateTime day) {
     context.read<ScheduleBloc>().add(
-          ScheduleEvent.fetchCourses(
+          ScheduleEvent.fetchSchedules(
             time: day,
           ),
         );
   }
 
-  void _onClassTapped(Course course) {
+  void _onClassTapped(Schedule schedule) {
     // Show class details or navigate to class details screen
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(course.name),
+        title: Text(schedule.course.name),
         content: Text(
-          'Professor: ${course.professor}\nRoom: ${course.room}',
+          'Professor: ${schedule.professor}\nLocation: ${schedule.location}',
         ),
         actions: [
           TextButton(
@@ -87,7 +87,7 @@ class _ScheduleTabLoadedState extends State<ScheduleTabLoaded> {
                 Expanded(
                   child: CourseList(
                     onClassTapped: _onClassTapped,
-                    courses: widget.courses,
+                    courses: widget.schedules,
                   ),
                 ),
               ],

@@ -33,7 +33,9 @@ class ProfileTab extends StatelessWidget {
     return BlocProvider(
       create: (_) => ProfileTabBloc(
         context.read<SettingsBloc>(),
-      ),
+      )..add(
+          ProfileTabEvent.load(),
+        ),
       child: Scaffold(
         appBar: AppHeader(),
         body: AppBackground(
@@ -47,13 +49,21 @@ class ProfileTab extends StatelessWidget {
                     image: state.user.imgUrl,
                   ),
                   Text(
-                    '${state.user.name} ${state.user.surname}',
+                    '${state.user.name} ${state.group?.name ?? ''}',
                     style: textTheme.medium24.copyWith(
                       color: colorScheme.secondary,
                     ),
                   ),
                   Text(
-                    '${state.user.department} year ${state.user.year}',
+                    state.user.email,
+                    style: textTheme.medium14.copyWith(
+                      color: colorScheme.secondary.withValues(
+                        alpha: 0.4,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    state.user.department.name,
                     style: textTheme.medium14.copyWith(
                       color: colorScheme.secondary.withValues(
                         alpha: 0.4,

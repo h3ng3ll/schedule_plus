@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../data/repositories/notification_repository.dart';
 import '../../firebase_options.dart';
 import '../notification_service/notification_service.dart';
 

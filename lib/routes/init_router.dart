@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../pages/auth/pages/login_page/login_page.dart';
+import '../pages/auth/pages/register_intermediate_page/register_intermediate_page.dart';
 import '../pages/auth/pages/register_page/register_page.dart';
 import '../pages/home_page/pages/notifications_page/notifications_page.dart';
 import '../pages/home_page/root_home.dart';
@@ -24,12 +25,28 @@ final GoRouter initRouter = GoRouter(
       },
       routes: [
         GoRoute(
-          path: AppRoutesPaths.registerRouter,
-          name: AppRoutesPaths.registerRouter,
-          builder: (context, state) {
-            return RegisterPage();
-          },
-        ), GoRoute(
+            path: AppRoutesPaths.registerIntermediateRouter,
+            name: AppRoutesPaths.registerIntermediateRouter,
+            builder: (context, state) {
+              final args = state.extra as RegisterIntermediatePageArgs;
+              return RegisterIntermediatePage(
+                registerIntermediatePageArgs: args,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: AppRoutesPaths.registerRouter,
+                name: AppRoutesPaths.registerRouter,
+                builder: (context, state) {
+                  final args = state.extra as RegisterPageArgs;
+
+                  return RegisterPage(
+                    registerPageArgs: args,
+                  );
+                },
+              ),
+            ]),
+        GoRoute(
           path: AppRoutesPaths.loginRouter,
           name: AppRoutesPaths.loginRouter,
           builder: (context, state) {

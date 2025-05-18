@@ -19,33 +19,33 @@ mixin _$ScheduleEvent {
   DateTime get time => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(DateTime time) fetchCourses,
+    required TResult Function(DateTime time) fetchSchedules,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DateTime time)? fetchCourses,
+    TResult? Function(DateTime time)? fetchSchedules,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DateTime time)? fetchCourses,
+    TResult Function(DateTime time)? fetchSchedules,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchCourses value) fetchCourses,
+    required TResult Function(_FetchSchedules value) fetchSchedules,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchCourses value)? fetchCourses,
+    TResult? Function(_FetchSchedules value)? fetchSchedules,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchCourses value)? fetchCourses,
+    TResult Function(_FetchSchedules value)? fetchSchedules,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -93,22 +93,22 @@ class _$ScheduleEventCopyWithImpl<$Res, $Val extends ScheduleEvent>
 }
 
 /// @nodoc
-abstract class _$$FetchCoursesImplCopyWith<$Res>
+abstract class _$$FetchSchedulesImplCopyWith<$Res>
     implements $ScheduleEventCopyWith<$Res> {
-  factory _$$FetchCoursesImplCopyWith(
-          _$FetchCoursesImpl value, $Res Function(_$FetchCoursesImpl) then) =
-      __$$FetchCoursesImplCopyWithImpl<$Res>;
+  factory _$$FetchSchedulesImplCopyWith(_$FetchSchedulesImpl value,
+          $Res Function(_$FetchSchedulesImpl) then) =
+      __$$FetchSchedulesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({DateTime time});
 }
 
 /// @nodoc
-class __$$FetchCoursesImplCopyWithImpl<$Res>
-    extends _$ScheduleEventCopyWithImpl<$Res, _$FetchCoursesImpl>
-    implements _$$FetchCoursesImplCopyWith<$Res> {
-  __$$FetchCoursesImplCopyWithImpl(
-      _$FetchCoursesImpl _value, $Res Function(_$FetchCoursesImpl) _then)
+class __$$FetchSchedulesImplCopyWithImpl<$Res>
+    extends _$ScheduleEventCopyWithImpl<$Res, _$FetchSchedulesImpl>
+    implements _$$FetchSchedulesImplCopyWith<$Res> {
+  __$$FetchSchedulesImplCopyWithImpl(
+      _$FetchSchedulesImpl _value, $Res Function(_$FetchSchedulesImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ScheduleEvent
@@ -118,7 +118,7 @@ class __$$FetchCoursesImplCopyWithImpl<$Res>
   $Res call({
     Object? time = null,
   }) {
-    return _then(_$FetchCoursesImpl(
+    return _then(_$FetchSchedulesImpl(
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
@@ -129,22 +129,22 @@ class __$$FetchCoursesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FetchCoursesImpl implements _FetchCourses {
-  const _$FetchCoursesImpl({required this.time});
+class _$FetchSchedulesImpl implements _FetchSchedules {
+  const _$FetchSchedulesImpl({required this.time});
 
   @override
   final DateTime time;
 
   @override
   String toString() {
-    return 'ScheduleEvent.fetchCourses(time: $time)';
+    return 'ScheduleEvent.fetchSchedules(time: $time)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FetchCoursesImpl &&
+            other is _$FetchSchedulesImpl &&
             (identical(other.time, time) || other.time == time));
   }
 
@@ -156,33 +156,34 @@ class _$FetchCoursesImpl implements _FetchCourses {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$FetchCoursesImplCopyWith<_$FetchCoursesImpl> get copyWith =>
-      __$$FetchCoursesImplCopyWithImpl<_$FetchCoursesImpl>(this, _$identity);
+  _$$FetchSchedulesImplCopyWith<_$FetchSchedulesImpl> get copyWith =>
+      __$$FetchSchedulesImplCopyWithImpl<_$FetchSchedulesImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(DateTime time) fetchCourses,
+    required TResult Function(DateTime time) fetchSchedules,
   }) {
-    return fetchCourses(time);
+    return fetchSchedules(time);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DateTime time)? fetchCourses,
+    TResult? Function(DateTime time)? fetchSchedules,
   }) {
-    return fetchCourses?.call(time);
+    return fetchSchedules?.call(time);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DateTime time)? fetchCourses,
+    TResult Function(DateTime time)? fetchSchedules,
     required TResult orElse(),
   }) {
-    if (fetchCourses != null) {
-      return fetchCourses(time);
+    if (fetchSchedules != null) {
+      return fetchSchedules(time);
     }
     return orElse();
   }
@@ -190,35 +191,35 @@ class _$FetchCoursesImpl implements _FetchCourses {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_FetchCourses value) fetchCourses,
+    required TResult Function(_FetchSchedules value) fetchSchedules,
   }) {
-    return fetchCourses(this);
+    return fetchSchedules(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchCourses value)? fetchCourses,
+    TResult? Function(_FetchSchedules value)? fetchSchedules,
   }) {
-    return fetchCourses?.call(this);
+    return fetchSchedules?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchCourses value)? fetchCourses,
+    TResult Function(_FetchSchedules value)? fetchSchedules,
     required TResult orElse(),
   }) {
-    if (fetchCourses != null) {
-      return fetchCourses(this);
+    if (fetchSchedules != null) {
+      return fetchSchedules(this);
     }
     return orElse();
   }
 }
 
-abstract class _FetchCourses implements ScheduleEvent {
-  const factory _FetchCourses({required final DateTime time}) =
-      _$FetchCoursesImpl;
+abstract class _FetchSchedules implements ScheduleEvent {
+  const factory _FetchSchedules({required final DateTime time}) =
+      _$FetchSchedulesImpl;
 
   @override
   DateTime get time;
@@ -227,14 +228,14 @@ abstract class _FetchCourses implements ScheduleEvent {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FetchCoursesImplCopyWith<_$FetchCoursesImpl> get copyWith =>
+  _$$FetchSchedulesImplCopyWith<_$FetchSchedulesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 mixin _$ScheduleState {
   ScheduleStatus get status => throw _privateConstructorUsedError;
-  List<Course> get courses => throw _privateConstructorUsedError;
+  List<Schedule> get schedules => throw _privateConstructorUsedError;
   DateTime get time => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
 
@@ -253,7 +254,7 @@ abstract class $ScheduleStateCopyWith<$Res> {
   @useResult
   $Res call(
       {ScheduleStatus status,
-      List<Course> courses,
+      List<Schedule> schedules,
       DateTime time,
       String errorMessage});
 }
@@ -274,7 +275,7 @@ class _$ScheduleStateCopyWithImpl<$Res, $Val extends ScheduleState>
   @override
   $Res call({
     Object? status = null,
-    Object? courses = null,
+    Object? schedules = null,
     Object? time = null,
     Object? errorMessage = null,
   }) {
@@ -283,10 +284,10 @@ class _$ScheduleStateCopyWithImpl<$Res, $Val extends ScheduleState>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ScheduleStatus,
-      courses: null == courses
-          ? _value.courses
-          : courses // ignore: cast_nullable_to_non_nullable
-              as List<Course>,
+      schedules: null == schedules
+          ? _value.schedules
+          : schedules // ignore: cast_nullable_to_non_nullable
+              as List<Schedule>,
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
@@ -309,7 +310,7 @@ abstract class _$$ScheduleStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {ScheduleStatus status,
-      List<Course> courses,
+      List<Schedule> schedules,
       DateTime time,
       String errorMessage});
 }
@@ -328,7 +329,7 @@ class __$$ScheduleStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? courses = null,
+    Object? schedules = null,
     Object? time = null,
     Object? errorMessage = null,
   }) {
@@ -337,10 +338,10 @@ class __$$ScheduleStateImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ScheduleStatus,
-      courses: null == courses
-          ? _value._courses
-          : courses // ignore: cast_nullable_to_non_nullable
-              as List<Course>,
+      schedules: null == schedules
+          ? _value._schedules
+          : schedules // ignore: cast_nullable_to_non_nullable
+              as List<Schedule>,
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
@@ -358,21 +359,21 @@ class __$$ScheduleStateImplCopyWithImpl<$Res>
 class _$ScheduleStateImpl implements _ScheduleState {
   const _$ScheduleStateImpl(
       {this.status = ScheduleStatus.initial,
-      final List<Course> courses = const [],
+      final List<Schedule> schedules = const [],
       required this.time,
       this.errorMessage = ''})
-      : _courses = courses;
+      : _schedules = schedules;
 
   @override
   @JsonKey()
   final ScheduleStatus status;
-  final List<Course> _courses;
+  final List<Schedule> _schedules;
   @override
   @JsonKey()
-  List<Course> get courses {
-    if (_courses is EqualUnmodifiableListView) return _courses;
+  List<Schedule> get schedules {
+    if (_schedules is EqualUnmodifiableListView) return _schedules;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_courses);
+    return EqualUnmodifiableListView(_schedules);
   }
 
   @override
@@ -383,7 +384,7 @@ class _$ScheduleStateImpl implements _ScheduleState {
 
   @override
   String toString() {
-    return 'ScheduleState(status: $status, courses: $courses, time: $time, errorMessage: $errorMessage)';
+    return 'ScheduleState(status: $status, schedules: $schedules, time: $time, errorMessage: $errorMessage)';
   }
 
   @override
@@ -392,7 +393,8 @@ class _$ScheduleStateImpl implements _ScheduleState {
         (other.runtimeType == runtimeType &&
             other is _$ScheduleStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._courses, _courses) &&
+            const DeepCollectionEquality()
+                .equals(other._schedules, _schedules) &&
             (identical(other.time, time) || other.time == time) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
@@ -400,7 +402,7 @@ class _$ScheduleStateImpl implements _ScheduleState {
 
   @override
   int get hashCode => Object.hash(runtimeType, status,
-      const DeepCollectionEquality().hash(_courses), time, errorMessage);
+      const DeepCollectionEquality().hash(_schedules), time, errorMessage);
 
   /// Create a copy of ScheduleState
   /// with the given fields replaced by the non-null parameter values.
@@ -414,14 +416,14 @@ class _$ScheduleStateImpl implements _ScheduleState {
 abstract class _ScheduleState implements ScheduleState {
   const factory _ScheduleState(
       {final ScheduleStatus status,
-      final List<Course> courses,
+      final List<Schedule> schedules,
       required final DateTime time,
       final String errorMessage}) = _$ScheduleStateImpl;
 
   @override
   ScheduleStatus get status;
   @override
-  List<Course> get courses;
+  List<Schedule> get schedules;
   @override
   DateTime get time;
   @override

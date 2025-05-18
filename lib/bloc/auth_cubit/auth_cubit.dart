@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../data/repositories/base_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../model/user/user.dart';
-import '../../data/repositories/notification_repository.dart';
 import '../notification_bloc/notification_bloc.dart';
 
 part 'auth_state.dart';

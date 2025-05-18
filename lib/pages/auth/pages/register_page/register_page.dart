@@ -4,6 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../bloc/auth_cubit/auth_cubit.dart';
+import '../../../../model/department/department.dart';
+import '../../../../model/group/group.dart';
 import '../../../../resources/colors/app_color_scheme.dart';
 import '../../../../resources/text/app_text_theme.dart';
 import '../../../../routes/app_routes_paths.dart';
@@ -14,15 +16,33 @@ import '../../../../widgets/loading_widget.dart';
 import '../../../../widgets/padding/horizontal_padding.dart';
 import 'bloc/register_bloc.dart';
 
+class RegisterPageArgs {
+  final String name;
+
+  final Group group;
+
+  final Department department;
+
+  RegisterPageArgs({
+    required this.name,
+    required this.group,
+    required this.department,
+  });
+}
+
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final RegisterPageArgs registerPageArgs;
+
+  const RegisterPage({
+    super.key,
+    required this.registerPageArgs,
+  });
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -30,7 +50,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -38,18 +57,36 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> onRegister(BuildContext context) async {
-
     if (_formKey.currentState!.validate()) {
       context.read<RegisterBloc>().add(
             RegisterEvent.register(
-                email: _emailController.text.trim(),
-                password: _passwordController.text.trim(),
-                name: _nameController.text.trim(),
-                onCompleted: () {
-                  context.pushReplacementNamed(
-                    AppRoutesPaths.scheduleRoute,
-                  );
-                }),
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+              registerPageArgs: widget.registerPageArgs,
+              onCompleted: () {
+                context.pushReplacementNamed(
+                  AppRoutesPaths.scheduleRoute,
+                );
+              },
+            ),
+          );
+    }
+  }
+
+  Future<void> updateData(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      context.read<RegisterBloc>().add(
+            RegisterEvent.register(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+              // name: _nameController.text.trim(),
+              onCompleted: () {
+                context.pushReplacementNamed(
+                  AppRoutesPaths.scheduleRoute,
+                );
+              },
+              registerPageArgs: widget.registerPageArgs,
+            ),
           );
     }
   }
@@ -89,16 +126,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Gap(50.0),
-                          CustomTextField(
-                            controller: _nameController,
-                            labelText: 'Full Name',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your name';
-                              }
-                              return null;
-                            },
-                          ),
                           const Gap(16.0),
                           CustomTextField(
                             controller: _emailController,

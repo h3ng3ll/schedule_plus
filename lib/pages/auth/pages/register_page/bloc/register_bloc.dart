@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../bloc/auth_cubit/auth_cubit.dart';
 import '../../../../../data/repositories/auth_repository.dart';
+import '../register_page.dart';
 
 part 'register_event.dart';
 
@@ -20,10 +21,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc(
     this._authCubit,
   ) : super(const RegisterState()) {
-    on<_Register>(register);
+    on<_Register>(_register);
   }
 
-  Future<void> register(event, emit) async {
+  Future<void> _register(event, emit) async {
     try {
       emit(
         state.copyWith(
@@ -32,14 +33,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       );
       final String email = event.email;
       final String password = event.password;
-      final String name = event.name;
+      final RegisterPageArgs registerPageArgs = event.registerPageArgs;
+
       final VoidCallback onCompleted = event.onCompleted;
 
       final user = await _authRepository.register(
         email,
         password,
-        name,
+        registerPageArgs.name,
+        registerPageArgs.department.id,
+        registerPageArgs.group.id,
       );
+
       emit(
         state.copyWith(
           status: RegisterStatus.initial,
@@ -67,4 +72,5 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       );
     }
   }
+
 }

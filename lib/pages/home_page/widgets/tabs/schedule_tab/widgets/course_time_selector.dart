@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../model/course/course.dart';
+import '../../../../../../model/schedule/schedule.dart';
 import 'course_card.dart';
 
 class CourseTimeSection extends StatelessWidget {
-  // final TimePeriod timeOfDay;
-  final Course course;
-  final Function(Course) onClassTapped;
+  final Schedule course;
+  final Function(Schedule) onClassTapped;
 
   const CourseTimeSection({
     super.key,
@@ -46,7 +45,7 @@ class CourseTimeSection extends StatelessWidget {
         // ...course.map(
         //   (course) =>
         CourseCard(
-          course: course,
+          schedule: course,
           onTap: () => onClassTapped(
             course,
           ),

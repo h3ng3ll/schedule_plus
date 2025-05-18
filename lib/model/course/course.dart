@@ -22,18 +22,20 @@ enum TimePeriod {
   evening,
 }
 
+
 @freezed
 class Course with _$Course {
   const factory Course({
+    required int id,
     required String name,
-    required String professor,
-    required String room,
-    required String startTime,
-    required String endTime,
-    required CourseStatus status,
-    // required TimePeriod timeOfDay,
-    String? courseId,
-    List<String>? materials,
+    // required String professor,
+    // required String room,
+    // required String startTime,
+    // required String endTime,
+    // required CourseStatus status,
+    // // required TimePeriod timeOfDay,
+    // String? courseId,
+    // List<String>? materials,
   }) = _Course;
 
   factory Course.fromJson(

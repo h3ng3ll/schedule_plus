@@ -11,7 +11,7 @@ enum ScheduleStatus {
 sealed class ScheduleState with _$ScheduleState {
   const factory ScheduleState({
     @Default(ScheduleStatus.initial) ScheduleStatus status,
-    @Default([]) List<Course> courses,
+    @Default([]) List<Schedule> schedules,
     required DateTime time,
     @Default('') String  errorMessage,
   }) = _ScheduleState;
