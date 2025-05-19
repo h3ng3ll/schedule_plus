@@ -9,6 +9,7 @@ namespace server_api.Services.Core;
 public interface IUserService
 {
     public Task<bool> IsUserExistByEmail(string email);
+    public Task<bool> IsUserExistById(int id);
 
     public Task<User> CreateUser(RegisterUserRequest registerUserRequest);
     public Task<User?> GetUserByEmailAndPassword(string email, string password);
@@ -26,6 +27,14 @@ public class UserService(
             e => e.Email == email
         );
         return isExists;
+    }
+
+    public async Task<bool> IsUserExistById(int id)
+    {
+        var user = await context.Users.FindAsync(
+            id
+        );
+        return user != null;
     }
 
     public async Task<User> CreateUser(RegisterUserRequest registerUserRequest)
@@ -51,7 +60,9 @@ public class UserService(
 
     public async Task<User?> GetUserByEmailAndPassword(string email, string password)
     {
-        var user = await context.Users.FirstAsync(
+        var user = await context.Users.Include(
+            d => d.Department
+        ).FirstAsync(
             u => u.Email == email
         );
         var hasher = new PasswordHasher<User>();

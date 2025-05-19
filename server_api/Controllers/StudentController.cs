@@ -3,15 +3,18 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server_api.DTOs;
+using server_api.DTOs.Student;
 using server_api.Services.Core;
+using Shared.Models;
 
 namespace server_api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(
+public class StudentController(
     IMapper mapper,
-    IUserService userService
+    IUserService userService,
+    IStudentService studentService
 ) : Controller
 {
     [HttpGet("me")]
@@ -34,16 +37,23 @@ public class UserController(
 
         if (!res) return NotFound();
 
-        var user = await userService.GetUserById(
-            uid
+        var role = User.FindFirstValue(
+            ClaimTypes.Role
         );
 
-        if (user is null) return NotFound();
+        if (role != Role.Student.ToString()) return Forbid();
+
+
+        var student = await studentService.GetStudentByUserId(
+            uid
+        );
 
         return Ok(
             new
             {
-                user = mapper.Map<UserResponse>(user)
+                student = mapper.Map<StudentResponse>(
+                    student
+                )
             }
         );
     }

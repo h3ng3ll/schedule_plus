@@ -25,7 +25,7 @@ public class ScheduleController(
     /// </summary>
     [HttpGet("")]
     [Authorize]
-    public async Task<IActionResult> FetchSchedules([FromBody] FetchScheduleRequest request)
+    public async Task<IActionResult> FetchSchedules([FromQuery] FetchScheduleRequest request)
     {
         //  If not specify particular Date period by default take current week . 
         var startDate = request.StartDate ?? DateTime.Now.StartOfWeek();
