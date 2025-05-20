@@ -15,7 +15,7 @@ class ScheduleApi {
   }) async {
     return await _baseRepository.api.get(
       '/Schedule/',
-      data: {
+      queryParameters: {
         'StartDate': startTime?.toIso8601String(),
         'EndTime': endTime?.toIso8601String(),
       },

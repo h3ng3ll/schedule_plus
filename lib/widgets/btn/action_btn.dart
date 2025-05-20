@@ -19,6 +19,9 @@ class ActionBtn extends StatelessWidget {
     final textTheme = AppTextTheme.of(context);
     return ElevatedButton(
       onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: 12.0,

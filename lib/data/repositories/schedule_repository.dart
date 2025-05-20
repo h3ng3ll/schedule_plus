@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-
 import '../../model/schedule/schedule.dart';
 import '../api/schedule_api.dart';
 
@@ -19,14 +18,15 @@ class ScheduleRepository {
         startTime: startTime,
         endTime: endTime,
       );
-      final List<Schedule> schedules = List<Schedule> .from(
+      final List<Schedule> schedules = List<Schedule>.from(
         (res.data as List<dynamic>).map(
-          (e) => Schedule.fromJson(e),
+          (e) => Schedule.fromJson(
+            e,
+          ),
         ),
       ).toList();
 
       return schedules;
-
     } on DioException {
       rethrow;
     }

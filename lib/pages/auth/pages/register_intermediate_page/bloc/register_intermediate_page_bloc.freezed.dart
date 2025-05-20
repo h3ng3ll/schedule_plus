@@ -20,25 +20,18 @@ mixin _$RegisterIntermediatePageEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchGroups,
     required TResult Function() fetchDepartments,
-    required TResult Function(
-            String? name, Group? group, Department? department)
-        updateData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchGroups,
     TResult? Function()? fetchDepartments,
-    TResult? Function(String? name, Group? group, Department? department)?
-        updateData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchGroups,
     TResult Function()? fetchDepartments,
-    TResult Function(String? name, Group? group, Department? department)?
-        updateData,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -46,21 +39,18 @@ mixin _$RegisterIntermediatePageEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchGroups value) fetchGroups,
     required TResult Function(_FetchDepartments value) fetchDepartments,
-    required TResult Function(_UpdateData value) updateData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchGroups value)? fetchGroups,
     TResult? Function(_FetchDepartments value)? fetchDepartments,
-    TResult? Function(_UpdateData value)? updateData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchGroups value)? fetchGroups,
     TResult Function(_FetchDepartments value)? fetchDepartments,
-    TResult Function(_UpdateData value)? updateData,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -133,9 +123,6 @@ class _$FetchGroupsImpl implements _FetchGroups {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchGroups,
     required TResult Function() fetchDepartments,
-    required TResult Function(
-            String? name, Group? group, Department? department)
-        updateData,
   }) {
     return fetchGroups();
   }
@@ -145,8 +132,6 @@ class _$FetchGroupsImpl implements _FetchGroups {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchGroups,
     TResult? Function()? fetchDepartments,
-    TResult? Function(String? name, Group? group, Department? department)?
-        updateData,
   }) {
     return fetchGroups?.call();
   }
@@ -156,8 +141,6 @@ class _$FetchGroupsImpl implements _FetchGroups {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchGroups,
     TResult Function()? fetchDepartments,
-    TResult Function(String? name, Group? group, Department? department)?
-        updateData,
     required TResult orElse(),
   }) {
     if (fetchGroups != null) {
@@ -171,7 +154,6 @@ class _$FetchGroupsImpl implements _FetchGroups {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchGroups value) fetchGroups,
     required TResult Function(_FetchDepartments value) fetchDepartments,
-    required TResult Function(_UpdateData value) updateData,
   }) {
     return fetchGroups(this);
   }
@@ -181,7 +163,6 @@ class _$FetchGroupsImpl implements _FetchGroups {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchGroups value)? fetchGroups,
     TResult? Function(_FetchDepartments value)? fetchDepartments,
-    TResult? Function(_UpdateData value)? updateData,
   }) {
     return fetchGroups?.call(this);
   }
@@ -191,7 +172,6 @@ class _$FetchGroupsImpl implements _FetchGroups {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchGroups value)? fetchGroups,
     TResult Function(_FetchDepartments value)? fetchDepartments,
-    TResult Function(_UpdateData value)? updateData,
     required TResult orElse(),
   }) {
     if (fetchGroups != null) {
@@ -249,9 +229,6 @@ class _$FetchDepartmentsImpl implements _FetchDepartments {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchGroups,
     required TResult Function() fetchDepartments,
-    required TResult Function(
-            String? name, Group? group, Department? department)
-        updateData,
   }) {
     return fetchDepartments();
   }
@@ -261,8 +238,6 @@ class _$FetchDepartmentsImpl implements _FetchDepartments {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchGroups,
     TResult? Function()? fetchDepartments,
-    TResult? Function(String? name, Group? group, Department? department)?
-        updateData,
   }) {
     return fetchDepartments?.call();
   }
@@ -272,8 +247,6 @@ class _$FetchDepartmentsImpl implements _FetchDepartments {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchGroups,
     TResult Function()? fetchDepartments,
-    TResult Function(String? name, Group? group, Department? department)?
-        updateData,
     required TResult orElse(),
   }) {
     if (fetchDepartments != null) {
@@ -287,7 +260,6 @@ class _$FetchDepartmentsImpl implements _FetchDepartments {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchGroups value) fetchGroups,
     required TResult Function(_FetchDepartments value) fetchDepartments,
-    required TResult Function(_UpdateData value) updateData,
   }) {
     return fetchDepartments(this);
   }
@@ -297,7 +269,6 @@ class _$FetchDepartmentsImpl implements _FetchDepartments {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchGroups value)? fetchGroups,
     TResult? Function(_FetchDepartments value)? fetchDepartments,
-    TResult? Function(_UpdateData value)? updateData,
   }) {
     return fetchDepartments?.call(this);
   }
@@ -307,7 +278,6 @@ class _$FetchDepartmentsImpl implements _FetchDepartments {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchGroups value)? fetchGroups,
     TResult Function(_FetchDepartments value)? fetchDepartments,
-    TResult Function(_UpdateData value)? updateData,
     required TResult orElse(),
   }) {
     if (fetchDepartments != null) {
@@ -322,222 +292,12 @@ abstract class _FetchDepartments implements RegisterIntermediatePageEvent {
 }
 
 /// @nodoc
-abstract class _$$UpdateDataImplCopyWith<$Res> {
-  factory _$$UpdateDataImplCopyWith(
-          _$UpdateDataImpl value, $Res Function(_$UpdateDataImpl) then) =
-      __$$UpdateDataImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String? name, Group? group, Department? department});
-
-  $GroupCopyWith<$Res>? get group;
-  $DepartmentCopyWith<$Res>? get department;
-}
-
-/// @nodoc
-class __$$UpdateDataImplCopyWithImpl<$Res>
-    extends _$RegisterIntermediatePageEventCopyWithImpl<$Res, _$UpdateDataImpl>
-    implements _$$UpdateDataImplCopyWith<$Res> {
-  __$$UpdateDataImplCopyWithImpl(
-      _$UpdateDataImpl _value, $Res Function(_$UpdateDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of RegisterIntermediatePageEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? group = freezed,
-    Object? department = freezed,
-  }) {
-    return _then(_$UpdateDataImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      group: freezed == group
-          ? _value.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as Group?,
-      department: freezed == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as Department?,
-    ));
-  }
-
-  /// Create a copy of RegisterIntermediatePageEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $GroupCopyWith<$Res>? get group {
-    if (_value.group == null) {
-      return null;
-    }
-
-    return $GroupCopyWith<$Res>(_value.group!, (value) {
-      return _then(_value.copyWith(group: value));
-    });
-  }
-
-  /// Create a copy of RegisterIntermediatePageEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $DepartmentCopyWith<$Res>? get department {
-    if (_value.department == null) {
-      return null;
-    }
-
-    return $DepartmentCopyWith<$Res>(_value.department!, (value) {
-      return _then(_value.copyWith(department: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$UpdateDataImpl implements _UpdateData {
-  const _$UpdateDataImpl({this.name, this.group, this.department});
-
-// required String email,
-// required String password,
-  @override
-  final String? name;
-  @override
-  final Group? group;
-  @override
-  final Department? department;
-
-  @override
-  String toString() {
-    return 'RegisterIntermediatePageEvent.updateData(name: $name, group: $group, department: $department)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UpdateDataImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.group, group) || other.group == group) &&
-            (identical(other.department, department) ||
-                other.department == department));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, name, group, department);
-
-  /// Create a copy of RegisterIntermediatePageEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UpdateDataImplCopyWith<_$UpdateDataImpl> get copyWith =>
-      __$$UpdateDataImplCopyWithImpl<_$UpdateDataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() fetchGroups,
-    required TResult Function() fetchDepartments,
-    required TResult Function(
-            String? name, Group? group, Department? department)
-        updateData,
-  }) {
-    return updateData(name, group, department);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchGroups,
-    TResult? Function()? fetchDepartments,
-    TResult? Function(String? name, Group? group, Department? department)?
-        updateData,
-  }) {
-    return updateData?.call(name, group, department);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchGroups,
-    TResult Function()? fetchDepartments,
-    TResult Function(String? name, Group? group, Department? department)?
-        updateData,
-    required TResult orElse(),
-  }) {
-    if (updateData != null) {
-      return updateData(name, group, department);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_FetchGroups value) fetchGroups,
-    required TResult Function(_FetchDepartments value) fetchDepartments,
-    required TResult Function(_UpdateData value) updateData,
-  }) {
-    return updateData(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_FetchGroups value)? fetchGroups,
-    TResult? Function(_FetchDepartments value)? fetchDepartments,
-    TResult? Function(_UpdateData value)? updateData,
-  }) {
-    return updateData?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_FetchGroups value)? fetchGroups,
-    TResult Function(_FetchDepartments value)? fetchDepartments,
-    TResult Function(_UpdateData value)? updateData,
-    required TResult orElse(),
-  }) {
-    if (updateData != null) {
-      return updateData(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _UpdateData implements RegisterIntermediatePageEvent {
-  const factory _UpdateData(
-      {final String? name,
-      final Group? group,
-      final Department? department}) = _$UpdateDataImpl;
-
-// required String email,
-// required String password,
-  String? get name;
-  Group? get group;
-  Department? get department;
-
-  /// Create a copy of RegisterIntermediatePageEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UpdateDataImplCopyWith<_$UpdateDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 mixin _$RegisterIntermediatePageState {
   RegisterIntermediatePageStatus get status =>
       throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<Group> get groups => throw _privateConstructorUsedError;
   List<Department> get departments => throw _privateConstructorUsedError;
-  Group? get group => throw _privateConstructorUsedError;
-  Department? get department => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
 
   /// Create a copy of RegisterIntermediatePageState
   /// with the given fields replaced by the non-null parameter values.
@@ -558,13 +318,7 @@ abstract class $RegisterIntermediatePageStateCopyWith<$Res> {
       {RegisterIntermediatePageStatus status,
       String errorMessage,
       List<Group> groups,
-      List<Department> departments,
-      Group? group,
-      Department? department,
-      String? name});
-
-  $GroupCopyWith<$Res>? get group;
-  $DepartmentCopyWith<$Res>? get department;
+      List<Department> departments});
 }
 
 /// @nodoc
@@ -587,9 +341,6 @@ class _$RegisterIntermediatePageStateCopyWithImpl<$Res,
     Object? errorMessage = null,
     Object? groups = null,
     Object? departments = null,
-    Object? group = freezed,
-    Object? department = freezed,
-    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -608,47 +359,7 @@ class _$RegisterIntermediatePageStateCopyWithImpl<$Res,
           ? _value.departments
           : departments // ignore: cast_nullable_to_non_nullable
               as List<Department>,
-      group: freezed == group
-          ? _value.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as Group?,
-      department: freezed == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as Department?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
-  }
-
-  /// Create a copy of RegisterIntermediatePageState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $GroupCopyWith<$Res>? get group {
-    if (_value.group == null) {
-      return null;
-    }
-
-    return $GroupCopyWith<$Res>(_value.group!, (value) {
-      return _then(_value.copyWith(group: value) as $Val);
-    });
-  }
-
-  /// Create a copy of RegisterIntermediatePageState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $DepartmentCopyWith<$Res>? get department {
-    if (_value.department == null) {
-      return null;
-    }
-
-    return $DepartmentCopyWith<$Res>(_value.department!, (value) {
-      return _then(_value.copyWith(department: value) as $Val);
-    });
   }
 }
 
@@ -665,15 +376,7 @@ abstract class _$$RegisterIntermediatePageStateImplCopyWith<$Res>
       {RegisterIntermediatePageStatus status,
       String errorMessage,
       List<Group> groups,
-      List<Department> departments,
-      Group? group,
-      Department? department,
-      String? name});
-
-  @override
-  $GroupCopyWith<$Res>? get group;
-  @override
-  $DepartmentCopyWith<$Res>? get department;
+      List<Department> departments});
 }
 
 /// @nodoc
@@ -695,9 +398,6 @@ class __$$RegisterIntermediatePageStateImplCopyWithImpl<$Res>
     Object? errorMessage = null,
     Object? groups = null,
     Object? departments = null,
-    Object? group = freezed,
-    Object? department = freezed,
-    Object? name = freezed,
   }) {
     return _then(_$RegisterIntermediatePageStateImpl(
       status: null == status
@@ -716,18 +416,6 @@ class __$$RegisterIntermediatePageStateImplCopyWithImpl<$Res>
           ? _value._departments
           : departments // ignore: cast_nullable_to_non_nullable
               as List<Department>,
-      group: freezed == group
-          ? _value.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as Group?,
-      department: freezed == department
-          ? _value.department
-          : department // ignore: cast_nullable_to_non_nullable
-              as Department?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -740,10 +428,7 @@ class _$RegisterIntermediatePageStateImpl
       {this.status = RegisterIntermediatePageStatus.initial,
       this.errorMessage = '',
       final List<Group> groups = const [],
-      final List<Department> departments = const [],
-      this.group,
-      this.department,
-      this.name})
+      final List<Department> departments = const []})
       : _groups = groups,
         _departments = departments;
 
@@ -772,15 +457,8 @@ class _$RegisterIntermediatePageStateImpl
   }
 
   @override
-  final Group? group;
-  @override
-  final Department? department;
-  @override
-  final String? name;
-
-  @override
   String toString() {
-    return 'RegisterIntermediatePageState(status: $status, errorMessage: $errorMessage, groups: $groups, departments: $departments, group: $group, department: $department, name: $name)';
+    return 'RegisterIntermediatePageState(status: $status, errorMessage: $errorMessage, groups: $groups, departments: $departments)';
   }
 
   @override
@@ -793,11 +471,7 @@ class _$RegisterIntermediatePageStateImpl
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other._groups, _groups) &&
             const DeepCollectionEquality()
-                .equals(other._departments, _departments) &&
-            (identical(other.group, group) || other.group == group) &&
-            (identical(other.department, department) ||
-                other.department == department) &&
-            (identical(other.name, name) || other.name == name));
+                .equals(other._departments, _departments));
   }
 
   @override
@@ -806,10 +480,7 @@ class _$RegisterIntermediatePageStateImpl
       status,
       errorMessage,
       const DeepCollectionEquality().hash(_groups),
-      const DeepCollectionEquality().hash(_departments),
-      group,
-      department,
-      name);
+      const DeepCollectionEquality().hash(_departments));
 
   /// Create a copy of RegisterIntermediatePageState
   /// with the given fields replaced by the non-null parameter values.
@@ -825,13 +496,11 @@ class _$RegisterIntermediatePageStateImpl
 abstract class _RegisterIntermediatePageState
     implements RegisterIntermediatePageState {
   const factory _RegisterIntermediatePageState(
-      {final RegisterIntermediatePageStatus status,
-      final String errorMessage,
-      final List<Group> groups,
-      final List<Department> departments,
-      final Group? group,
-      final Department? department,
-      final String? name}) = _$RegisterIntermediatePageStateImpl;
+          {final RegisterIntermediatePageStatus status,
+          final String errorMessage,
+          final List<Group> groups,
+          final List<Department> departments}) =
+      _$RegisterIntermediatePageStateImpl;
 
   @override
   RegisterIntermediatePageStatus get status;
@@ -841,12 +510,6 @@ abstract class _RegisterIntermediatePageState
   List<Group> get groups;
   @override
   List<Department> get departments;
-  @override
-  Group? get group;
-  @override
-  Department? get department;
-  @override
-  String? get name;
 
   /// Create a copy of RegisterIntermediatePageState
   /// with the given fields replaced by the non-null parameter values.

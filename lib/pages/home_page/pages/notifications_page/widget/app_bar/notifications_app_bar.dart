@@ -15,7 +15,7 @@ class NotificationAppBar extends StatelessWidget implements PreferredSizeWidget 
         actions: [
           Spacer(),
           Text(
-            'Уведомления',
+            'Notifications',
             style: TextStyle(
               color: AppColors.majorelleBlue.value,
               fontSize: 24,

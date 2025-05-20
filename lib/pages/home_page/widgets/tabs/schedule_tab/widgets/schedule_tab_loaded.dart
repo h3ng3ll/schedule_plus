@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../model/schedule/schedule.dart';
 import '../../../../../../utils/chronos_service.dart';
+import '../../../../../../utils/extensions/string_ext.dart';
 import '../../../../../../widgets/app_background.dart';
 import '../bloc/schedule_bloc/schedule_bloc.dart';
 import 'app_bar/app_header.dart';
@@ -37,13 +39,36 @@ class _ScheduleTabLoadedState extends State<ScheduleTabLoaded> {
   }
 
   void _onClassTapped(Schedule schedule) {
+
+    final bool isValidUrl = schedule.location.isValidUrl;
     // Show class details or navigate to class details screen
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(schedule.course.name),
-        content: Text(
-          'Professor: ${schedule.professor}\nLocation: ${schedule.location}',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Professor: ${schedule.professor.user.name}\n',
+            ),
+            isValidUrl
+                ? TextButton(
+                    onPressed: () {
+                      launchUrl(
+                        Uri.parse(
+                          schedule.location,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      schedule.location,
+                    ),
+                  )
+                : Text(
+                    schedule.location,
+                  ),
+          ],
         ),
         actions: [
           TextButton(

@@ -24,7 +24,6 @@ class RegisterIntermediatePageBloc
     on<_FetchGroups>(_fetchGroups);
     on<_FetchDepartments>(_fetchDepartments);
 
-    on<_UpdateData>(_updateData);
   }
 
   Future<void> _fetchGroups(event, emit) async {
@@ -40,7 +39,6 @@ class RegisterIntermediatePageBloc
         state.copyWith(
           status: RegisterIntermediatePageStatus.initial,
           groups: groups,
-          group: state.group ?? groups.first,
         ),
       );
     } on DioException catch (e) {
@@ -74,7 +72,6 @@ class RegisterIntermediatePageBloc
         state.copyWith(
           status: RegisterIntermediatePageStatus.initial,
           departments: departments,
-          department: state.department ?? departments.first,
         ),
       );
     } on DioException catch (e) {
@@ -94,16 +91,4 @@ class RegisterIntermediatePageBloc
     }
   }
 
-  void _updateData(event, emit) {
-    final String? name = event.name;
-    final Group? group = event._group;
-
-    emit(
-      state.copyWith(
-        name: name ?? state.name,
-        group: group ?? state.group,
-        status: RegisterIntermediatePageStatus.initial,
-      ),
-    );
-  }
 }

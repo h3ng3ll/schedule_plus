@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,40 +41,43 @@ class _RegisterIntermediatePageState extends State<RegisterIntermediatePage> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
+  Group? group;
+
+  Department? department;
 
   @override
   void dispose() {
     _nameController.dispose();
-
     super.dispose();
   }
 
   void onNext(BuildContext context) {
+    if (group == null) {
+      Fluttertoast.showToast(
+        msg: 'Group must not be null',
+      );
+      return;
+    }
+    if (department == null) {
+      Fluttertoast.showToast(
+        msg: 'Department must not be null',
+      );
+      return;
+    }
     if (_formKey.currentState!.validate()) {
       final registerIntermediatePageBloc =
           context.read<RegisterIntermediatePageBloc>();
+
       context.pushNamed(
         AppRoutesPaths.registerRouter,
         extra: RegisterPageArgs(
           name: _nameController.text.trim(),
-          group: registerIntermediatePageBloc.state.group!,
-          department: registerIntermediatePageBloc.state.department!,
+          group: group ?? registerIntermediatePageBloc.state.groups.first,
+          department: department ??
+              registerIntermediatePageBloc.state.departments.first,
         ),
       );
     }
-  }
-
-  void onUpdateData(
-    BuildContext context, {
-    Group? group,
-    Department? department,
-  }) {
-    context.read<RegisterIntermediatePageBloc>().add(
-          RegisterIntermediatePageEvent.updateData(
-            group: group,
-            department: department,
-          ),
-        );
   }
 
   @override
@@ -137,7 +141,7 @@ class _RegisterIntermediatePageState extends State<RegisterIntermediatePage> {
                               Expanded(
                                 child: DropdownButton<Group>(
                                   isExpanded: true,
-                                  value: state.group,
+                                  value: group,
                                   items: state.groups
                                       .map(
                                         (e) => DropdownMenuItem<Group>(
@@ -154,9 +158,8 @@ class _RegisterIntermediatePageState extends State<RegisterIntermediatePage> {
                                         ),
                                       )
                                       .toList(),
-                                  onChanged: (value) => onUpdateData(
-                                    context,
-                                    group: value,
+                                  onChanged: (value) => setState(
+                                        () => group = value,
                                   ),
                                 ),
                               ),
@@ -173,7 +176,7 @@ class _RegisterIntermediatePageState extends State<RegisterIntermediatePage> {
                               Gap(12.0),
                               Expanded(
                                 child: DropdownButton<Department>(
-                                  value: state.department,
+                                  value: department,
                                   isExpanded: true,
                                   items: state.departments
                                       .map(
@@ -191,9 +194,8 @@ class _RegisterIntermediatePageState extends State<RegisterIntermediatePage> {
                                         ),
                                       )
                                       .toList(),
-                                  onChanged: (value) => onUpdateData(
-                                    context,
-                                    department: value,
+                                  onChanged: (value) => setState(
+                                    () => department = value,
                                   ),
                                 ),
                               ),
@@ -261,7 +263,8 @@ class _RegisterIntermediatePageState extends State<RegisterIntermediatePage> {
                     ),
                   ),
                 ),
-                if (state.status == RegisterIntermediatePageStatus.loading) LoadingWidget(),
+                if (state.status == RegisterIntermediatePageStatus.loading)
+                  LoadingWidget(),
               ],
             );
           },

@@ -15,8 +15,5 @@ class RegisterIntermediatePageState with _$RegisterIntermediatePageState {
     @Default([]) List<Group> groups,
     @Default([]) List<Department> departments,
 
-    Group? group,
-    Department? department,
-    String? name,
   }) = _RegisterIntermediatePageState;
 }
