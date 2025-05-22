@@ -6,6 +6,7 @@ using server_api;
 using server_api.DTOs;
 using server_api.DTOs.Course;
 using server_api.DTOs.Group;
+using server_api.DTOs.Notification;
 using server_api.DTOs.Schedule;
 using server_api.DTOs.Schedule.CreateSchedule;
 using server_api.DTOs.Student;
@@ -134,6 +135,7 @@ builder.Services.AddAutoMapper(
                     ).ToUnixTimeSeconds()
                 )
             );
+        config.CreateMap<Notification, NotificationResponse>();
     }
 );
 // Add services to the container.
@@ -146,6 +148,8 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<IProfessorService, ProfessorService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IUserDeviceService, UserDeviceService>();
 
 builder.Services.AddSwaggerGen(c =>
     {

@@ -1,18 +1,18 @@
 using System.Security.Claims;
 using System.Text.Json;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api.Configs;
 using server_api.DTOs.Notification;
 using server_api.DTOs.Notification.MarkAsReadMessages;
 using server_api.Models.IRecipient;
+using server_api.Services.Core;
 using Shared.Models;
-using Shared.Models.Notifications;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
-using Notification = Shared.Models.Notification;
 
 namespace server_api.Controllers;
 
@@ -20,11 +20,12 @@ namespace server_api.Controllers;
 [Route("api/[controller]")]
 public class NotificationController(
     IFirebaseMessagingService firebaseMessagingService,
-    ApplicationContext context
+    ApplicationContext context,
+    IMapper mapper,
+    INotificationService notificationService,
+    IUserDeviceService userDeviceService
 ) : ControllerBase
 {
-
-
     [HttpGet("")]
     [Authorize]
     public async Task<IActionResult> FetchNotifications(
@@ -34,11 +35,11 @@ public class NotificationController(
         var uidClaim = User.FindFirst(
             ClaimTypes.NameIdentifier
         );
-        if (uidClaim == null) return Unauthorized();
+
 
         var user = await context.Users.FirstAsync(
             (e) => e.Id == Int32.Parse(
-                uidClaim.Value
+                uidClaim!.Value
             )
         );
 
@@ -88,9 +89,9 @@ public class NotificationController(
         var userClaim = User.FindFirst(
             ClaimTypes.NameIdentifier
         );
-        if (userClaim == null) return Unauthorized();
-        var messagesIds = markAsReadMessagesRequest.NotificationIds;
 
+        var messagesIds = markAsReadMessagesRequest.NotificationIds;
+        if (messagesIds.IsNullOrEmpty()) return Ok();
 
         var notifications = context.Notifications.Where(
             n => messagesIds.Contains(
@@ -108,25 +109,21 @@ public class NotificationController(
 
     [HttpGet("unReadMessagesCounts")]
     [Authorize]
-    public Task<IActionResult> UnReadMessagesCounts()
+    public async Task<IActionResult> UnReadMessagesCounts()
     {
         var userClaim = User.FindFirst(
             ClaimTypes.NameIdentifier
         );
-        if (userClaim == null)
-            return Task.FromResult<IActionResult>(
-                Unauthorized()
-            );
-        var counts = context.Notifications.Count(
-            (e) =>
-                e.UserId == int.Parse(userClaim.Value) &&
-                e.IsRead == false
+        var userId = int.Parse(userClaim!.Value);
+
+        var counts = await notificationService.GetUnReadMessagesCounts(
+            userId
         );
-        return Task.FromResult<IActionResult>(
+
+        return
             Ok(
                 counts
-            )
-        );
+            );
     }
 
     [HttpPost("send")]
@@ -191,18 +188,11 @@ public class NotificationController(
 
         foreach (var user in users)
         {
-            var notificationTable = new Notification
-            {
-                UserId = user.Id,
-                Body = notification.Body,
-                Title = notification.Title,
-                CreatedAt = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
-                IsRead = false,
-            };
-            context.Notifications.Add(
-                notificationTable
+            await notificationService.CreateNotification(
+                user.Id,
+                notification.Body,
+                notification.Title
             );
-            await context.SaveChangesAsync();
         }
 
         // return Ok(new { bodyData = notification.Body, titleData = notification.Title });
@@ -230,33 +220,52 @@ public class NotificationController(
         var userClaims = User.FindFirst(
             ClaimTypes.NameIdentifier
         );
-        if (userClaims == null)
-            return Unauthorized(
-                new { error = "User is not logged in." }
-            );
-        var uid = Int32.Parse(userClaims.Value);
-        // Look for token
-        var res = await context.UserDevices.AnyAsync(
-            (e) =>
-                e.DeviceToken == tokenReq.token &&
-                e.UserId == uid
+
+        var uid = Int32.Parse(
+            userClaims!.Value
         );
 
-        // User's token already has been registered . Do nothing
-        if (res) return Ok();
+        var isRegisteredDevice = await userDeviceService.IsRegisteredDevice(
+            tokenReq.token,
+            uid
+        );
 
-
-        var device = new UserDevice
+        if (!isRegisteredDevice)
         {
-            UserId = uid,
-            DeviceToken = tokenReq.token,
-        };
-
-        context.UserDevices.Add(
-            device
-        );
-        await context.SaveChangesAsync();
+            await userDeviceService.RegisterDevice(
+                tokenReq.token,
+                uid
+            );
+        }
 
         return Ok();
+    }
+
+    [HttpGet("lastNotification")]
+    [Authorize]
+    public async Task<IActionResult> GetLastNotification()
+    {
+        var userClaim = User.FindFirst(
+            ClaimTypes.NameIdentifier
+        );
+        var userId = int.Parse(
+            userClaim!.Value
+        );
+        var notification = await notificationService.GetLastMessage(
+            userId
+        );
+        if (notification == null)
+        {
+            return Ok(
+                null
+            );
+        }
+
+        var mappedMessage = mapper.Map<NotificationResponse>(
+            notification
+        );
+        return Ok(
+            mappedMessage
+        );
     }
 }
