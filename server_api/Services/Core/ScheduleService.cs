@@ -1,6 +1,6 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models.Schedule;
+using Shared.Models.ScheduleGroups;
 using Shared.Utils.DB;
 
 namespace server_api.Services.Core;
@@ -42,7 +42,9 @@ public class ScheduleService(
                 e => e.Professor.User.Department
             )
             .Include(
-                e => e.Groups
+                e => e.ScheduleGroups
+            ).ThenInclude(
+                sg => sg.Group
             )
             .Take(500) // limit from incorrect request 
             .ToListAsync();
@@ -57,8 +59,11 @@ public class ScheduleService(
                 e => e.Course
             )
             .Include(
-                e => e.Groups
-            ).Include(
+                e => e.ScheduleGroups
+            ).ThenInclude(
+                es => es.Group
+            )
+            .Include(
                 e => e.Professor.User.Department
             ).Where(
                 e => e.Id == id
@@ -71,9 +76,20 @@ public class ScheduleService(
 
     public async Task<bool> IsExistsScheduleById(int id)
     {
-        var schedule = await context.Schedules.FindAsync(
-            id
-        );
+        var schedule = await context.Schedules
+            .Include(
+                s => s.Course
+            )
+            .Include(
+                s => s.Professor
+            )
+            .Include(
+                s => s.ScheduleGroups
+            )
+            .FirstOrDefaultAsync(
+                e => e.Id == id
+            );
+
         var isExists = schedule != null;
         return isExists;
     }
@@ -81,9 +97,6 @@ public class ScheduleService(
     public async Task<Schedule> UpdateSchedule(Schedule schedule, List<int> groupIds)
     {
         var existingSchedule = await context.Schedules
-            .Include(
-                s => s.Groups
-            )
             .Include(
                 s => s.Course
             )
@@ -107,7 +120,8 @@ public class ScheduleService(
         existingSchedule.StartTime = schedule.StartTime;
         existingSchedule.EndTime = schedule.EndTime;
 
-        existingSchedule.Groups.Clear();
+
+        existingSchedule.ScheduleGroups.Clear();
 
         if (groupIds.Any())
         {
@@ -121,15 +135,19 @@ public class ScheduleService(
 
             foreach (var group in groups)
             {
-                existingSchedule.Groups.Add(
-                    group
+                existingSchedule.ScheduleGroups.Add(
+                    new ScheduleGroup()
+                    {
+                        GroupId = group.Id,
+                        ScheduleId = schedule.Id,
+                    }
                 );
             }
         }
 
         await context.SaveChangesAsync();
 
-        return schedule;
+        return existingSchedule;
     }
 
     public async Task<Schedule> CreateSchedule(Schedule schedule, List<int> groupIds)
@@ -140,7 +158,19 @@ public class ScheduleService(
             )
         ).ToListAsync();
 
-        schedule.Groups = groups;
+        var scheduleGroups = groups.Select(
+            e =>
+            {
+                var scheduleGroup = new ScheduleGroup
+                {
+                    Group = e,
+                    Schedule = schedule
+                };
+                return scheduleGroup;
+            }
+        ).ToList();
+
+        schedule.ScheduleGroups = scheduleGroups;
 
         context.Schedules.Add(
             schedule
@@ -153,15 +183,14 @@ public class ScheduleService(
 
     public async Task DeleteScheduleById(int id)
     {
-        var schedule = await context.Schedules
-            .Include(
-                s => s.Groups
+        var schedule = await context.Schedules.Include(
+                s => s.ScheduleGroups
             )
             .FirstAsync(
                 e => e.Id == id
             );
 
-        schedule.Groups.Clear();
+        schedule.ScheduleGroups.Clear();
 
         context.Schedules.Remove(
             schedule

@@ -1,10 +1,8 @@
-
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server_api.DTOs.Group;
-
 using Shared.Models;
 using ApplicationContext = Shared.Utils.DB.ApplicationContext;
 
@@ -35,8 +33,12 @@ public class GroupController(
     {
         var group = await context.Groups.ToListAsync();
 
+        var groupMapped = group.Select(
+            mapper.Map<GroupResponse>
+        ).ToList();
+        
         return Ok(
-            group
+            groupMapped
         );
     }
 

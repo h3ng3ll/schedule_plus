@@ -3,18 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using schedule_plus.Services.Firebase.FirebaseMessaging;
 using server_api;
-using server_api.DTOs;
-using server_api.DTOs.Course;
-using server_api.DTOs.Group;
-using server_api.DTOs.Notification;
-using server_api.DTOs.Schedule;
-using server_api.DTOs.Schedule.CreateSchedule;
-using server_api.DTOs.Student;
-using server_api.DTOs.Teacher;
+
 using server_api.Services.Core;
 using server_api.Utils;
 using Shared.Models;
 using Shared.Models.Schedule;
+using Shared.Models.ScheduleGroups;
 using Shared.Models.Users;
 using Shared.Utils.DB;
 using Course = Shared.Models.Course;
@@ -53,91 +47,12 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 
 builder.Services.AddSingleton<AppEncryption>();
 
+
 builder.Services.AddAutoMapper(
-    config =>
-    {
-        config.CreateMap<Professor, ProfessorResponse>();
-        config.CreateMap<Student, StudentResponse>().ForMember(
-            dest => dest.User,
-            opt => opt.MapFrom(
-                src => src.User
-            )
-        );
-
-        config.CreateMap<User, UserResponse>().ForMember(
-            dest => dest.Department,
-            origin => origin.MapFrom(
-                src => src.Department
-            )
-        );
-
-
-        config.CreateMap<CreateGroupRequest, Group>();
-        config.CreateMap<CreateCourseRequest, Course>();
-
-        config.CreateMap<CreateDepartmentRequest, Department>();
-        config.CreateMap<UpdateDepartmentRequest, Department>();
-        config.CreateMap<Department, GetDepartmentResponse>();
-
-        config.CreateMap<RegisterStudentRequest, RegisterUserRequest>();
-
-        config.CreateMap<RegisterUserRequest, User>();
-        config.CreateMap<Student, StudentResponse>();
-
-        config.CreateMap<Schedule, FetchScheduleResponse>()
-            .ForMember(
-                dest => dest.StartTime,
-                opt => opt.MapFrom(
-                    src => DateTimeOffset.FromUnixTimeSeconds(
-                        src.StartTime
-                    ).ToUniversalTime().LocalDateTime
-                )
-            )
-            .ForMember(
-                dest => dest.EndTime,
-                opt => opt.MapFrom(
-                    src => DateTimeOffset.FromUnixTimeSeconds(
-                        src.EndTime
-                    ).ToUniversalTime().LocalDateTime
-                )
-            );
-        config.CreateMap<CreateScheduleRequest, Schedule>()
-            .ForMember(
-                dest => dest.StartTime,
-                opt => opt.MapFrom(
-                    src => new DateTimeOffset(
-                        src.StartTime
-                    ).ToUnixTimeSeconds()
-                )
-            )
-            .ForMember(
-                dest => dest.EndTime,
-                opt => opt.MapFrom(
-                    src => new DateTimeOffset(
-                        src.EndTime
-                    ).ToUnixTimeSeconds()
-                )
-            );
-        config.CreateMap<UpdateScheduleRequest, Schedule>()
-            .ForMember(
-                dest => dest.StartTime,
-                opt => opt.MapFrom(
-                    src => new DateTimeOffset(
-                        src.StartTime
-                    ).ToUnixTimeSeconds()
-                )
-            )
-            .ForMember(
-                dest => dest.EndTime,
-                opt => opt.MapFrom(
-                    src => new DateTimeOffset(
-                        src.EndTime
-                    ).ToUnixTimeSeconds()
-                )
-            );
-        config.CreateMap<Notification, NotificationResponse>();
-    }
+    typeof(MappingProfile)
 );
+
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

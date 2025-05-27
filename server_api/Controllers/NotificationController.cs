@@ -71,7 +71,7 @@ public class NotificationController(
             n => n.UserId == user.Id
         );
 
-        return Ok(
+        return Ok( 
             new FetchNotificationsResponse()
             {
                 Notifications = notifications,
@@ -202,14 +202,14 @@ public class NotificationController(
     // Just For Android Send Notification Channel
     [HttpGet("config")]
     [Authorize]
-    public async Task<IActionResult> GetConfig()
+    public  Task<IActionResult> GetConfig()
     {
         // content.Response.Headers.Add("Content-Type", "application/json");
-        return Ok(
+        return Task.FromResult<IActionResult>(Ok(
             JsonSerializer.Serialize(
                 NotificationChannelConfig.GetNotificationChannelsConfig()
             )
-        );
+        ));
     }
 
 

@@ -35,7 +35,7 @@ public class ScheduleController(
             startDate, endDate
         );
 
-        var mapped = mapper.Map<List<FetchScheduleResponse>>(
+        var mapped = mapper.Map<List<ScheduleResponse>>(
             schedules
         );
 
@@ -62,7 +62,7 @@ public class ScheduleController(
             id
         );
 
-        var scheduleRes = mapper.Map<FetchScheduleResponse>(
+        var scheduleRes = mapper.Map<ScheduleResponse>(
             schedule
         );
         return Ok(
@@ -90,7 +90,7 @@ public class ScheduleController(
             createScheduleRequest.GroupIds
         );
 
-        var scheduleRes = mapper.Map<FetchScheduleResponse>(
+        var scheduleRes = mapper.Map<ScheduleResponse>(
             schedule
         );
         return Ok(
@@ -123,6 +123,7 @@ public class ScheduleController(
                 }
             );
         }
+
         if (createScheduleRequest.StartTime == DateTime.MinValue)
         {
             return BadRequest(
@@ -132,6 +133,7 @@ public class ScheduleController(
                 }
             );
         }
+
         return null;
     }
 
@@ -199,8 +201,11 @@ public class ScheduleController(
             id
         );
 
-        return Ok(
+        var mappedSchedule = mapper.Map<ScheduleResponse>(
             updatedSchedule
+        );
+        return Ok(
+            mappedSchedule
         );
     }
 
