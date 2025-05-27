@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Shared.Utils.DB;
@@ -11,9 +12,11 @@ using Shared.Utils.DB;
 namespace Shared.Models.g
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20250527094703_AddedScheduleGroupsTable")]
+    partial class AddedScheduleGroupsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +90,12 @@ namespace Shared.Models.g
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("ScheduleId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId");
 
                     b.ToTable("Groups");
                 });
@@ -282,6 +290,13 @@ namespace Shared.Models.g
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Shared.Models.Group", b =>
+                {
+                    b.HasOne("Shared.Models.Schedule.Schedule", null)
+                        .WithMany("Groups")
+                        .HasForeignKey("ScheduleId");
+                });
+
             modelBuilder.Entity("Shared.Models.Notification", b =>
                 {
                     b.HasOne("Shared.Models.User", "User")
@@ -388,6 +403,8 @@ namespace Shared.Models.g
 
             modelBuilder.Entity("Shared.Models.Schedule.Schedule", b =>
                 {
+                    b.Navigation("Groups");
+
                     b.Navigation("ScheduleGroups");
                 });
 #pragma warning restore 612, 618

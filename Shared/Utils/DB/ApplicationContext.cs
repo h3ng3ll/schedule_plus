@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 using Shared.Models.Notifications;
 using Shared.Models.Schedule;
+using Shared.Models.ScheduleGroups;
 using Shared.Models.Users;
 
 namespace Shared.Utils.DB;
@@ -21,5 +22,25 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
     public DbSet<Notification> Notifications { get; set; }
     
     public DbSet<Group> Groups { get; set; }
-    
+    public DbSet<ScheduleGroup> ScheduleGroup { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<ScheduleGroup>()
+            .HasKey(sg => new { sg.ScheduleId , sg.GroupId });
+
+        modelBuilder.Entity<ScheduleGroup>()
+            .HasOne(sg => sg.Group)
+            .WithMany(g => g.ScheduleGroups)
+            .HasForeignKey(sg => sg.ScheduleId);
+        
+        modelBuilder.Entity<ScheduleGroup>()
+            .HasOne(sg => sg.Group)
+            .WithMany(g => g.ScheduleGroups)
+            .HasForeignKey(sg => sg.GroupId);
+    }
 }
