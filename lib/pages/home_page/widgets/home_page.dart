@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import '../../../../../routes/init_router.dart';
+import '../../../resources/colors/app_color_scheme.dart';
+import '../pages/notifications_page/bloc/notification_page_bloc/notification_page_bloc.dart';
 import 'tabs/profile_tab/profile_tab.dart';
 import 'tabs/schedule_tab/schedule_tab.dart';
 
@@ -40,20 +43,23 @@ class _HomePageState extends State<HomePage> {
 
   List<String> tabTitles(BuildContext context) {
     return [
-      'Расписания',
-      'Профиль ',
-      'Аудиозаписи',
-      'Курсы',
+      'Schedules',
+      'Profile ',
+      'AudioRecords',
+      'Courses',
     ];
   }
 
   List<PersistentBottomNavBarItem> itemImages(BuildContext context) {
+    final colorScheme = AppColorScheme.of(context);
+
     List<PersistentBottomNavBarItem> barItems = [];
     for (int i = 0; i < activeIcons.length; i++) {
       final item = PersistentBottomNavBarItem(
         inactiveIcon: inActiveIcons[i],
         title: tabTitles(context)[i],
         icon: activeIcons[i],
+        activeColorPrimary: colorScheme.onSecondary,
       );
       barItems.add(item);
     }
@@ -71,11 +77,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return PersistentTabView(
-      context,
-      screens: tabs,
-      items: itemImages(context),
-      navBarStyle: NavBarStyle.style6,
+    return BlocProvider(
+      create: (_) => NotificationPageBloc()
+        ..add(
+          NotificationPageEvent.loadUnreadMessagesCount(),
+        ),
+      child: PersistentTabView(
+        context,
+        screens: tabs,
+        items: itemImages(context),
+        navBarStyle: NavBarStyle.style6,
+      ),
     );
   }
 }

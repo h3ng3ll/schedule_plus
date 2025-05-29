@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../bloc/auth_cubit/auth_cubit.dart';
 import '../../../../../data/repositories/auth_repository.dart';
+import '../../../../../services/notification_service/notification_service.dart';
 import '../register_page.dart';
 
 part 'register_event.dart';
@@ -17,6 +18,8 @@ part 'register_bloc.freezed.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthRepository _authRepository = AuthRepository.instance;
   final AuthCubit _authCubit;
+
+  final NotificationService _notificationService = NotificationService.instance;
 
   RegisterBloc(
     this._authCubit,
@@ -45,6 +48,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         registerPageArgs.group.id,
       );
 
+      await _notificationService.saveToken();
       emit(
         state.copyWith(
           status: RegisterStatus.initial,
@@ -54,16 +58,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         user,
       );
       onCompleted();
-    }
-    on DioException catch (e) {
+    } on DioException catch (e) {
       emit(
         state.copyWith(
           status: RegisterStatus.error,
           errorMessage: e.error?.toString() ?? '',
         ),
       );
-    }
-    catch (e) {
+    } catch (e) {
       emit(
         state.copyWith(
           status: RegisterStatus.error,
@@ -72,5 +74,4 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       );
     }
   }
-
 }

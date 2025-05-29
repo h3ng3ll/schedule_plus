@@ -9,7 +9,6 @@ import '../../../../../resources/text/app_text_theme.dart';
 import '../../../../../routes/app_routes_paths.dart';
 import '../../../../../widgets/app_background.dart';
 import '../../../../../widgets/btn/action_btn.dart';
-import '../../../bloc/settings_bloc/settings_bloc.dart';
 import '../schedule_tab/widgets/app_bar/app_header.dart';
 import 'bloc/profile_tab_bloc.dart';
 import 'widget/build_user_avatar.dart';
@@ -31,9 +30,7 @@ class ProfileTab extends StatelessWidget {
     final colorScheme = AppColorScheme.of(context);
     final textTheme = AppTextTheme.of(context);
     return BlocProvider(
-      create: (_) => ProfileTabBloc(
-        context.read<SettingsBloc>(),
-      )..add(
+      create: (_) => ProfileTabBloc()..add(
           ProfileTabEvent.load(),
         ),
       child: Scaffold(
@@ -46,16 +43,16 @@ class ProfileTab extends StatelessWidget {
                 children: [
                   const Gap(20.0),
                   BuildUserAvatar(
-                    image: state.user.imgUrl,
+                    image: state.user?.imgUrl,
                   ),
                   Text(
-                    '${state.user.name} ${state.group?.name ?? ''}',
+                    '${state.user?.name ?? ''} ${state.group?.name ?? ''}',
                     style: textTheme.medium24.copyWith(
                       color: colorScheme.secondary,
                     ),
                   ),
                   Text(
-                    state.user.email,
+                    state.user?.email ?? '',
                     style: textTheme.medium14.copyWith(
                       color: colorScheme.secondary.withValues(
                         alpha: 0.4,
@@ -63,7 +60,7 @@ class ProfileTab extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    state.user.department.name,
+                    state.user?.department.name ?? '',
                     style: textTheme.medium14.copyWith(
                       color: colorScheme.secondary.withValues(
                         alpha: 0.4,

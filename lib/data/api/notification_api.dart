@@ -66,4 +66,10 @@ class NotificationApi {
       '/Notification/unReadMessagesCounts',
     );
   }
+
+  Future<Response> lastNotification() async {
+    return await _baseRepository.api.get(
+      '/Notification/lastNotification',
+    );
+  }
 }

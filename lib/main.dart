@@ -7,53 +7,31 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'bloc/auth_cubit/auth_cubit.dart';
 import 'bloc/core/app_observer.dart';
-import 'bloc/notification_bloc/notification_bloc.dart';
 import 'firebase_options.dart';
 
-import 'model/course/course.dart';
-import 'model/department/department.dart';
-import 'model/professor/professor.dart';
-import 'model/schedule/schedule.dart';
-import 'model/user/user.dart';
 import 'resources/app_theme.dart';
 import 'routes/init_router.dart';
 import 'services/firebase/firebase_messaging_service.dart';
+import 'services/foreground_service/work_manager_service.dart';
 import 'services/home_widget_service/home_widget_service.dart';
-import 'services/notification_service/notification_service.dart';
+import 'services/notification_service/local_notification_service.dart';
 
 late ui.FragmentProgram fragmentProgram;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await WorkManagerService.instance.initialize();
+
   await HomeWidgetService.instance.initialize();
-  await HomeWidgetService.instance.setData(
-    Schedule(
-      id: 3,
-      location: 'fdfa',
-      course: Course(id: 342, name: "Test Course"),
-      groups: [],
-      professor: Professor(
-        id: 33,
-        user: User(
-          name: 'name',
-          email: 'email',
-          department: Department(
-            id: 34,
-            name: 'name',
-          ),
-        ),
-      ),
-      startTime: DateTime.now(),
-      endTime: DateTime.now(),
-    ),
-  );
+
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   await FirebaseMessagingService.instance.init();
-  await NotificationService.instance.init();
+  await LocalNotificationService.instance.init();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -80,14 +58,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final NotificationBloc notificationBloc;
   late final AuthCubit authCubit;
 
   @override
   void initState() {
-    notificationBloc = NotificationBloc();
     authCubit = AuthCubit(
-      notificationBloc,
+
     );
     super.initState();
   }
@@ -95,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     authCubit.close();
-    notificationBloc.close();
 
     super.dispose();
   }
@@ -122,9 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
       providers: [
         BlocProvider<AuthCubit>.value(
           value: authCubit,
-        ),
-        BlocProvider<NotificationBloc>.value(
-          value: notificationBloc,
         ),
       ],
       child: MaterialApp.router(

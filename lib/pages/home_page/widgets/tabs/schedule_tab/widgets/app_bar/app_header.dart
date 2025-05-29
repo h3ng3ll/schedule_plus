@@ -9,7 +9,8 @@ import '../../../../../../../resources/colors/app_colors.dart';
 import '../../../../../../../resources/text/app_text_theme.dart';
 import '../../../../../../../routes/app_routes_paths.dart';
 import '../../../../../../../widgets/padding/horizontal_padding.dart';
-import '../../../../../bloc/settings_bloc/settings_bloc.dart';
+import '../../../../../pages/notifications_page/bloc/notification_page_bloc/notification_page_bloc.dart';
+import '../../../../../pages/notifications_page/notifications_page.dart';
 
 class AppHeader extends StatefulWidget implements PreferredSizeWidget {
   const AppHeader({super.key});
@@ -26,6 +27,9 @@ class _AppHeaderState extends State<AppHeader>
   void onTapNotifications(BuildContext context) {
     context.pushNamed(
       AppRoutesPaths.notificationRoute,
+      extra: NotificationsPageArgs(
+        notificationPageBloc: context.read<NotificationPageBloc>(),
+      ),
     );
     // await NotificationService.instance.showNotifications();
   }
@@ -80,10 +84,9 @@ class _AppHeaderState extends State<AppHeader>
     final colorScheme = AppColorScheme.of(context);
     final textTheme = AppTextTheme.of(context);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      builder: (context, state) {
-        final unReadNotifications = state.unReadNotifications;
-
+    return BlocSelector<NotificationPageBloc, NotificationPageState, int>(
+      selector: (state) => state.unreadMessagesCount,
+      builder: (context, unReadNotifications) {
         return HorizontalPadding(
           child: AppBar(
             actions: [

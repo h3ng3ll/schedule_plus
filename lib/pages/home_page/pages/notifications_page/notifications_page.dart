@@ -2,20 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../widgets/app_background.dart';
-import '../../bloc/settings_bloc/settings_bloc.dart';
 import 'bloc/notification_page_bloc/notification_page_bloc.dart';
 import 'widget/app_bar/notifications_app_bar.dart';
 import 'widget/notification_tile.dart';
 
+class NotificationsPageArgs {
+  final NotificationPageBloc notificationPageBloc;
+
+  NotificationsPageArgs({
+    required this.notificationPageBloc,
+  });
+}
+
 class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
+  final NotificationsPageArgs notificationsPageArgs;
+
+  const NotificationsPage({
+    super.key,
+    required this.notificationsPageArgs,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotificationPageBloc(
-        context.read<SettingsBloc>(),
-      ),
+    return BlocProvider.value(
+      value: notificationsPageArgs.notificationPageBloc
+        ..add(
+          NotificationPageEvent.loadNotifications(),
+        )
+        ..add(
+          NotificationPageEvent.markAsReadMessages(),
+        ),
       child: Scaffold(
         appBar: NotificationAppBar(),
         body: AppBackground(

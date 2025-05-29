@@ -85,4 +85,17 @@ class NotificationRepository {
       rethrow;
     }
   }
+
+  Future<Notification> getLastNotification() async {
+    try {
+      final res = await _notificationApi.lastNotification();
+      final notification = Notification.fromJson(
+        res.data,
+      );
+
+      return notification;
+    } on DioException {
+      rethrow;
+    }
+  }
 }

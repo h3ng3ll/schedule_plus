@@ -1,86 +1,119 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../data/repositories/notification_repository.dart';
-
-@pragma('vm:entry-point')
-void notificationTapBackground(NotificationResponse notificationResponse) {
-  debugPrint('catch notification on background $notificationResponse');
-}
+import '../../model/notification/notification.dart';
+import '../../model/notification_pagination_state/notification_pagination_state.dart';
+import '../firebase/firebase_messaging_service.dart';
 
 class NotificationService {
-  final NotificationRepository notificationRepository =
+  final NotificationRepository _notificationRepository =
       NotificationRepository.instance;
 
-  static final instance = NotificationService._();
-  late final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  final FirebaseMessagingService _firebaseMessagingService =
+      FirebaseMessagingService.instance;
 
-  NotificationService._() {
-    // _init();
+  NotificationPaginationState _notificationPaginationState =
+      NotificationPaginationState();
+
+  int _unreadMessagesCount = 0;
+
+  late final StreamController<NotificationPaginationState>
+      _notificationsController = StreamController();
+
+  late final Stream<NotificationPaginationState> notificationsStream =
+      _notificationsController.stream.asBroadcastStream();
+
+  late final StreamSink<NotificationPaginationState> _notificationSink =
+      _notificationsController.sink;
+
+  late final StreamController<int> _unreadMessagesCountController =
+      StreamController();
+
+  late final Stream<int> unreadMessagesCountStream =
+      _unreadMessagesCountController.stream.asBroadcastStream();
+
+  late final StreamSink<int> _unreadMessagesCountSink =
+      _unreadMessagesCountController.sink;
+
+  static final instance = NotificationService._();
+
+  NotificationService._(){
+    initFCMListener();
   }
 
-  Future<void> init() async {
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  void initFCMListener() {
+    _firebaseMessagingService.remoteMessageStream.listen(
+      (message) async {
+        final Notification newNotification =
+            await _notificationRepository.getLastNotification();
 
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: AndroidInitializationSettings(
-        '@mipmap/ic_launcher',
+        _notificationPaginationState = _notificationPaginationState.copyWith(
+          total: _notificationPaginationState.total + 1,
+          notifications: [
+            ..._notificationPaginationState.notifications,
+            newNotification,
+          ],
+        );
+        _unreadMessagesCount += 1;
+
+        _notificationSink.add(
+          _notificationPaginationState,
+        );
+
+        _unreadMessagesCountSink.add(
+          _unreadMessagesCount,
+        );
+      },
+    );
+  }
+
+  Future<void> fetchNotifications() async {
+    if (_notificationPaginationState.page >=
+        _notificationPaginationState.total) {
+      return;
+    }
+
+    final newState = await _notificationRepository.fetchNotifications(
+      _notificationPaginationState.copyWith(
+        page: _notificationPaginationState.page + 1,
       ),
     );
-
-    final AndroidFlutterLocalNotificationsPlugin? plugin =
-        _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
-
-    await plugin?.requestExactAlarmsPermission();
-    await plugin?.requestNotificationsPermission();
-
-    /// Fetch from BackEnd available channels and register it .
-    // final androidChannels =
-    //     await notificationRepository.fetchNotificationChannelConfig();
-
-    // for (var channel in androidChannels) {
-    //   final androidChannel = AndroidNotificationChannel(
-    //     channel.id,
-    //     channel.name,
-    //     importance: Importance.max,
-    //   );
-    //   await plugin?.createNotificationChannel(
-    //     androidChannel,
-    //   );
-    // }
-
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: notificationResponse,
-      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+    _notificationSink.add(
+      newState,
     );
   }
 
-  void notificationResponse(NotificationResponse notificationResponse) {}
+  Future<void> markAsReadMessages(List<int> notificationIds) async {
+    await _notificationRepository.markAsReadMessages(
+      notificationIds,
+    );
+    _unreadMessagesCount -= notificationIds.length;
 
-  Future<void> showNotifications(
-    String channelId,
-    String channelName,
-    String title,
-    String body,
-  ) async {
-    final androidNotificationDetails = AndroidNotificationDetails(
-      channelId,
-      channelName,
-      importance: Importance.max,
-      ticker: 'ticker',
+    _unreadMessagesCountSink.add(
+      _unreadMessagesCount,
     );
-    NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
+  }
+
+  Future<void> loadUnreadMessagesCount() async {
+    final count = await _notificationRepository.unReadMessagesCount();
+    _unreadMessagesCount = count;
+
+    _unreadMessagesCountSink.add(
+      _unreadMessagesCount,
     );
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      title,
-      body,
-      notificationDetails,
-      payload: 'item x',
-    );
+  }
+
+  Future<void> saveToken() async {
+    final String? token = _firebaseMessagingService.deviceToken;
+    if (kDebugMode) {
+      print(token);
+    }
+    if (token != null) {
+      await _notificationRepository.registerUserToken(
+        token,
+      );
+    }
   }
 }

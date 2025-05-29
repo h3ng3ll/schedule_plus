@@ -56,7 +56,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
       : primary = AppColors.goldCrayola.value,
         onPrimary = AppColors.cultured.value,
         secondary = AppColors.jacarta.value,
-        onSecondary = AppColors.greenSheen.value,
+        onSecondary = AppColors.mediumPurple.value,
         inactiveSecondary = AppColors.white.value,
         surface = AppColors.ghostWhite.value,
         onSurface = AppColors.jacarta.value,

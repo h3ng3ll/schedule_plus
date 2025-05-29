@@ -5,7 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../firebase_options.dart';
-import '../notification_service/notification_service.dart';
+import '../notification_service/local_notification_service.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -24,7 +24,7 @@ Future<void> backgroundHandler(RemoteMessage message) async {}
 
 class FirebaseMessagingService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final NotificationService _notificationService = NotificationService.instance;
+  final LocalNotificationService _notificationService = LocalNotificationService.instance;
 
   late final StreamController<RemoteMessage> _remoteMessageController =
       StreamController();

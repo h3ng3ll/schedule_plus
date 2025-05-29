@@ -12,7 +12,7 @@ class NotificationPageState with _$NotificationPageState {
   const factory NotificationPageState({
     @Default(NotificationPageStatus.initial) NotificationPageStatus status,
     @Default(NotificationPaginationState()) NotificationPaginationState paginationState,
-
+    @Default(0) int unreadMessagesCount ,
     @Default('') errorMessage,
   }) = _NotificationPageState;
 }

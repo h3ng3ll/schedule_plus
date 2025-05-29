@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:home_widget/home_widget.dart';
 
 import '../../../../../../../data/repositories/schedule_repository.dart';
 import '../../../../../../../model/schedule/schedule.dart';
+import '../../../../../../../services/home_widget_service/home_widget_service.dart';
 
 part 'schedule_event.dart';
 
@@ -14,6 +16,7 @@ part 'schedule_bloc.freezed.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   final ScheduleRepository _scheduleRepository = ScheduleRepository.instance;
+  final HomeWidgetService _homeWidgetService = HomeWidgetService.instance;
 
   ScheduleBloc({required DateTime dayTime})
       : super(
@@ -38,15 +41,16 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       minute: 0,
       second: 0,
     );
-    final endTime =  time.copyWith(
+    final endTime = time.copyWith(
       hour: 23,
       minute: 59,
       second: 59,
     );
 
     final schedules = await _scheduleRepository.fetchSchedule(
-      startTime: startTime,
-      endTime: endTime
+        startTime: startTime, endTime: endTime);
+    _homeWidgetService.updateTodaySchedule(
+      schedules.first,
     );
     emit(
       state.copyWith(

@@ -4,69 +4,69 @@ import 'package:intl/intl.dart';
 import '../../model/schedule/schedule.dart';
 
 class HomeWidgetService {
-  String appGroupId = 'group.todaySchedule';
+  final String _appGroupId = 'group.todaySchedule';
 
-  String androidWidgetName = 'TodaySchedule';
+  final String _androidWidgetName = 'TodaySchedule';
 
   static final instance = HomeWidgetService._();
 
-  final String courseNameKey = 'course_name';
-  final String todayDayKey = 'today_day';
-  final String beginTimeKey = 'begin_time';
-  final String endTimeKey = 'end_time';
-  final String professorKey = 'professor';
-  final String locationKey = 'location';
+  final String _courseNameKey = 'course_name';
+  final String _todayDayKey = 'today_day';
+  final String _beginTimeKey = 'begin_time';
+  final String _endTimeKey = 'end_time';
+  final String _professorKey = 'professor';
+  final String _locationKey = 'location';
 
   HomeWidgetService._();
 
   Future<void> initialize() async {
     await HomeWidget.setAppGroupId(
-      appGroupId,
+      _appGroupId,
     );
   }
 
-  Future<void> setData(Schedule schedule) async {
-    await HomeWidget.setAppGroupId(appGroupId);
+  Future<void> updateTodaySchedule(Schedule schedule) async {
+    await HomeWidget.setAppGroupId(_appGroupId);
 
     await HomeWidget.saveWidgetData(
-      courseNameKey,
+      _courseNameKey,
       schedule.course.name,
     );
     await HomeWidget.saveWidgetData(
-      todayDayKey,
+      _todayDayKey,
       DateFormat('EEEE.dd').format(
         DateTime.now(),
       ),
     );
     await HomeWidget.saveWidgetData(
-      beginTimeKey,
+      _beginTimeKey,
       DateFormat('hh.mm').format(
         schedule.startTime,
       ),
     );
 
     await HomeWidget.saveWidgetData(
-      endTimeKey,
+      _endTimeKey,
       DateFormat('hh.mm').format(
         schedule.endTime,
       ),
     );
 
     await HomeWidget.saveWidgetData(
-      professorKey,
+      _professorKey,
       schedule.professor.user.name,
     );
     await HomeWidget.saveWidgetData(
-      locationKey,
+      _locationKey,
       schedule.location,
     );
 
     final res = await HomeWidget.saveWidgetData(
-      courseNameKey,
+      _courseNameKey,
       schedule.course.name,
     );
     final value = await HomeWidget.updateWidget(
-      androidName: androidWidgetName,
+      androidName: _androidWidgetName,
     );
   }
 }

@@ -19,38 +19,62 @@ mixin _$NotificationPageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadNotifications,
-    required TResult Function(List<int> notificationIds) markAsReadMessages,
+    required TResult Function() loadUnreadMessagesCount,
+    required TResult Function() markAsReadMessages,
+    required TResult Function(NotificationPaginationState notificationPgState)
+        updateMessages,
+    required TResult Function(int unreadMessageCount) updateUnreadMessageCount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadNotifications,
-    TResult? Function(List<int> notificationIds)? markAsReadMessages,
+    TResult? Function()? loadUnreadMessagesCount,
+    TResult? Function()? markAsReadMessages,
+    TResult? Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult? Function(int unreadMessageCount)? updateUnreadMessageCount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadNotifications,
-    TResult Function(List<int> notificationIds)? markAsReadMessages,
+    TResult Function()? loadUnreadMessagesCount,
+    TResult Function()? markAsReadMessages,
+    TResult Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult Function(int unreadMessageCount)? updateUnreadMessageCount,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_LoadUnreadMessagesCount value)
+        loadUnreadMessagesCount,
     required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+    required TResult Function(_UpdateMessages value) updateMessages,
+    required TResult Function(_UpdateUnreadMessageCount value)
+        updateUnreadMessageCount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
     TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult? Function(_UpdateMessages value)? updateMessages,
+    TResult? Function(_UpdateUnreadMessageCount value)?
+        updateUnreadMessageCount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
     TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult Function(_UpdateMessages value)? updateMessages,
+    TResult Function(_UpdateUnreadMessageCount value)? updateUnreadMessageCount,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -120,7 +144,11 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadNotifications,
-    required TResult Function(List<int> notificationIds) markAsReadMessages,
+    required TResult Function() loadUnreadMessagesCount,
+    required TResult Function() markAsReadMessages,
+    required TResult Function(NotificationPaginationState notificationPgState)
+        updateMessages,
+    required TResult Function(int unreadMessageCount) updateUnreadMessageCount,
   }) {
     return loadNotifications();
   }
@@ -129,7 +157,11 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadNotifications,
-    TResult? Function(List<int> notificationIds)? markAsReadMessages,
+    TResult? Function()? loadUnreadMessagesCount,
+    TResult? Function()? markAsReadMessages,
+    TResult? Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult? Function(int unreadMessageCount)? updateUnreadMessageCount,
   }) {
     return loadNotifications?.call();
   }
@@ -138,7 +170,11 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadNotifications,
-    TResult Function(List<int> notificationIds)? markAsReadMessages,
+    TResult Function()? loadUnreadMessagesCount,
+    TResult Function()? markAsReadMessages,
+    TResult Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult Function(int unreadMessageCount)? updateUnreadMessageCount,
     required TResult orElse(),
   }) {
     if (loadNotifications != null) {
@@ -151,7 +187,12 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_LoadUnreadMessagesCount value)
+        loadUnreadMessagesCount,
     required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+    required TResult Function(_UpdateMessages value) updateMessages,
+    required TResult Function(_UpdateUnreadMessageCount value)
+        updateUnreadMessageCount,
   }) {
     return loadNotifications(this);
   }
@@ -160,7 +201,11 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
     TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult? Function(_UpdateMessages value)? updateMessages,
+    TResult? Function(_UpdateUnreadMessageCount value)?
+        updateUnreadMessageCount,
   }) {
     return loadNotifications?.call(this);
   }
@@ -169,7 +214,10 @@ class _$LoadNotificationsImpl implements _LoadNotifications {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
     TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult Function(_UpdateMessages value)? updateMessages,
+    TResult Function(_UpdateUnreadMessageCount value)? updateUnreadMessageCount,
     required TResult orElse(),
   }) {
     if (loadNotifications != null) {
@@ -184,12 +232,143 @@ abstract class _LoadNotifications implements NotificationPageEvent {
 }
 
 /// @nodoc
+abstract class _$$LoadUnreadMessagesCountImplCopyWith<$Res> {
+  factory _$$LoadUnreadMessagesCountImplCopyWith(
+          _$LoadUnreadMessagesCountImpl value,
+          $Res Function(_$LoadUnreadMessagesCountImpl) then) =
+      __$$LoadUnreadMessagesCountImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoadUnreadMessagesCountImplCopyWithImpl<$Res>
+    extends _$NotificationPageEventCopyWithImpl<$Res,
+        _$LoadUnreadMessagesCountImpl>
+    implements _$$LoadUnreadMessagesCountImplCopyWith<$Res> {
+  __$$LoadUnreadMessagesCountImplCopyWithImpl(
+      _$LoadUnreadMessagesCountImpl _value,
+      $Res Function(_$LoadUnreadMessagesCountImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$LoadUnreadMessagesCountImpl implements _LoadUnreadMessagesCount {
+  const _$LoadUnreadMessagesCountImpl();
+
+  @override
+  String toString() {
+    return 'NotificationPageEvent.loadUnreadMessagesCount()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadUnreadMessagesCountImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadNotifications,
+    required TResult Function() loadUnreadMessagesCount,
+    required TResult Function() markAsReadMessages,
+    required TResult Function(NotificationPaginationState notificationPgState)
+        updateMessages,
+    required TResult Function(int unreadMessageCount) updateUnreadMessageCount,
+  }) {
+    return loadUnreadMessagesCount();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadNotifications,
+    TResult? Function()? loadUnreadMessagesCount,
+    TResult? Function()? markAsReadMessages,
+    TResult? Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult? Function(int unreadMessageCount)? updateUnreadMessageCount,
+  }) {
+    return loadUnreadMessagesCount?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadNotifications,
+    TResult Function()? loadUnreadMessagesCount,
+    TResult Function()? markAsReadMessages,
+    TResult Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult Function(int unreadMessageCount)? updateUnreadMessageCount,
+    required TResult orElse(),
+  }) {
+    if (loadUnreadMessagesCount != null) {
+      return loadUnreadMessagesCount();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_LoadUnreadMessagesCount value)
+        loadUnreadMessagesCount,
+    required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+    required TResult Function(_UpdateMessages value) updateMessages,
+    required TResult Function(_UpdateUnreadMessageCount value)
+        updateUnreadMessageCount,
+  }) {
+    return loadUnreadMessagesCount(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
+    TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult? Function(_UpdateMessages value)? updateMessages,
+    TResult? Function(_UpdateUnreadMessageCount value)?
+        updateUnreadMessageCount,
+  }) {
+    return loadUnreadMessagesCount?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
+    TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult Function(_UpdateMessages value)? updateMessages,
+    TResult Function(_UpdateUnreadMessageCount value)? updateUnreadMessageCount,
+    required TResult orElse(),
+  }) {
+    if (loadUnreadMessagesCount != null) {
+      return loadUnreadMessagesCount(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadUnreadMessagesCount implements NotificationPageEvent {
+  const factory _LoadUnreadMessagesCount() = _$LoadUnreadMessagesCountImpl;
+}
+
+/// @nodoc
 abstract class _$$MarkAsReadMessagesImplCopyWith<$Res> {
   factory _$$MarkAsReadMessagesImplCopyWith(_$MarkAsReadMessagesImpl value,
           $Res Function(_$MarkAsReadMessagesImpl) then) =
       __$$MarkAsReadMessagesImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<int> notificationIds});
 }
 
 /// @nodoc
@@ -202,88 +381,66 @@ class __$$MarkAsReadMessagesImplCopyWithImpl<$Res>
 
   /// Create a copy of NotificationPageEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? notificationIds = null,
-  }) {
-    return _then(_$MarkAsReadMessagesImpl(
-      notificationIds: null == notificationIds
-          ? _value._notificationIds
-          : notificationIds // ignore: cast_nullable_to_non_nullable
-              as List<int>,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$MarkAsReadMessagesImpl implements _MarkAsReadMessages {
-  const _$MarkAsReadMessagesImpl({required final List<int> notificationIds})
-      : _notificationIds = notificationIds;
-
-  final List<int> _notificationIds;
-  @override
-  List<int> get notificationIds {
-    if (_notificationIds is EqualUnmodifiableListView) return _notificationIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_notificationIds);
-  }
+  const _$MarkAsReadMessagesImpl();
 
   @override
   String toString() {
-    return 'NotificationPageEvent.markAsReadMessages(notificationIds: $notificationIds)';
+    return 'NotificationPageEvent.markAsReadMessages()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MarkAsReadMessagesImpl &&
-            const DeepCollectionEquality()
-                .equals(other._notificationIds, _notificationIds));
+        (other.runtimeType == runtimeType && other is _$MarkAsReadMessagesImpl);
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_notificationIds));
-
-  /// Create a copy of NotificationPageEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MarkAsReadMessagesImplCopyWith<_$MarkAsReadMessagesImpl> get copyWith =>
-      __$$MarkAsReadMessagesImplCopyWithImpl<_$MarkAsReadMessagesImpl>(
-          this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadNotifications,
-    required TResult Function(List<int> notificationIds) markAsReadMessages,
+    required TResult Function() loadUnreadMessagesCount,
+    required TResult Function() markAsReadMessages,
+    required TResult Function(NotificationPaginationState notificationPgState)
+        updateMessages,
+    required TResult Function(int unreadMessageCount) updateUnreadMessageCount,
   }) {
-    return markAsReadMessages(notificationIds);
+    return markAsReadMessages();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loadNotifications,
-    TResult? Function(List<int> notificationIds)? markAsReadMessages,
+    TResult? Function()? loadUnreadMessagesCount,
+    TResult? Function()? markAsReadMessages,
+    TResult? Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult? Function(int unreadMessageCount)? updateUnreadMessageCount,
   }) {
-    return markAsReadMessages?.call(notificationIds);
+    return markAsReadMessages?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadNotifications,
-    TResult Function(List<int> notificationIds)? markAsReadMessages,
+    TResult Function()? loadUnreadMessagesCount,
+    TResult Function()? markAsReadMessages,
+    TResult Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult Function(int unreadMessageCount)? updateUnreadMessageCount,
     required TResult orElse(),
   }) {
     if (markAsReadMessages != null) {
-      return markAsReadMessages(notificationIds);
+      return markAsReadMessages();
     }
     return orElse();
   }
@@ -292,7 +449,12 @@ class _$MarkAsReadMessagesImpl implements _MarkAsReadMessages {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_LoadUnreadMessagesCount value)
+        loadUnreadMessagesCount,
     required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+    required TResult Function(_UpdateMessages value) updateMessages,
+    required TResult Function(_UpdateUnreadMessageCount value)
+        updateUnreadMessageCount,
   }) {
     return markAsReadMessages(this);
   }
@@ -301,7 +463,11 @@ class _$MarkAsReadMessagesImpl implements _MarkAsReadMessages {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
     TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult? Function(_UpdateMessages value)? updateMessages,
+    TResult? Function(_UpdateUnreadMessageCount value)?
+        updateUnreadMessageCount,
   }) {
     return markAsReadMessages?.call(this);
   }
@@ -310,7 +476,10 @@ class _$MarkAsReadMessagesImpl implements _MarkAsReadMessages {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
     TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult Function(_UpdateMessages value)? updateMessages,
+    TResult Function(_UpdateUnreadMessageCount value)? updateUnreadMessageCount,
     required TResult orElse(),
   }) {
     if (markAsReadMessages != null) {
@@ -321,16 +490,358 @@ class _$MarkAsReadMessagesImpl implements _MarkAsReadMessages {
 }
 
 abstract class _MarkAsReadMessages implements NotificationPageEvent {
-  const factory _MarkAsReadMessages(
-      {required final List<int> notificationIds}) = _$MarkAsReadMessagesImpl;
+  const factory _MarkAsReadMessages() = _$MarkAsReadMessagesImpl;
+}
 
-  List<int> get notificationIds;
+/// @nodoc
+abstract class _$$UpdateMessagesImplCopyWith<$Res> {
+  factory _$$UpdateMessagesImplCopyWith(_$UpdateMessagesImpl value,
+          $Res Function(_$UpdateMessagesImpl) then) =
+      __$$UpdateMessagesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({NotificationPaginationState notificationPgState});
+
+  $NotificationPaginationStateCopyWith<$Res> get notificationPgState;
+}
+
+/// @nodoc
+class __$$UpdateMessagesImplCopyWithImpl<$Res>
+    extends _$NotificationPageEventCopyWithImpl<$Res, _$UpdateMessagesImpl>
+    implements _$$UpdateMessagesImplCopyWith<$Res> {
+  __$$UpdateMessagesImplCopyWithImpl(
+      _$UpdateMessagesImpl _value, $Res Function(_$UpdateMessagesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? notificationPgState = null,
+  }) {
+    return _then(_$UpdateMessagesImpl(
+      notificationPgState: null == notificationPgState
+          ? _value.notificationPgState
+          : notificationPgState // ignore: cast_nullable_to_non_nullable
+              as NotificationPaginationState,
+    ));
+  }
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NotificationPaginationStateCopyWith<$Res> get notificationPgState {
+    return $NotificationPaginationStateCopyWith<$Res>(
+        _value.notificationPgState, (value) {
+      return _then(_value.copyWith(notificationPgState: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$UpdateMessagesImpl implements _UpdateMessages {
+  const _$UpdateMessagesImpl({required this.notificationPgState});
+
+  @override
+  final NotificationPaginationState notificationPgState;
+
+  @override
+  String toString() {
+    return 'NotificationPageEvent.updateMessages(notificationPgState: $notificationPgState)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateMessagesImpl &&
+            (identical(other.notificationPgState, notificationPgState) ||
+                other.notificationPgState == notificationPgState));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, notificationPgState);
 
   /// Create a copy of NotificationPageEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MarkAsReadMessagesImplCopyWith<_$MarkAsReadMessagesImpl> get copyWith =>
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateMessagesImplCopyWith<_$UpdateMessagesImpl> get copyWith =>
+      __$$UpdateMessagesImplCopyWithImpl<_$UpdateMessagesImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadNotifications,
+    required TResult Function() loadUnreadMessagesCount,
+    required TResult Function() markAsReadMessages,
+    required TResult Function(NotificationPaginationState notificationPgState)
+        updateMessages,
+    required TResult Function(int unreadMessageCount) updateUnreadMessageCount,
+  }) {
+    return updateMessages(notificationPgState);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadNotifications,
+    TResult? Function()? loadUnreadMessagesCount,
+    TResult? Function()? markAsReadMessages,
+    TResult? Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult? Function(int unreadMessageCount)? updateUnreadMessageCount,
+  }) {
+    return updateMessages?.call(notificationPgState);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadNotifications,
+    TResult Function()? loadUnreadMessagesCount,
+    TResult Function()? markAsReadMessages,
+    TResult Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult Function(int unreadMessageCount)? updateUnreadMessageCount,
+    required TResult orElse(),
+  }) {
+    if (updateMessages != null) {
+      return updateMessages(notificationPgState);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_LoadUnreadMessagesCount value)
+        loadUnreadMessagesCount,
+    required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+    required TResult Function(_UpdateMessages value) updateMessages,
+    required TResult Function(_UpdateUnreadMessageCount value)
+        updateUnreadMessageCount,
+  }) {
+    return updateMessages(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
+    TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult? Function(_UpdateMessages value)? updateMessages,
+    TResult? Function(_UpdateUnreadMessageCount value)?
+        updateUnreadMessageCount,
+  }) {
+    return updateMessages?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
+    TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult Function(_UpdateMessages value)? updateMessages,
+    TResult Function(_UpdateUnreadMessageCount value)? updateUnreadMessageCount,
+    required TResult orElse(),
+  }) {
+    if (updateMessages != null) {
+      return updateMessages(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateMessages implements NotificationPageEvent {
+  const factory _UpdateMessages(
+          {required final NotificationPaginationState notificationPgState}) =
+      _$UpdateMessagesImpl;
+
+  NotificationPaginationState get notificationPgState;
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateMessagesImplCopyWith<_$UpdateMessagesImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateUnreadMessageCountImplCopyWith<$Res> {
+  factory _$$UpdateUnreadMessageCountImplCopyWith(
+          _$UpdateUnreadMessageCountImpl value,
+          $Res Function(_$UpdateUnreadMessageCountImpl) then) =
+      __$$UpdateUnreadMessageCountImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int unreadMessageCount});
+}
+
+/// @nodoc
+class __$$UpdateUnreadMessageCountImplCopyWithImpl<$Res>
+    extends _$NotificationPageEventCopyWithImpl<$Res,
+        _$UpdateUnreadMessageCountImpl>
+    implements _$$UpdateUnreadMessageCountImplCopyWith<$Res> {
+  __$$UpdateUnreadMessageCountImplCopyWithImpl(
+      _$UpdateUnreadMessageCountImpl _value,
+      $Res Function(_$UpdateUnreadMessageCountImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? unreadMessageCount = null,
+  }) {
+    return _then(_$UpdateUnreadMessageCountImpl(
+      unreadMessageCount: null == unreadMessageCount
+          ? _value.unreadMessageCount
+          : unreadMessageCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateUnreadMessageCountImpl implements _UpdateUnreadMessageCount {
+  const _$UpdateUnreadMessageCountImpl({required this.unreadMessageCount});
+
+  @override
+  final int unreadMessageCount;
+
+  @override
+  String toString() {
+    return 'NotificationPageEvent.updateUnreadMessageCount(unreadMessageCount: $unreadMessageCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateUnreadMessageCountImpl &&
+            (identical(other.unreadMessageCount, unreadMessageCount) ||
+                other.unreadMessageCount == unreadMessageCount));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, unreadMessageCount);
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateUnreadMessageCountImplCopyWith<_$UpdateUnreadMessageCountImpl>
+      get copyWith => __$$UpdateUnreadMessageCountImplCopyWithImpl<
+          _$UpdateUnreadMessageCountImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loadNotifications,
+    required TResult Function() loadUnreadMessagesCount,
+    required TResult Function() markAsReadMessages,
+    required TResult Function(NotificationPaginationState notificationPgState)
+        updateMessages,
+    required TResult Function(int unreadMessageCount) updateUnreadMessageCount,
+  }) {
+    return updateUnreadMessageCount(unreadMessageCount);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loadNotifications,
+    TResult? Function()? loadUnreadMessagesCount,
+    TResult? Function()? markAsReadMessages,
+    TResult? Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult? Function(int unreadMessageCount)? updateUnreadMessageCount,
+  }) {
+    return updateUnreadMessageCount?.call(unreadMessageCount);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loadNotifications,
+    TResult Function()? loadUnreadMessagesCount,
+    TResult Function()? markAsReadMessages,
+    TResult Function(NotificationPaginationState notificationPgState)?
+        updateMessages,
+    TResult Function(int unreadMessageCount)? updateUnreadMessageCount,
+    required TResult orElse(),
+  }) {
+    if (updateUnreadMessageCount != null) {
+      return updateUnreadMessageCount(unreadMessageCount);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadNotifications value) loadNotifications,
+    required TResult Function(_LoadUnreadMessagesCount value)
+        loadUnreadMessagesCount,
+    required TResult Function(_MarkAsReadMessages value) markAsReadMessages,
+    required TResult Function(_UpdateMessages value) updateMessages,
+    required TResult Function(_UpdateUnreadMessageCount value)
+        updateUnreadMessageCount,
+  }) {
+    return updateUnreadMessageCount(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadNotifications value)? loadNotifications,
+    TResult? Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
+    TResult? Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult? Function(_UpdateMessages value)? updateMessages,
+    TResult? Function(_UpdateUnreadMessageCount value)?
+        updateUnreadMessageCount,
+  }) {
+    return updateUnreadMessageCount?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadNotifications value)? loadNotifications,
+    TResult Function(_LoadUnreadMessagesCount value)? loadUnreadMessagesCount,
+    TResult Function(_MarkAsReadMessages value)? markAsReadMessages,
+    TResult Function(_UpdateMessages value)? updateMessages,
+    TResult Function(_UpdateUnreadMessageCount value)? updateUnreadMessageCount,
+    required TResult orElse(),
+  }) {
+    if (updateUnreadMessageCount != null) {
+      return updateUnreadMessageCount(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateUnreadMessageCount implements NotificationPageEvent {
+  const factory _UpdateUnreadMessageCount(
+      {required final int unreadMessageCount}) = _$UpdateUnreadMessageCountImpl;
+
+  int get unreadMessageCount;
+
+  /// Create a copy of NotificationPageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateUnreadMessageCountImplCopyWith<_$UpdateUnreadMessageCountImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -338,6 +849,7 @@ mixin _$NotificationPageState {
   NotificationPageStatus get status => throw _privateConstructorUsedError;
   NotificationPaginationState get paginationState =>
       throw _privateConstructorUsedError;
+  int get unreadMessagesCount => throw _privateConstructorUsedError;
   dynamic get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of NotificationPageState
@@ -356,6 +868,7 @@ abstract class $NotificationPageStateCopyWith<$Res> {
   $Res call(
       {NotificationPageStatus status,
       NotificationPaginationState paginationState,
+      int unreadMessagesCount,
       dynamic errorMessage});
 
   $NotificationPaginationStateCopyWith<$Res> get paginationState;
@@ -379,6 +892,7 @@ class _$NotificationPageStateCopyWithImpl<$Res,
   $Res call({
     Object? status = null,
     Object? paginationState = null,
+    Object? unreadMessagesCount = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -390,6 +904,10 @@ class _$NotificationPageStateCopyWithImpl<$Res,
           ? _value.paginationState
           : paginationState // ignore: cast_nullable_to_non_nullable
               as NotificationPaginationState,
+      unreadMessagesCount: null == unreadMessagesCount
+          ? _value.unreadMessagesCount
+          : unreadMessagesCount // ignore: cast_nullable_to_non_nullable
+              as int,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -421,6 +939,7 @@ abstract class _$$NotificationPageStateImplCopyWith<$Res>
   $Res call(
       {NotificationPageStatus status,
       NotificationPaginationState paginationState,
+      int unreadMessagesCount,
       dynamic errorMessage});
 
   @override
@@ -443,6 +962,7 @@ class __$$NotificationPageStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? paginationState = null,
+    Object? unreadMessagesCount = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$NotificationPageStateImpl(
@@ -454,6 +974,10 @@ class __$$NotificationPageStateImplCopyWithImpl<$Res>
           ? _value.paginationState
           : paginationState // ignore: cast_nullable_to_non_nullable
               as NotificationPaginationState,
+      unreadMessagesCount: null == unreadMessagesCount
+          ? _value.unreadMessagesCount
+          : unreadMessagesCount // ignore: cast_nullable_to_non_nullable
+              as int,
       errorMessage:
           freezed == errorMessage ? _value.errorMessage! : errorMessage,
     ));
@@ -466,6 +990,7 @@ class _$NotificationPageStateImpl implements _NotificationPageState {
   const _$NotificationPageStateImpl(
       {this.status = NotificationPageStatus.initial,
       this.paginationState = const NotificationPaginationState(),
+      this.unreadMessagesCount = 0,
       this.errorMessage = ''});
 
   @override
@@ -476,11 +1001,14 @@ class _$NotificationPageStateImpl implements _NotificationPageState {
   final NotificationPaginationState paginationState;
   @override
   @JsonKey()
+  final int unreadMessagesCount;
+  @override
+  @JsonKey()
   final dynamic errorMessage;
 
   @override
   String toString() {
-    return 'NotificationPageState(status: $status, paginationState: $paginationState, errorMessage: $errorMessage)';
+    return 'NotificationPageState(status: $status, paginationState: $paginationState, unreadMessagesCount: $unreadMessagesCount, errorMessage: $errorMessage)';
   }
 
   @override
@@ -491,13 +1019,15 @@ class _$NotificationPageStateImpl implements _NotificationPageState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.paginationState, paginationState) ||
                 other.paginationState == paginationState) &&
+            (identical(other.unreadMessagesCount, unreadMessagesCount) ||
+                other.unreadMessagesCount == unreadMessagesCount) &&
             const DeepCollectionEquality()
                 .equals(other.errorMessage, errorMessage));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, status, paginationState,
-      const DeepCollectionEquality().hash(errorMessage));
+      unreadMessagesCount, const DeepCollectionEquality().hash(errorMessage));
 
   /// Create a copy of NotificationPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -513,12 +1043,15 @@ abstract class _NotificationPageState implements NotificationPageState {
   const factory _NotificationPageState(
       {final NotificationPageStatus status,
       final NotificationPaginationState paginationState,
+      final int unreadMessagesCount,
       final dynamic errorMessage}) = _$NotificationPageStateImpl;
 
   @override
   NotificationPageStatus get status;
   @override
   NotificationPaginationState get paginationState;
+  @override
+  int get unreadMessagesCount;
   @override
   dynamic get errorMessage;
 

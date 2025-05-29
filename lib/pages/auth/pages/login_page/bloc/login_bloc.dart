@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../bloc/auth_cubit/auth_cubit.dart';
 import '../../../../../data/repositories/auth_repository.dart';
+import '../../../../../services/notification_service/notification_service.dart';
 
 part 'login_event.dart';
 
@@ -16,6 +17,7 @@ part 'login_bloc.freezed.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository _authRepository = AuthRepository.instance;
   final AuthCubit _authCubit;
+  final NotificationService _notificationService = NotificationService.instance;
 
   LoginBloc(
     this._authCubit,
@@ -44,6 +46,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           status: LoginStatus.initial,
         ),
       );
+      await _notificationService.saveToken();
 
       _authCubit.updateUser(
         user,

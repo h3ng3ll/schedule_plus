@@ -172,7 +172,7 @@ abstract class _Load implements ProfileTabEvent {
 /// @nodoc
 mixin _$ProfileTabState {
   ProfileTabStatus get status => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
   Group? get group => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileTabState
@@ -188,9 +188,9 @@ abstract class $ProfileTabStateCopyWith<$Res> {
           ProfileTabState value, $Res Function(ProfileTabState) then) =
       _$ProfileTabStateCopyWithImpl<$Res, ProfileTabState>;
   @useResult
-  $Res call({ProfileTabStatus status, User user, Group? group});
+  $Res call({ProfileTabStatus status, User? user, Group? group});
 
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
   $GroupCopyWith<$Res>? get group;
 }
 
@@ -210,7 +210,7 @@ class _$ProfileTabStateCopyWithImpl<$Res, $Val extends ProfileTabState>
   @override
   $Res call({
     Object? status = null,
-    Object? user = null,
+    Object? user = freezed,
     Object? group = freezed,
   }) {
     return _then(_value.copyWith(
@@ -218,10 +218,10 @@ class _$ProfileTabStateCopyWithImpl<$Res, $Val extends ProfileTabState>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ProfileTabStatus,
-      user: null == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       group: freezed == group
           ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
@@ -233,8 +233,12 @@ class _$ProfileTabStateCopyWithImpl<$Res, $Val extends ProfileTabState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -262,10 +266,10 @@ abstract class _$$ProfileTabStateImplCopyWith<$Res>
       __$$ProfileTabStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ProfileTabStatus status, User user, Group? group});
+  $Res call({ProfileTabStatus status, User? user, Group? group});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
   @override
   $GroupCopyWith<$Res>? get group;
 }
@@ -284,7 +288,7 @@ class __$$ProfileTabStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? user = null,
+    Object? user = freezed,
     Object? group = freezed,
   }) {
     return _then(_$ProfileTabStateImpl(
@@ -292,10 +296,10 @@ class __$$ProfileTabStateImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ProfileTabStatus,
-      user: null == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       group: freezed == group
           ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
@@ -308,13 +312,13 @@ class __$$ProfileTabStateImplCopyWithImpl<$Res>
 
 class _$ProfileTabStateImpl implements _ProfileTabState {
   const _$ProfileTabStateImpl(
-      {this.status = ProfileTabStatus.initial, required this.user, this.group});
+      {this.status = ProfileTabStatus.initial, this.user, this.group});
 
   @override
   @JsonKey()
   final ProfileTabStatus status;
   @override
-  final User user;
+  final User? user;
   @override
   final Group? group;
 
@@ -349,13 +353,13 @@ class _$ProfileTabStateImpl implements _ProfileTabState {
 abstract class _ProfileTabState implements ProfileTabState {
   const factory _ProfileTabState(
       {final ProfileTabStatus status,
-      required final User user,
+      final User? user,
       final Group? group}) = _$ProfileTabStateImpl;
 
   @override
   ProfileTabStatus get status;
   @override
-  User get user;
+  User? get user;
   @override
   Group? get group;
 

@@ -99,7 +99,10 @@ final GoRouter initRouter = GoRouter(
               path: AppRoutesPaths.notificationRoute,
               name: AppRoutesPaths.notificationRoute,
               builder: (context, state) {
-                return NotificationsPage();
+                final args = state.extra as NotificationsPageArgs;
+                return NotificationsPage(
+                  notificationsPageArgs: args,
+                );
               },
             ),
           ],
