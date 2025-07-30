@@ -37,7 +37,7 @@ public class DepartmentController(
     }
 
 
-    [Authorize]
+   
     [HttpPost("create")]
     public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentRequest request)
     {

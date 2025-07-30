@@ -24,19 +24,20 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
     public DbSet<Group> Groups { get; set; }
     public DbSet<ScheduleGroup> ScheduleGroup { get; set; }
 
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.Entity<ScheduleGroup>()
-            .HasKey(sg => new { sg.ScheduleId , sg.GroupId });
-
+            .HasKey(sg => new { sg.ScheduleId, sg.GroupId });
+        
         modelBuilder.Entity<ScheduleGroup>()
-            .HasOne(sg => sg.Group)
-            .WithMany(g => g.ScheduleGroups)
+            .HasOne(sg => sg.Schedule)
+            .WithMany(s => s.ScheduleGroups)
             .HasForeignKey(sg => sg.ScheduleId);
+
         
         modelBuilder.Entity<ScheduleGroup>()
             .HasOne(sg => sg.Group)

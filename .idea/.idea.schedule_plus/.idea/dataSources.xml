@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="schedule_plus_bexm@dpg-d24tgvvdiees739ljpeg-a.oregon-postgres.render.com" uuid="f54396a2-1fda-427a-94c0-c76803220fe2">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dpg-d24tgvvdiees739ljpeg-a.oregon-postgres.render.com/schedule_plus_bexm?password=kCra5NQ71vCmo1P5BfsFKW01CVfNxtAS&amp;user=dotnet</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

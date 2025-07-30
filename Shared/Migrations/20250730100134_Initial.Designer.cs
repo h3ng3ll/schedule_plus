@@ -9,10 +9,10 @@ using Shared.Utils.DB;
 
 #nullable disable
 
-namespace Shared.Models.g
+namespace Shared.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20250518131732_Initial")]
+    [Migration("20250730100134_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -90,12 +90,7 @@ namespace Shared.Models.g
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ScheduleId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ScheduleId");
 
                     b.ToTable("Groups");
                 });
@@ -184,6 +179,21 @@ namespace Shared.Models.g
                     b.HasIndex("ProfessorId");
 
                     b.ToTable("Schedules");
+                });
+
+            modelBuilder.Entity("Shared.Models.ScheduleGroups.ScheduleGroup", b =>
+                {
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ScheduleId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("ScheduleGroup");
                 });
 
             modelBuilder.Entity("Shared.Models.User", b =>
@@ -275,13 +285,6 @@ namespace Shared.Models.g
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Shared.Models.Group", b =>
-                {
-                    b.HasOne("Shared.Models.Schedule.Schedule", null)
-                        .WithMany("Groups")
-                        .HasForeignKey("ScheduleId");
-                });
-
             modelBuilder.Entity("Shared.Models.Notification", b =>
                 {
                     b.HasOne("Shared.Models.User", "User")
@@ -323,6 +326,25 @@ namespace Shared.Models.g
                     b.Navigation("Professor");
                 });
 
+            modelBuilder.Entity("Shared.Models.ScheduleGroups.ScheduleGroup", b =>
+                {
+                    b.HasOne("Shared.Models.Group", "Group")
+                        .WithMany("ScheduleGroups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Shared.Models.Schedule.Schedule", "Schedule")
+                        .WithMany("ScheduleGroups")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Shared.Models.User", b =>
                 {
                     b.HasOne("Shared.Models.Department", "Department")
@@ -362,9 +384,14 @@ namespace Shared.Models.g
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Shared.Models.Group", b =>
+                {
+                    b.Navigation("ScheduleGroups");
+                });
+
             modelBuilder.Entity("Shared.Models.Schedule.Schedule", b =>
                 {
-                    b.Navigation("Groups");
+                    b.Navigation("ScheduleGroups");
                 });
 #pragma warning restore 612, 618
         }

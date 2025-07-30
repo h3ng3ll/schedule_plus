@@ -21,7 +21,7 @@
 # Keep secret api key
 server_api/appsettings.Development.json
 server_api/appsettings.json
-
+server_api/appsettings_bak.json
 
  
  

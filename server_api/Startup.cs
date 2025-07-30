@@ -45,7 +45,7 @@ public sealed class Startup
         else
         {
             credential = GoogleCredential.FromFile(
-                "/home/alex/RiderProjects/schedule_plus/schedule-plus-285fd-firebase-adminsdk-fbsvc-a597c28470.json"
+                "/Users/user/RiderProjects/schedule_plus/schedule-plus-285fd-firebase-adminsdk-fbsvc-4cf72f023a.json"
             );
         }
 
